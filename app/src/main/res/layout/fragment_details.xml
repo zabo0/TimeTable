@@ -178,6 +178,7 @@
         <Button
             android:id="@+id/fragmentDetails_button_save"
             android:layout_width="0dp"
+            style="?attr/materialButtonStyle"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"

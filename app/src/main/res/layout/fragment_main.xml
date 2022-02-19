@@ -55,7 +55,8 @@
                 android:id="@+id/fragmentMain_imageView_settings"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="5dp"
                 app:tint="?attr/colorOnPrimary"
                 android:src="@drawable/ic_baseline_settings_24" />
 

@@ -25,4 +25,6 @@
         <item>Pazar</item>
     </string-array>
     <string name="editText_dropDown_dayText">Hangi Gün</string>
+    <string name="editText_dropDown_startTimeText">Başlama Saati</string>
+    <string name="editText_dropDown_finishTimeText">Bitiş Saati</string>
 </resources>
