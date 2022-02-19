@@ -6,4 +6,10 @@
     <string name="textView_LessonName">Ders Adı</string>
     <string name="textView_lecturerName">Öğretmen Adı</string>
     <string name="textView_classRoom">Derslik 203</string>
+    <string name="textView_absenteeism">Devamsızlık: 0</string>
+    <string name="textView_appBar">Detaylar</string>
+    <string name="editText_lessonTextHint">Ders Adı</string>
+    <string name="editText_lecturerTextHint">Öğretmen Adı</string>
+    <string name="editText_classRoomHint">Sınıf</string>
+    <string name="textView_addProgramText">Program Ekle</string>
 </resources>

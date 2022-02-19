@@ -78,14 +78,15 @@
                 android:id="@+id/fragmentMain_textView_lecturerName"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:text="@string/textView_lecturerName"/>
             <TextView
+                android:id="@+id/fragmentMain_textView_absenteeism"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textAlignment="textEnd"
-                android:text="empty"/>
+                android:text="@string/textView_absenteeism"/>
 
 
         </LinearLayout>

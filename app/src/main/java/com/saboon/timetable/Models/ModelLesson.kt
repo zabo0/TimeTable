@@ -10,5 +10,6 @@ data class ModelLesson(
     val classRoom: String,
     val time: List<ModelTime>,
     val lecturer: String,
-    val color: Color
+    val color: Color,
+    val absenteeism: Int
 )
