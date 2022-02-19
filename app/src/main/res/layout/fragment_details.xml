@@ -115,7 +115,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#686868"
+                android:background="?attr/colorSecondaryVariant"
                 android:layout_marginTop="10dp"/>
 
 
@@ -126,7 +126,8 @@
         <LinearLayout
             android:padding="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -150,6 +151,36 @@
         </LinearLayout>
 
 
+        <LinearLayout
+            android:id="@+id/fragmentDetails_linearLayout_Buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/fragmentDetails_button_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                style="?attr/materialButtonOutlinedStyle"
+                android:textColor="?attr/colorOnPrimary"
+                app:strokeColor="?attr/colorSecondaryVariant"
+                android:textAllCaps="false"
+                android:text="Cancel"/>
+
+            <Button
+                android:id="@+id/fragmentDetails_button_save"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="?attr/colorSecondaryVariant"
+                android:textAllCaps="false"
+                android:text="Save"/>
+
+        </LinearLayout>
 
 
     </LinearLayout>
