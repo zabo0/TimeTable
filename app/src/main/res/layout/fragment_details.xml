@@ -168,7 +168,7 @@
                 android:textColor="?attr/colorOnPrimary"
                 app:strokeColor="?attr/colorSecondaryVariant"
                 android:textAllCaps="false"
-                android:text="Cancel"/>
+                android:text="@string/button_cancel"/>
 
             <Button
                 android:id="@+id/fragmentDetails_button_save"
@@ -178,7 +178,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="?attr/colorSecondaryVariant"
                 android:textAllCaps="false"
-                android:text="Save"/>
+                android:text="@string/button_save"/>
 
         </LinearLayout>
 

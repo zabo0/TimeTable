@@ -8,4 +8,8 @@
         android:id="@+id/mainFragment"
         android:name="com.saboon.timetable.Fragments.MainFragment"
         android:label="MainFragment" />
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.saboon.timetable.Fragments.DetailsFragment"
+        android:label="DetailsFragment" />
 </navigation>
