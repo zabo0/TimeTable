@@ -14,12 +14,28 @@
 
 
     <!--    fragment details-->
-    <string name="textView_appBar">Details</string>
+    <string name="textView_appBar_details">Details</string>
     <string name="editText_lessonTextHint">Lesson Name</string>
     <string name="editText_lecturerTextHint">Lecturer Name</string>
     <string name="editText_classRoomHint">Classroom</string>
     <string name="textView_addProgramText">Add Program</string>
     <string name="button_save">Save</string>
     <string name="button_cancel">Cancel</string>
+
+
+<!--    fragment add program-->
+    <string name="textView_appBar_addProg">Add Program</string>
+
+    <string-array name="Days">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+    <string name="editText_dropDown_dayText">Which Day</string>
+
 
 </resources>

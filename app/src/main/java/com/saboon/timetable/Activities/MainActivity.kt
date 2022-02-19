@@ -10,3 +10,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 }
+
+
+// TODO: 19.02.2022 details sayfasi icin program ekleme ekrani yap
