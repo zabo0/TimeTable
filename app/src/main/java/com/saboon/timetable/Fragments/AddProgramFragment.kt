@@ -30,8 +30,7 @@ class AddProgramFragment : Fragment() {
         // Inflate the layout for this fragment
 
         _binding = FragmentAddProgramBinding.inflate(inflater,container,false)
-        val view = binding.root
-        return view
+        return binding.root
     }
 
 

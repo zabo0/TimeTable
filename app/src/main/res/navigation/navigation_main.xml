@@ -7,9 +7,29 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.saboon.timetable.Fragments.MainFragment"
-        android:label="MainFragment" />
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.saboon.timetable.Fragments.DetailsFragment"
-        android:label="DetailsFragment" />
+        android:label="DetailsFragment" >
+        <action
+            android:id="@+id/action_detailsFragment_to_addProgramFragment"
+            app:destination="@id/addProgramFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addProgramFragment"
+        android:name="com.saboon.timetable.Fragments.AddProgramFragment"
+        android:label="fragment_add_program"
+        tools:layout="@layout/fragment_add_program" >
+        <action
+            android:id="@+id/action_addProgramFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
 </navigation>

@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".Fragments.MainFragment">
 
@@ -12,7 +13,7 @@
         android:id="@+id/fragmentMain_linearLayout_appBar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="?attr/colorSecondaryVariant"
+        android:background="?attr/colorSecondary"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -25,9 +26,12 @@
                 android:id="@+id/fragmentMain_textView_programName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:textColor="?attr/colorOnPrimary"
                 android:drawableLeft="@drawable/ic_baseline_arrow_drop_down_24"
+                android:drawableTint="?attr/colorOnPrimary"
                 android:text="@string/textView_programName"
-                android:textSize="20sp" />
+                android:textAlignment="textStart"
+                android:textSize="25sp" />
 
 
         </LinearLayout>
@@ -44,6 +48,7 @@
                 android:id="@+id/fragmentMain_imageView_add"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                app:tint="?attr/colorOnPrimary"
                 android:src="@drawable/ic_baseline_add_circle_outline_24" />
 
             <ImageView
@@ -51,6 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
+                app:tint="?attr/colorOnPrimary"
                 android:src="@drawable/ic_baseline_settings_24" />
 
         </LinearLayout>
