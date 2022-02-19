@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ders Programı</string>
+    <string name="hello_blank_fragment">merhaba bos fragment</string>
+    <string name="textView_programName">Program Adı</string>
+    <string name="textView_LessonName">Ders Adı</string>
+    <string name="textView_lecturerName">Öğretmen Adı</string>
+    <string name="textView_classRoom">Derslik 203</string>
+</resources>
