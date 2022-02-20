@@ -40,4 +40,10 @@
     <string name="textView_reminderInfoText">Ders saati yaklaştığında bildirim alırsınız.</string>
     <string name="description_goBack">Geri dön</string>
     <string name="description_whichDay">Hangi gün</string>
+    <string name="editText_dropDown_typeOfLesson">Ders tipi</string>
+    <string-array name="typeOfLesson">
+        <item>Ders</item>
+        <item>Laboratuvar</item>
+        <item>Uygulama</item>
+    </string-array>
 </resources>

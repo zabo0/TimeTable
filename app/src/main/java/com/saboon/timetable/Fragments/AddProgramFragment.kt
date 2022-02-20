@@ -52,6 +52,10 @@ class AddProgramFragment : Fragment() {
         val arrayAdapterReminder = ArrayAdapter(requireContext(),R.layout.dropdown_list_item,RemindersItem)
         binding.autoCompleteTextViewReminderPicker.setAdapter(arrayAdapterReminder)
 
+        val TypeOfLessonItem = resources.getStringArray(R.array.typeOfLesson)
+        val arrayAdapterTypeOfLesson = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, TypeOfLessonItem)
+        binding.autoCompleteTextViewTypeLesson.setAdapter(arrayAdapterTypeOfLesson)
+
 
 
         binding.editTextStartTimePicker.setOnClickListener {

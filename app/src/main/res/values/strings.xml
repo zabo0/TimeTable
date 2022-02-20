@@ -52,6 +52,13 @@
     <string name="textView_reminderInfoText">You will receive the notification when the lesson time is approaching.</string>
     <string name="description_goBack">Go to back</string>
     <string name="description_whichDay">Which day</string>
+    <string name="editText_dropDown_typeOfLesson">Type of lesson</string>
+
+    <string-array name="typeOfLesson">
+        <item>Lesson</item>
+        <item>Laboratory</item>
+        <item>Practice</item>
+    </string-array>
 
 
 </resources>

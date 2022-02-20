@@ -45,7 +45,7 @@
             android:layout_weight="1"
             android:textAlignment="textStart"
             android:textSize="18sp"
-            android:text="pazartesi"/>
+            android:text="Day"/>
 
         <TextView
             android:id="@+id/fragmetAddProg_recyclerRow_textView_time"
@@ -71,7 +71,7 @@
             android:layout_weight="1"
             android:textAlignment="textEnd"
             android:textSize="13sp"
-            android:text="laboratuvar"/>
+            android:text="type of lesson"/>
 
         <TextView
             android:id="@+id/fragmetAddProg_recyclerRow_textView_reminder"
@@ -80,7 +80,7 @@
             android:textAlignment="textEnd"
             android:layout_weight="1"
             android:textSize="13sp"
-            android:text="1 saat once hatirlat"/>
+            android:text="remind 1 hour ago"/>
 
         <TextView
             android:id="@+id/fragmetAddProg_recyclerRow_textView_absenteeism"
@@ -89,7 +89,7 @@
             android:textAlignment="textEnd"
             android:layout_weight="1"
             android:textSize="13sp"
-            android:text="devamsizlik hakki: 2"/>
+            android:text="right of absenteeism: 2"/>
 
 
     </LinearLayout>
