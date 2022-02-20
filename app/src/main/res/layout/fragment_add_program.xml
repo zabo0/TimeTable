@@ -29,6 +29,7 @@
                 android:drawableLeft="@drawable/ic_baseline_arrow_back_24"
                 android:drawableTint="?attr/colorOnPrimary"
                 android:textColor="?attr/colorOnPrimary"
+                android:contentDescription="@string/description_goBack"
                 android:text="@string/textView_appBar_addProg"
                 android:textSize="25sp" />
 
@@ -68,6 +69,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/description_whichDay"
             android:hint="@string/editText_dropDown_dayText">
 
             <AutoCompleteTextView

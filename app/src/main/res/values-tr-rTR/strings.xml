@@ -38,4 +38,6 @@
     </string-array>
     <string name="editText_dropDown_absenteeismText">Devamsızlık hakkı</string>
     <string name="textView_reminderInfoText">Ders saati yaklaştığında bildirim alırsınız.</string>
+    <string name="description_goBack">Geri dön</string>
+    <string name="description_whichDay">Hangi gün</string>
 </resources>
