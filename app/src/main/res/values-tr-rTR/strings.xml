@@ -27,4 +27,15 @@
     <string name="editText_dropDown_dayText">Hangi Gün</string>
     <string name="editText_dropDown_startTimeText">Başlama Saati</string>
     <string name="editText_dropDown_finishTimeText">Bitiş Saati</string>
+    <string name="editText_dropDown_reminderText">Hatırlatıcı</string>
+    <string-array name="reminder">
+        <item>Yok</item>
+        <item>5 Dakika önce</item>
+        <item>10 Dakika önce</item>
+        <item>15 Dakika önce</item>
+        <item>30 Dakika önce</item>
+        <item>1 Saat önce</item>
+    </string-array>
+    <string name="editText_dropDown_absenteeismText">Devamsızlık hakkı</string>
+    <string name="textView_reminderInfoText">Ders saati yaklaştığında bildirim alırsınız.</string>
 </resources>

@@ -38,6 +38,18 @@
     <string name="editText_dropDown_dayText">Which Day</string>
     <string name="editText_dropDown_startTimeText">Start Time</string>
     <string name="editText_dropDown_finishTimeText">Finish Time</string>
+    <string name="editText_dropDown_reminderText">Reminder</string>
+
+    <string-array name="reminder">
+        <item>None</item>
+        <item>5 Minute ago</item>
+        <item>10 Minute ago</item>
+        <item>15 Minute ago</item>
+        <item>30 Minute ago</item>
+        <item>1 Hour ago</item>
+    </string-array>
+    <string name="editText_dropDown_absenteeismText">Right of absence</string>
+    <string name="textView_reminderInfoText">You will receive the notification when the lesson time is approaching.</string>
 
 
 </resources>

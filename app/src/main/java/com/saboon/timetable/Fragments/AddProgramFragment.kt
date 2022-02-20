@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.saboon.timetable.R
@@ -46,8 +45,12 @@ class AddProgramFragment : Fragment() {
 
 
         val DayItems = resources.getStringArray(R.array.Days)
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, DayItems)
-        binding.autoCompleteTextView.setAdapter(arrayAdapter)
+        val arrayAdapterDays = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, DayItems)
+        binding.autoCompleteTextView.setAdapter(arrayAdapterDays)
+
+        val RemindersItem = resources.getStringArray(R.array.reminder)
+        val arrayAdapterReminder = ArrayAdapter(requireContext(),R.layout.dropdown_list_item,RemindersItem)
+        binding.autoCompleteTextViewReminderPicker.setAdapter(arrayAdapterReminder)
 
 
 
@@ -92,6 +95,12 @@ class AddProgramFragment : Fragment() {
                 time = "$hour:$min"
                 binding.fragmentAddProgEditTextFinishTimePicker.editText?.setText(time)
             }
+
+        }
+
+
+
+        binding.editTextAbsenteeismPicker.setOnClickListener {
 
         }
 
