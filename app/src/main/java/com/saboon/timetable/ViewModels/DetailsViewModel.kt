@@ -9,23 +9,21 @@ class DetailsViewModel: ViewModel() {
 
     val lessonName =MutableLiveData<String>()
     val lecturerName = MutableLiveData<String>()
-    val classRoom = MutableLiveData<String>()
     val programTimes = MutableLiveData<List<ModelTime>?>()
     val loading = MutableLiveData<Boolean>()
 
     fun refreshData(){
 
-        val timeProg = ModelTime("id0","monday","09:00","10:00","ders","5 minute ago")
-        val timeProg2 = ModelTime("id1","saturday","09:00","10:00","ders","5 minute ago")
+        val timeProg = ModelTime("id0","monday","09:00","10:00","ders","203","5 minute ago")
+        val timeProg2 = ModelTime("id1","saturday","09:00","10:00","ders","203","5 minute ago")
 
         val timeProgList = arrayListOf(timeProg,timeProg2)
 
-        val lesson = ModelLesson("id","dateAdded","matematik","203", timeProgList,"ali","mavi","2")
+        val lesson = ModelLesson("id","dateAdded","matematik", timeProgList,"ali","mavi","2")
 
 
         lessonName.value = lesson.lessonName
         lecturerName.value = lesson.lecturerName!!
-        classRoom.value = lesson.classRoom
         programTimes.value = lesson.timeProgram
         loading.value = false
 

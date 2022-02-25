@@ -80,6 +80,28 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="?attr/colorSecondaryVariant" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragmentDetails_textField_classroom"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="@string/editText_classRoomHint"
+            app:endIconMode="clear_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragmentDetails_editText_classroom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <View
             android:layout_width="match_parent"
@@ -191,29 +213,6 @@
             android:textAlignment="textEnd"
             android:textSize="12sp"
             android:text="@string/textView_reminderInfoText"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="?attr/colorSecondaryVariant" />
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fragmentAddProg_editText_absenteeismimePicker"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="@string/editText_dropDown_absenteeismText">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editText_absenteeismPicker"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
 
 
 

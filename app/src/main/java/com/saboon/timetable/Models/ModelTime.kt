@@ -7,6 +7,7 @@ data class ModelTime(
     val timeStart: String,
     val timeFinish: String,
     val typeOfLesson: String,
+    val classRoom: String,
     val reminderTime: String
 
 )

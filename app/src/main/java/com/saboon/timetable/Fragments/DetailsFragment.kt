@@ -80,9 +80,6 @@ class DetailsFragment : Fragment() {
         viewModel.lecturerName.observe(viewLifecycleOwner, Observer {
             binding.fragmentDetailsEditTextLecturerName.setText(it)
         })
-        viewModel.classRoom.observe(viewLifecycleOwner, Observer {
-            binding.fragmentDetailsEditTextClassroom.setText(it)
-        })
         viewModel.programTimes.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 recyclerAdapter.updateList(it)

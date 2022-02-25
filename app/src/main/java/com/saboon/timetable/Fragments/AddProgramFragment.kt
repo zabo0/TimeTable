@@ -103,12 +103,6 @@ class AddProgramFragment : Fragment() {
 
         }
 
-
-
-        binding.editTextAbsenteeismPicker.setOnClickListener {
-
-        }
-
         binding.fragmentAddProgramTextViewAddProgram.setOnClickListener{
             val actionToBack = AddProgramFragmentDirections.actionAddProgramFragmentToDetailsFragment()
             it.findNavController().navigate(actionToBack)

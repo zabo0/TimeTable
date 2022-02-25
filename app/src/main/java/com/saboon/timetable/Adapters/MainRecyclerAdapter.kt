@@ -21,7 +21,7 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>):RecyclerView.
         val lessonName:TextView = view.findViewById(R.id.fragmentMain_recycler_textView_lessonName)
         val lecturerName: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_lecturerName)
         val roomText: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_classRoom)
-        val absenteeismText: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_absenteeism)
+        val typeText: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_type)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -61,8 +61,8 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>):RecyclerView.
         holder.colorDivider.setBackgroundColor(Color.parseColor(lessonsList[position].color))
         holder.lessonName.text = lessonsList[position].lessonName
         holder.lecturerName.text = lessonsList[position].lecturerName
-        holder.roomText.text= "Classroom: ${lessonsList[position].classRoom}"
-        holder.absenteeismText.text = "Absenteeism: ${lessonsList[position].absenteeism}"
+        holder.roomText.text= "Classroom: ${lessonsList[position].timeProgram!![pos].classRoom}"
+        holder.typeText.text = lessonsList[position].timeProgram!![pos].typeOfLesson
 
 
 
@@ -73,7 +73,6 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>):RecyclerView.
             val action = MainFragmentDirections.actionMainFragmentToDetailsFragment()
             it.findNavController().navigate(action)
         }
-
     }
 
     override fun getItemCount(): Int {

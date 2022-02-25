@@ -108,23 +108,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fragmentDetails_textField_classroom"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:hint="@string/editText_classRoomHint"
-            app:endIconMode="clear_text"
-            app:startIconDrawable="@drawable/ic_baseline_home_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fragmentDetails_editText_classroom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="12sp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:text="Absenteeism: 2"
+            android:textAlignment="textEnd"
+            android:layout_marginTop="5dp"/>
 
 
         <View
