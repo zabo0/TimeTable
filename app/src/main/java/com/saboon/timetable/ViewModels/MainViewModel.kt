@@ -34,6 +34,8 @@ class MainViewModel: ViewModel() {
         val lesson5 = ModelLesson("id2","dateAdded","fizik", timeProgList2,"ayse","#5B84EA","2")
 
 
+        // TODO: burasi gunlere ve saatlere gore siralanip listeye eklenecek
+
         lessonList.value = arrayListOf(lesson, lesson1,lesson2, lesson3, lesson4,lesson5)
         error.value = false
         loading.value = false
