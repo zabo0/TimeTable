@@ -1,12 +1,17 @@
 package com.saboon.timetable.Fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import com.saboon.timetable.R
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.saboon.timetable.Adapters.MainRecyclerAdapter
+import com.saboon.timetable.ViewModels.MainViewModel
 import com.saboon.timetable.databinding.FragmentMainBinding
 
 
@@ -16,6 +21,10 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding?=null
 
     private val binding get() = _binding!!
+
+
+    lateinit var viewModel: MainViewModel
+    private val recyclerAdapter = MainRecyclerAdapter(arrayListOf())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +51,59 @@ class MainFragment : Fragment() {
             val actionToAddLesson = MainFragmentDirections.actionMainFragmentToDetailsFragment()
             it.findNavController().navigate(actionToAddLesson)
         }
+
+
+
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel.refreshData()
+
+        binding.fragmentMainRecyclerViewLessonsRecycler.layoutManager = LinearLayoutManager(context)
+        binding.fragmentMainRecyclerViewLessonsRecycler.adapter = recyclerAdapter
+        binding.fragmentMainRecyclerViewLessonsRecycler.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+
+        observeData()
+
     }
+
+
+
+    fun observeData(){
+
+        viewModel.lessonList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                recyclerAdapter.updateList(it)
+                binding.fragmentMainRecyclerViewLessonsRecycler.visibility = View.VISIBLE
+                binding.mainErrorText.visibility = View.GONE
+                binding.mainLoadingProgressBar.visibility = View.GONE
+            }
+        })
+
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it){
+                    binding.fragmentMainRecyclerViewLessonsRecycler.visibility = View.GONE
+                    binding.mainLoadingProgressBar.visibility = View.VISIBLE
+                    binding.mainErrorText.visibility = View.GONE
+                }
+            }
+        })
+
+        viewModel.error.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it){
+                    binding.fragmentMainRecyclerViewLessonsRecycler.visibility = View.GONE
+                    binding.mainLoadingProgressBar.visibility = View.GONE
+                    binding.mainErrorText.visibility = View.VISIBLE
+                }
+            }
+        })
+
+
+
+    }
+
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

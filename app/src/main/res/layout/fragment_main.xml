@@ -70,4 +70,36 @@
         android:layout_height="match_parent" />
 
 
+    <ProgressBar
+        android:id="@+id/mainLoadingProgressBar"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
+
+
+    <LinearLayout
+        android:id="@+id/main_errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:tint="@color/red"
+            android:src="@drawable/ic_baseline_error_outline_24"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/main_textView_error"/>
+    </LinearLayout>
+
+
+
+
+
 </LinearLayout>

@@ -46,4 +46,5 @@
         <item>Laboratuvar</item>
         <item>Uygulama</item>
     </string-array>
+    <string name="main_textView_error">Bir sorun oldu!</string>
 </resources>

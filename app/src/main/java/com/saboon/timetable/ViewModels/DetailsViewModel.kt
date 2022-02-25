@@ -15,9 +15,11 @@ class DetailsViewModel: ViewModel() {
 
     fun refreshData(){
 
-        val timeProg = ModelTime("id0","pazartesi","09:00","10:00","ders","5 minute ago")
-        val timeProg2 = ModelTime("id1","sali","09:00","10:00","ders","5 minute ago")
+        val timeProg = ModelTime("id0","monday","09:00","10:00","ders","5 minute ago")
+        val timeProg2 = ModelTime("id1","saturday","09:00","10:00","ders","5 minute ago")
+
         val timeProgList = arrayListOf(timeProg,timeProg2)
+
         val lesson = ModelLesson("id","dateAdded","matematik","203", timeProgList,"ali","mavi","2")
 
 

@@ -29,7 +29,7 @@ class DetailsRecyclerAdapter(val programTimesList: ArrayList<ModelTime>):Recycle
     override fun onBindViewHolder(holder: DetailsViewHolder, position: Int) {
         val pos = position+1
         holder.countText.text = pos.toString()
-        holder.dayText.text = programTimesList[position].day
+        holder.dayText.text = programTimesList[position].day.toString()
         holder.timeText.text = "${programTimesList[position].timeStart}-${programTimesList[position].timeFinish}"
         holder.lessonTypeText.text = programTimesList[position].typeOfLesson
         holder.reminderText.text = "Remind ${programTimesList[position].reminderTime}"
