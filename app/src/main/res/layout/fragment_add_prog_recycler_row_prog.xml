@@ -80,7 +80,7 @@
             android:textAlignment="textEnd"
             android:layout_weight="1"
             android:textSize="13sp"
-            android:text="remind 1 hour ago"/>
+            android:text="remind _ hour ago"/>
 
 
     </LinearLayout>

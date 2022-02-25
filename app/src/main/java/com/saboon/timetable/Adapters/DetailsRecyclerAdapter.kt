@@ -11,7 +11,7 @@ import com.saboon.timetable.R
 class DetailsRecyclerAdapter(val programTimesList: ArrayList<ModelTime>):RecyclerView.Adapter<DetailsRecyclerAdapter.DetailsViewHolder>() {
 
 
-    class DetailsViewHolder(var view: View): RecyclerView.ViewHolder(view) {
+    class DetailsViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val countText: TextView = view.findViewById(R.id.fragmetAddProg_recyclerRow_textView_count)
         val dayText: TextView = view.findViewById(R.id.fragmetAddProg_recyclerRow_textView_day)
         val timeText: TextView = view.findViewById(R.id.fragmetAddProg_recyclerRow_textView_time)
@@ -29,7 +29,7 @@ class DetailsRecyclerAdapter(val programTimesList: ArrayList<ModelTime>):Recycle
         holder.dayText.text = programTimesList[position].day
         holder.timeText.text = "${programTimesList[position].timeStart}-${programTimesList[position].timeFinish}"
         holder.lessonTypeText.text = programTimesList[position].typeOfLesson
-        holder.reminderText.text = programTimesList[position].reminderTime
+        holder.reminderText.text = "Remind ${programTimesList[position].reminderTime}"
     }
 
     override fun getItemCount(): Int {
