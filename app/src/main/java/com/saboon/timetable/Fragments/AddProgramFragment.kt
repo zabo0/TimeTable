@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.navigation.findNavController
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.saboon.timetable.R
@@ -106,6 +107,11 @@ class AddProgramFragment : Fragment() {
 
         binding.editTextAbsenteeismPicker.setOnClickListener {
 
+        }
+
+        binding.fragmentAddProgramTextViewAddProgram.setOnClickListener{
+            val actionToBack = AddProgramFragmentDirections.actionAddProgramFragmentToDetailsFragment()
+            it.findNavController().navigate(actionToBack)
         }
 
     }
