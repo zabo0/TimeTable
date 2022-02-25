@@ -29,13 +29,16 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>):RecyclerView.
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
 
-        holder.startTime.text = lessonsList[position].timeProgram[position].timeStart
-        holder.finisTime.text = lessonsList[position].timeProgram[position].timeFinish
-        holder.colorDivider.setBackgroundColor(Color.parseColor(lessonsList[position].color))
-        holder.lessonName.text = lessonsList[position].lessonName
-        holder.lecturerName.text = lessonsList[position].lecturerName
-        holder.roomText.text= lessonsList[position].classRoom
-        holder.absenteeismText.text = lessonsList[position].absenteeism
+        if(lessonsList!=null){
+            holder.startTime.text = lessonsList[position].timeProgram!!.get(position).timeStart
+            holder.finisTime.text = lessonsList[position].timeProgram!![position].timeFinish
+            holder.colorDivider.setBackgroundColor(Color.parseColor(lessonsList[position].color))
+            holder.lessonName.text = lessonsList[position].lessonName
+            holder.lecturerName.text = lessonsList[position].lecturerName
+            holder.roomText.text= lessonsList[position].classRoom
+            holder.absenteeismText.text = lessonsList[position].absenteeism
+        }
+
     }
 
     override fun getItemCount(): Int {

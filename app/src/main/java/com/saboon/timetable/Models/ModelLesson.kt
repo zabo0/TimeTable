@@ -8,9 +8,9 @@ data class ModelLesson(
     val dateAdded: String,
     val lessonName: String,
     val classRoom: String,
-    val timeProgram: List<ModelTime>,
-    val lecturerName: String,
+    val timeProgram: List<ModelTime>?,
+    val lecturerName: String?,
     val color: String,
-    val absenteeism: String
+    val absenteeism: String?
 
 )

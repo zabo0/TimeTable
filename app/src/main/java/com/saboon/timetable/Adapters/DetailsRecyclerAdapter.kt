@@ -4,7 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.saboon.timetable.Fragments.DetailsFragmentDirections
 import com.saboon.timetable.Models.ModelTime
 import com.saboon.timetable.R
 
@@ -25,14 +27,29 @@ class DetailsRecyclerAdapter(val programTimesList: ArrayList<ModelTime>):Recycle
     }
 
     override fun onBindViewHolder(holder: DetailsViewHolder, position: Int) {
-        holder.countText.text = position.toString()
+        val pos = position+1
+        holder.countText.text = pos.toString()
         holder.dayText.text = programTimesList[position].day
         holder.timeText.text = "${programTimesList[position].timeStart}-${programTimesList[position].timeFinish}"
         holder.lessonTypeText.text = programTimesList[position].typeOfLesson
         holder.reminderText.text = "Remind ${programTimesList[position].reminderTime}"
+
+
+
+        holder.itemView.setOnClickListener{
+            val action = DetailsFragmentDirections.actionDetailsFragmentToAddProgramFragment()
+            it.findNavController().navigate(action)
+        }
     }
 
     override fun getItemCount(): Int {
         return programTimesList.size
+    }
+
+
+    fun updateList(newList: List<ModelTime>){
+        programTimesList.clear()
+        programTimesList.addAll(newList)
+        notifyDataSetChanged()
     }
 }

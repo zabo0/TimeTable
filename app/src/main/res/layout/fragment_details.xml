@@ -72,7 +72,7 @@
         android:padding="10dp">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fragmentDetails_editText_lessonName"
+            android:id="@+id/fragmentDetails_textField_lessonName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_marginTop="5dp"
@@ -82,6 +82,7 @@
             app:startIconDrawable="@drawable/ic_baseline_menu_book_24">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragmentDetails_editText_lessonName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -89,7 +90,7 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fragmentDetails_editText_lecturerName"
+            android:id="@+id/fragmentDetails_textField_lecturerName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,6 +100,7 @@
             app:startIconDrawable="@drawable/ic_baseline_person_24">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragmentDetails_editText_lecturerName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp" />
@@ -107,7 +109,7 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fragmentDetails_editText_classroom"
+            android:id="@+id/fragmentDetails_textField_classroom"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,6 +119,7 @@
             app:startIconDrawable="@drawable/ic_baseline_home_24">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragmentDetails_editText_classroom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp" />
@@ -157,6 +160,13 @@
             android:id="@+id/fragmentDetails_recyclerView_programRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <ProgressBar
+            android:id="@+id/detailsLoadingProgressBar"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
 
 
     </LinearLayout>
