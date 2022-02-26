@@ -7,11 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.saboon.timetable.R
+import com.saboon.timetable.ViewModels.AddProgViewModel
 import com.saboon.timetable.databinding.FragmentAddProgramBinding
+import java.text.SimpleDateFormat
 
 
 class AddProgramFragment : Fragment() {
@@ -19,7 +23,7 @@ class AddProgramFragment : Fragment() {
     private var _binding: FragmentAddProgramBinding?=null
     private val binding get() = _binding!!
 
-
+    lateinit var viewModel :AddProgViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +64,6 @@ class AddProgramFragment : Fragment() {
 
 
         binding.editTextStartTimePicker.setOnClickListener {
-            var time = "00:00"
             val isSystem24Hour = is24HourFormat(requireContext())
             val clockFormat = if(isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
 
@@ -75,14 +78,13 @@ class AddProgramFragment : Fragment() {
             picker.addOnPositiveButtonClickListener{
                 val hour = picker.hour
                 val min = picker.minute
-                time = "$hour:$min"
-                binding.fragmentAddProgEditTextStartTimePicker.editText?.setText(time)
+                val timeText = String.format("%02d:%02d", hour, min)
+                binding.fragmentAddProgEditTextStartTimePicker.editText?.setText(timeText)
             }
 
         }
 
         binding.editTextFinishTimePicker.setOnClickListener {
-            var time = "00:00"
             val isSystem24Hour = is24HourFormat(requireContext())
             val clockFormat = if(isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
 
@@ -97,8 +99,8 @@ class AddProgramFragment : Fragment() {
             picker.addOnPositiveButtonClickListener{
                 val hour = picker.hour
                 val min = picker.minute
-                time = "$hour:$min"
-                binding.fragmentAddProgEditTextFinishTimePicker.editText?.setText(time)
+                val timeText = String.format("%02d:%02d", hour, min)
+                binding.fragmentAddProgEditTextFinishTimePicker.editText?.setText(timeText)
             }
 
         }
@@ -107,6 +109,55 @@ class AddProgramFragment : Fragment() {
             val actionToBack = AddProgramFragmentDirections.actionAddProgramFragmentToDetailsFragment()
             it.findNavController().navigate(actionToBack)
         }
+
+
+
+
+        viewModel = ViewModelProvider(this).get(AddProgViewModel::class.java)
+        viewModel.refreshData("id0")
+
+        observeData()
+
+
+
+    }
+
+
+
+    fun observeData(){
+
+        viewModel.whichDay.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.autoCompleteTextView.setText(it)
+            }
+        })
+        viewModel.classRoom.observe(viewLifecycleOwner, Observer{
+            it?.let {
+                binding.fragmentDetailsEditTextClassroom.setText(it)
+            }
+        })
+        viewModel.startTime.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.editTextStartTimePicker.setText(it)
+            }
+        })
+        viewModel.finishTime.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.editTextFinishTimePicker.setText(it)
+            }
+        })
+        viewModel.typeLesson.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.autoCompleteTextViewTypeLesson.setText(it)
+            }
+        })
+        viewModel.reminder.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.autoCompleteTextViewReminderPicker.setText(it)
+            }
+        })
+
+
 
     }
 
