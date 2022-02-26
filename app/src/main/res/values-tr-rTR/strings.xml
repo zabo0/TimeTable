@@ -47,4 +47,5 @@
         <item>Uygulama</item>
     </string-array>
     <string name="main_textView_error">Bir sorun oldu!</string>
+    <string name="emptyText">Program eklemek için + \'ya basın</string>
 </resources>

@@ -60,6 +60,7 @@
         <item>Practice</item>
     </string-array>
     <string name="main_textView_error">There is something wrong!</string>
+    <string name="emptyText">To add a program click +</string>
 
 
 </resources>

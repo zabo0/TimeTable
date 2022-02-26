@@ -12,6 +12,7 @@ class MainViewModel: ViewModel() {
     val lessonList = MutableLiveData<List<ModelLesson>>()
     val error = MutableLiveData<Boolean>()
     val loading = MutableLiveData<Boolean>()
+    val empty = MutableLiveData<Boolean>()
 
 
     fun refreshData(){
@@ -39,6 +40,7 @@ class MainViewModel: ViewModel() {
         lessonList.value = arrayListOf(lesson, lesson1,lesson2, lesson3, lesson4,lesson5)
         error.value = false
         loading.value = false
+        empty.value = false
 
     }
 

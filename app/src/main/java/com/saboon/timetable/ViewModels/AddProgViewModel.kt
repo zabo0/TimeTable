@@ -17,8 +17,8 @@ class AddProgViewModel: ViewModel() {
 
 
     fun refreshData(id: String){
-        val timeProg = ModelTime("id0","monday","09:00","10:00","ders","203","5 minute ago")
-        val timeProg2 = ModelTime("id1","saturday","09:00","10:00","ders","203","5 minute ago")
+        val timeProg = ModelTime("id0","monday","09:00","10:00","ders",null,"5 minute ago")
+        val timeProg2 = ModelTime("id1","saturday","09:00","10:00","ders",null,"5 minute ago")
 
         val timeProgList = arrayListOf(timeProg,timeProg2)
 

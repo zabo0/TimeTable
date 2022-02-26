@@ -157,6 +157,36 @@
             android:layout_width="50dp"
             android:layout_height="50dp"/>
 
+        <LinearLayout
+            android:id="@+id/details_errorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_baseline_error_outline_24"
+                app:tint="@color/red" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/main_textView_error" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/details_emptyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/emptyText"
+            android:layout_marginTop="100dp"
+            android:layout_gravity="center"/>
+
 
     </LinearLayout>
 

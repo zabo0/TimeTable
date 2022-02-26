@@ -84,6 +84,7 @@ class MainFragment : Fragment() {
                     binding.fragmentMainRecyclerViewLessonsRecycler.visibility = View.GONE
                     binding.mainLoadingProgressBar.visibility = View.VISIBLE
                     binding.mainErrorText.visibility = View.GONE
+                    binding.mainEmptyText.visibility = View.GONE
                 }
             }
         })
@@ -94,6 +95,17 @@ class MainFragment : Fragment() {
                     binding.fragmentMainRecyclerViewLessonsRecycler.visibility = View.GONE
                     binding.mainLoadingProgressBar.visibility = View.GONE
                     binding.mainErrorText.visibility = View.VISIBLE
+                    binding.mainEmptyText.visibility = View.GONE
+                }
+            }
+        })
+        viewModel.empty.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it){
+                    binding.fragmentMainRecyclerViewLessonsRecycler.visibility = View.GONE
+                    binding.mainLoadingProgressBar.visibility = View.GONE
+                    binding.mainErrorText.visibility = View.GONE
+                    binding.mainEmptyText.visibility = View.VISIBLE
                 }
             }
         })

@@ -86,12 +86,46 @@ class DetailsFragment : Fragment() {
             }
         })
         viewModel.loading.observe(viewLifecycleOwner, Observer {
-            if (it == false){
-                binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.VISIBLE
-                binding.detailsLoadingProgressBar.visibility = View.GONE
-            }else{
-                binding.detailsLoadingProgressBar.visibility = View.VISIBLE
+            if (it){
                 binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
+                binding.detailsLoadingProgressBar.visibility = View.VISIBLE
+                binding.detailsErrorText.visibility = View.GONE
+                binding.detailsEmptyText.visibility = View.GONE
+            }else{
+                //binding.detailsLoadingProgressBar.visibility = View.VISIBLE
+                binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
+                binding.detailsErrorText.visibility = View.GONE
+                binding.detailsEmptyText.visibility = View.GONE
+            }
+        })
+
+        viewModel.error.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it){
+                    binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
+                    binding.detailsLoadingProgressBar.visibility = View.GONE
+                    binding.detailsErrorText.visibility = View.VISIBLE
+                }else{
+                    //binding.detailsLoadingProgressBar.visibility = View.VISIBLE
+                    binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
+                    binding.detailsErrorText.visibility = View.GONE
+                }
+            }
+        })
+
+        viewModel.empty.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it){
+                    binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
+                    binding.detailsLoadingProgressBar.visibility = View.GONE
+                    binding.detailsErrorText.visibility = View.GONE
+                    binding.detailsEmptyText.visibility = View.VISIBLE
+                }else{
+                    //binding.detailsLoadingProgressBar.visibility = View.VISIBLE
+                    binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
+                    binding.detailsErrorText.visibility = View.GONE
+                    binding.detailsEmptyText.visibility = View.VISIBLE
+                }
             }
         })
 

@@ -4,5 +4,5 @@ data class ModelProgram(
     val id: String,
     val dateCreated: String,
     val dateEdited: String,
-    val lessons: List<ModelLesson>
+    val lessons: List<ModelLesson>?
 )
