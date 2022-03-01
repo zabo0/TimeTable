@@ -9,9 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.saboon.timetable.Fragments.DetailsFragmentDirections
 import com.saboon.timetable.Models.ModelTime
 import com.saboon.timetable.R
-import com.saboon.timetable.Utils.daysMap
-import com.saboon.timetable.Utils.reminderMap
-import com.saboon.timetable.Utils.typesMap
 
 class DetailsRecyclerAdapter(val programTimesList: ArrayList<ModelTime>):RecyclerView.Adapter<DetailsRecyclerAdapter.DetailsViewHolder>() {
 
@@ -32,15 +29,15 @@ class DetailsRecyclerAdapter(val programTimesList: ArrayList<ModelTime>):Recycle
     override fun onBindViewHolder(holder: DetailsViewHolder, position: Int) {
         val pos = position+1
         holder.countText.text = pos.toString()
-        holder.dayText.text = daysMap.filterValues { it == programTimesList[position].day }.toString()
+        holder.dayText.text = programTimesList[position].day
         holder.timeText.text = "${programTimesList[position].timeStart}-${programTimesList[position].timeFinish}"
-        holder.lessonTypeText.text = typesMap.filterValues { it == programTimesList[position].typeOfLesson }.toString()
-        holder.reminderText.text = "Remind ${reminderMap.filterValues { it == programTimesList[position].reminderTime }}"
+        holder.lessonTypeText.text = programTimesList[position].typeOfLesson
+        holder.reminderText.text = "Remind ${programTimesList[position].reminderTime}"
 
 
 
         holder.itemView.setOnClickListener{
-            val action = DetailsFragmentDirections.actionDetailsFragmentToAddProgramFragment()
+            val action = DetailsFragmentDirections.actionDetailsFragmentToAddProgramFragment(programTimesList[position].id)
             it.findNavController().navigate(action)
         }
     }

@@ -108,8 +108,17 @@ class AddProgramFragment : Fragment() {
         }
 
         binding.fragmentAddProgramTextViewAddProgram.setOnClickListener{
-            val actionToBack = AddProgramFragmentDirections.actionAddProgramFragmentToDetailsFragment()
+            val actionToBack = AddProgramFragmentDirections.actionAddProgramFragmentToDetailsFragment(null)
             it.findNavController().navigate(actionToBack)
+        }
+
+
+
+
+        // TODO: kaydederken bu sekilde yap
+        binding.fragmentAddProgButtonSave.setOnClickListener{
+            val day = binding.autoCompleteTextView.text.toString()
+            resources.getStringArray(R.array.Days).indexOf(day)
         }
 
 
@@ -130,7 +139,7 @@ class AddProgramFragment : Fragment() {
 
         viewModel.whichDay.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.autoCompleteTextView.setText(arrayAdapterDays.getItem(it.toInt()))
+                binding.autoCompleteTextView.setText(arrayAdapterDays.getPosition(it))
             }
         })
         viewModel.classRoom.observe(viewLifecycleOwner, Observer{
@@ -150,12 +159,12 @@ class AddProgramFragment : Fragment() {
         })
         viewModel.typeLesson.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.autoCompleteTextViewTypeLesson.setText(arrayAdapterTypeOfLesson.getItem(it))
+                binding.autoCompleteTextViewTypeLesson.setText(arrayAdapterTypeOfLesson.getPosition(it))
             }
         })
         viewModel.reminder.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.autoCompleteTextViewReminderPicker.setText(arrayAdapterReminder.getItem(it))
+                binding.autoCompleteTextViewReminderPicker.setText(arrayAdapterReminder.getPosition(it))
             }
         })
 

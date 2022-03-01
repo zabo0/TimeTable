@@ -11,7 +11,7 @@ data class ModelTime(
     val id: String,
 
     @ColumnInfo(name = "day")
-    val day: Int?,
+    val day: String?,
 
     @ColumnInfo(name ="timeStart")
     val timeStart: String?,
@@ -20,13 +20,13 @@ data class ModelTime(
     val timeFinish: String?,
 
     @ColumnInfo(name = "typeLesson")
-    val typeOfLesson: Int?,
+    val typeOfLesson: String?,
 
     @ColumnInfo(name ="classRoom")
     val classRoom: String?,
 
     @ColumnInfo(name ="reminder")
-    val reminderTime: Int?,
+    val reminderTime: String?,
 
     @ColumnInfo(name = "belowLesson")
     val belowLesson: String,

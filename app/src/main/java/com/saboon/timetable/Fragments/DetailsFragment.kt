@@ -47,7 +47,7 @@ class DetailsFragment : Fragment() {
 
 
         binding.fragmentDetailsTextViewAddProgram.setOnClickListener {
-            val actionToAddProgram = DetailsFragmentDirections.actionDetailsFragmentToAddProgramFragment()
+            val actionToAddProgram = DetailsFragmentDirections.actionDetailsFragmentToAddProgramFragment(null)
             it.findNavController().navigate(actionToAddProgram)
         }
 
@@ -55,7 +55,6 @@ class DetailsFragment : Fragment() {
             val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment()
             it.findNavController().navigate(actionToBack)
         }
-
 
 
         viewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)

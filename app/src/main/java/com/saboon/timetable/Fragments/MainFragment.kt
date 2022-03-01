@@ -48,7 +48,7 @@ class MainFragment : Fragment() {
 
 
         binding.fragmentMainImageViewAdd.setOnClickListener {
-            val actionToAddLesson = MainFragmentDirections.actionMainFragmentToDetailsFragment()
+            val actionToAddLesson = MainFragmentDirections.actionMainFragmentToDetailsFragment(null)
             it.findNavController().navigate(actionToAddLesson)
         }
 

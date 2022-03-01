@@ -49,7 +49,7 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
 
 
         holder.itemView.setOnClickListener{
-            val action = MainFragmentDirections.actionMainFragmentToDetailsFragment()
+            val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(lessonsList[position].id)
             it.findNavController().navigate(action)
         }
     }

@@ -35,6 +35,7 @@
         <item>Saturday</item>
         <item>Sunday</item>
     </string-array>
+
     <string name="editText_dropDown_dayText">Which Day</string>
     <string name="editText_dropDown_startTimeText">Start Time</string>
     <string name="editText_dropDown_finishTimeText">Finish Time</string>
