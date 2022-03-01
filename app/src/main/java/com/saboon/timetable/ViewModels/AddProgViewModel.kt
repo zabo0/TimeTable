@@ -17,12 +17,8 @@ class AddProgViewModel: ViewModel() {
 
 
     fun refreshData(id: String){
-        val timeProg = ModelTime("id0","monday","09:00","10:00","ders",null,"5 minute ago")
-        val timeProg2 = ModelTime("id1","saturday","09:00","10:00","ders",null,"5 minute ago")
-
-        val timeProgList = arrayListOf(timeProg,timeProg2)
-
-        val lesson = ModelLesson("id","dateAdded","matematik", timeProgList,"ali","mavi","2")
+        val timeProg = ModelTime("id0","monday","09:00","10:00","ders",null,"5 minute ago","idLesson1")
+        val timeProg2 = ModelTime("id1","saturday","09:00","10:00","ders",null,"5 minute ago","idLesson1")
 
         whichDay.value = timeProg.day
         classRoom.value = timeProg.classRoom

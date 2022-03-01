@@ -56,13 +56,13 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>):RecyclerView.
         }else{
             pos = 0 //burada id'ler esit degil ise yeni bir derse gecilmistir. yani yeni itemin icerisinde gelen listenin indexini 0dan baslatir ki verileri dogru alabilsin
         }
-        holder.startTime.text = lessonsList[position].timeProgram!![pos].timeStart
-        holder.finisTime.text = lessonsList[position].timeProgram!![pos].timeFinish
-        holder.colorDivider.setBackgroundColor(Color.parseColor(lessonsList[position].color))
-        holder.lessonName.text = lessonsList[position].lessonName
-        holder.lecturerName.text = lessonsList[position].lecturerName
-        holder.roomText.text= "Classroom: ${lessonsList[position].timeProgram!![pos].classRoom}"
-        holder.typeText.text = lessonsList[position].timeProgram!![pos].typeOfLesson
+//        holder.startTime.text = lessonsList[position].timeProgram!![pos].timeStart
+//        holder.finisTime.text = lessonsList[position].timeProgram!![pos].timeFinish
+//        holder.colorDivider.setBackgroundColor(Color.parseColor(lessonsList[position].color))
+//        holder.lessonName.text = lessonsList[position].lessonName
+//        holder.lecturerName.text = lessonsList[position].lecturerName
+//        holder.roomText.text= "Classroom: ${lessonsList[position].timeProgram!![pos].classRoom}"
+//        holder.typeText.text = lessonsList[position].timeProgram!![pos].typeOfLesson
 
 
 
