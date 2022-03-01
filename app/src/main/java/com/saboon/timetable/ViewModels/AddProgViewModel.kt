@@ -2,23 +2,22 @@ package com.saboon.timetable.ViewModels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.saboon.timetable.Models.ModelLesson
 import com.saboon.timetable.Models.ModelTime
+import com.saboon.timetable.Utils.*
 
 class AddProgViewModel: ViewModel() {
 
-    val whichDay = MutableLiveData<String?>()
+    val whichDay = MutableLiveData<Int?>()
     val classRoom = MutableLiveData<String?>()
     val startTime = MutableLiveData<String?>()
     val finishTime = MutableLiveData<String?>()
-    val typeLesson =  MutableLiveData<String?>()
-    val reminder = MutableLiveData<String?>()
+    val typeLesson =  MutableLiveData<Int?>()
+    val reminder = MutableLiveData<Int?>()
 
 
 
-    fun refreshData(id: String){
-        val timeProg = ModelTime("id0","monday","09:00","10:00","ders",null,"5 minute ago","idLesson1")
-        val timeProg2 = ModelTime("id1","saturday","09:00","10:00","ders",null,"5 minute ago","idLesson1")
+    fun refreshData(){
+        val timeProg = ModelTime("id0",daysMap.get("MONDAY"), "09:00", "10:00", typesMap.get("LESSON"), null, reminderMap.get("5_MINUTE_AGO"), "idLesson1", "id")
 
         whichDay.value = timeProg.day
         classRoom.value = timeProg.classRoom

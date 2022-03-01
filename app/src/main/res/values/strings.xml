@@ -42,10 +42,10 @@
 
     <string-array name="reminder">
         <item>None</item>
-        <item>5 Minute ago</item>
-        <item>10 Minute ago</item>
-        <item>15 Minute ago</item>
-        <item>30 Minute ago</item>
+        <item>5 Minutes ago</item>
+        <item>10 Minutes ago</item>
+        <item>15 Minutes ago</item>
+        <item>30 Minutes ago</item>
         <item>1 Hour ago</item>
     </string-array>
     <string name="editText_dropDown_absenteeismText">Right of absence</string>

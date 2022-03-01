@@ -1,11 +1,14 @@
 package com.saboon.timetable.ViewModels
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.saboon.timetable.Database.DatabaseTimeLine
 import com.saboon.timetable.Models.ModelLesson
 import com.saboon.timetable.Models.ModelTime
+import kotlinx.coroutines.launch
 
-class DetailsViewModel: ViewModel() {
+class DetailsViewModel(application: Application): BaseViewModel(application) {
 
     val lessonName =MutableLiveData<String>()
     val lecturerName = MutableLiveData<String>()
@@ -16,22 +19,28 @@ class DetailsViewModel: ViewModel() {
 
     fun refreshData(){
 
-        val timeProg = ModelTime("id0","monday","09:00","10:00","ders","203","5 minute ago","idlessonManth")
-        val timeProg2 = ModelTime("id1","saturday","09:00","10:00","ders","203","5 minute ago","idlessonManth")
+        getDataFromSQLite()
 
-        val timeProgList = arrayListOf(timeProg,timeProg2)
+    }
 
-        val lesson = ModelLesson("id","dateAdded","matematik", "ali","mavi","2","idprogName")
+    fun getDataFromSQLite(){
+        loading.value = true
+        launch {
+            val lesson = DatabaseTimeLine(getApplication()).lessonDAO().getLesson("id01")
+            val times = DatabaseTimeLine(getApplication()).timeDAO().getLessonTimes("id01")
+
+            showDataInUI(lesson, times)
+        }
+    }
 
 
+    fun showDataInUI(lesson: ModelLesson, time: List<ModelTime>){
         lessonName.value = lesson.lessonName!!
         lecturerName.value = lesson.lecturerName!!
-        programTimes.value = timeProgList!!
+        programTimes.value = time
         loading.value = false
         error.value = false
         empty.value = false
-
-
     }
 
 

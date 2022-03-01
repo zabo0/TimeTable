@@ -25,6 +25,15 @@ class AddProgramFragment : Fragment() {
 
     lateinit var viewModel :AddProgViewModel
 
+    val DayItems = resources.getStringArray(R.array.Days)
+    val arrayAdapterDays = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, DayItems)
+
+    val RemindersItem = resources.getStringArray(R.array.reminder)
+    val arrayAdapterReminder = ArrayAdapter(requireContext(),R.layout.dropdown_list_item,RemindersItem)
+
+    val TypeOfLessonItem = resources.getStringArray(R.array.typeOfLesson)
+    val arrayAdapterTypeOfLesson = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, TypeOfLessonItem)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,21 +56,13 @@ class AddProgramFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-        val DayItems = resources.getStringArray(R.array.Days)
-        val arrayAdapterDays = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, DayItems)
         binding.autoCompleteTextView.setAdapter(arrayAdapterDays)
 
-        val RemindersItem = resources.getStringArray(R.array.reminder)
-        val arrayAdapterReminder = ArrayAdapter(requireContext(),R.layout.dropdown_list_item,RemindersItem)
+
         binding.autoCompleteTextViewReminderPicker.setAdapter(arrayAdapterReminder)
 
-        val TypeOfLessonItem = resources.getStringArray(R.array.typeOfLesson)
-        val arrayAdapterTypeOfLesson = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, TypeOfLessonItem)
+
         binding.autoCompleteTextViewTypeLesson.setAdapter(arrayAdapterTypeOfLesson)
-
-
 
         binding.editTextStartTimePicker.setOnClickListener {
             val isSystem24Hour = is24HourFormat(requireContext())
@@ -78,7 +79,8 @@ class AddProgramFragment : Fragment() {
             picker.addOnPositiveButtonClickListener{
                 val hour = picker.hour
                 val min = picker.minute
-                val timeText = String.format("%02d:%02d", hour, min)
+                //val timeText = String.format("%02d:%02d", hour, min)
+                val timeText = SimpleDateFormat("hh:mm").format("${hour}:${min}")
                 binding.fragmentAddProgEditTextStartTimePicker.editText?.setText(timeText)
             }
 
@@ -114,7 +116,7 @@ class AddProgramFragment : Fragment() {
 
 
         viewModel = ViewModelProvider(this).get(AddProgViewModel::class.java)
-        viewModel.refreshData("id0")
+        viewModel.refreshData()
 
         observeData()
 
@@ -128,7 +130,7 @@ class AddProgramFragment : Fragment() {
 
         viewModel.whichDay.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.autoCompleteTextView.setText(it)
+                binding.autoCompleteTextView.setText(arrayAdapterDays.getItem(it.toInt()))
             }
         })
         viewModel.classRoom.observe(viewLifecycleOwner, Observer{
@@ -148,12 +150,12 @@ class AddProgramFragment : Fragment() {
         })
         viewModel.typeLesson.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.autoCompleteTextViewTypeLesson.setText(it)
+                binding.autoCompleteTextViewTypeLesson.setText(arrayAdapterTypeOfLesson.getItem(it))
             }
         })
         viewModel.reminder.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.autoCompleteTextViewReminderPicker.setText(it)
+                binding.autoCompleteTextViewReminderPicker.setText(arrayAdapterReminder.getItem(it))
             }
         })
 

@@ -24,7 +24,7 @@ class MainFragment : Fragment() {
 
 
     lateinit var viewModel: MainViewModel
-    private val recyclerAdapter = MainRecyclerAdapter(arrayListOf())
+    private val recyclerAdapter = MainRecyclerAdapter(arrayListOf(), arrayListOf())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,12 +69,22 @@ class MainFragment : Fragment() {
 
     fun observeData(){
 
-        viewModel.lessonList.observe(viewLifecycleOwner, Observer {
+        viewModel.lessonList.observe(viewLifecycleOwner, Observer {lessonList ->
+            lessonList?.let {
+                viewModel.lessonTimeList.observe(viewLifecycleOwner, Observer {timeList ->
+                    timeList?.let {
+                        recyclerAdapter.updateList(lessonList, timeList)
+                        binding.fragmentMainRecyclerViewLessonsRecycler.visibility = View.VISIBLE
+                        binding.mainErrorText.visibility = View.GONE
+                        binding.mainLoadingProgressBar.visibility = View.GONE
+                    }
+                })
+            }
+        })
+
+        viewModel.lessonTimeList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                recyclerAdapter.updateList(it)
-                binding.fragmentMainRecyclerViewLessonsRecycler.visibility = View.VISIBLE
-                binding.mainErrorText.visibility = View.GONE
-                binding.mainLoadingProgressBar.visibility = View.GONE
+
             }
         })
 
