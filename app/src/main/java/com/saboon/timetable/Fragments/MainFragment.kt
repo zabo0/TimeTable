@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -16,6 +17,9 @@ import com.saboon.timetable.databinding.FragmentMainBinding
 
 
 class MainFragment : Fragment() {
+
+
+
 
 
     private var _binding: FragmentMainBinding?=null
@@ -52,10 +56,14 @@ class MainFragment : Fragment() {
             it.findNavController().navigate(actionToAddLesson)
         }
 
+        binding.fragmentMainTextViewProgramName.setOnClickListener{
+            showFragmentDialog()
+        }
+
 
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel.refreshData()
+        viewModel.refreshData("belowID")
 
         binding.fragmentMainRecyclerViewLessonsRecycler.layoutManager = LinearLayoutManager(context)
         binding.fragmentMainRecyclerViewLessonsRecycler.adapter = recyclerAdapter
@@ -63,6 +71,13 @@ class MainFragment : Fragment() {
 
         observeData()
 
+    }
+
+
+    fun showFragmentDialog(){
+        val fragmentManager = parentFragmentManager
+        val newFragment = ChooseProgramDialog()
+        newFragment.show(fragmentManager,"dialog")
     }
 
 
@@ -79,12 +94,6 @@ class MainFragment : Fragment() {
                         binding.mainLoadingProgressBar.visibility = View.GONE
                     }
                 })
-            }
-        })
-
-        viewModel.lessonTimeList.observe(viewLifecycleOwner, Observer {
-            it?.let {
-
             }
         })
 

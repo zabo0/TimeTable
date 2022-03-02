@@ -10,35 +10,38 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application): BaseViewModel(application){
 
-    val lessonList = MutableLiveData<List<ModelLesson>>()
-    val lessonTimeList = MutableLiveData<List<ModelTime>>()
+    val lessonList = MutableLiveData<List<ModelLesson>?>()
+    val lessonTimeList = MutableLiveData<List<ModelTime>?>()
     val error = MutableLiveData<Boolean>()
     val loading = MutableLiveData<Boolean>()
     val empty = MutableLiveData<Boolean>()
 
 
 
-    fun refreshData(){
-        getDataFromSQLite()
+    fun refreshData(belowProgID: String){
+        getDataFromSQLite(belowProgID)
     }
 
-    fun getDataFromSQLite(){
+    fun getDataFromSQLite(belowProgID: String){
         loading.value = true
         launch {
-            val lessons = DatabaseTimeLine(getApplication()).lessonDAO().getAllLessons("progID01")
-            val lessonsTimes = DatabaseTimeLine(getApplication()).timeDAO().getAllTime("progID01")
-            showDataInUI(lessons, lessonsTimes)
+            //val lessons = DatabaseTimeLine(getApplication()).lessonDAO().getAllLessons(belowProgID)
+            //val lessonsTimes = DatabaseTimeLine(getApplication()).timeDAO().getAllTime(belowProgID)
+            showDataInUI(null, null)
         }
     }
 
 
-    fun showDataInUI(lessons : List<ModelLesson>, lessonsTimes: List<ModelTime>){
-
-        lessonTimeList.value = lessonsTimes
-        lessonList.value = lessons
+    fun showDataInUI(lessons : List<ModelLesson>?, lessonsTimes: List<ModelTime>?){
+        if (lessons != null){
+            lessonList.value = lessons
+        }
+        if (lessonsTimes != null){
+            lessonTimeList.value = lessonsTimes!!
+        }
         error.value = false
         loading.value = false
-        empty.value = false
+        empty.value = true
     }
 
 

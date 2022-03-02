@@ -17,6 +17,8 @@ import com.saboon.timetable.ViewModels.AddProgViewModel
 import com.saboon.timetable.databinding.FragmentAddProgramBinding
 import java.text.SimpleDateFormat
 
+// TODO: veri tabanina kaydetme islemleri
+
 
 class AddProgramFragment : Fragment() {
 

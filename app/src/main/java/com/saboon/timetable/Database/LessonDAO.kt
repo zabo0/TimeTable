@@ -9,7 +9,7 @@ import com.saboon.timetable.Models.ModelLesson
 interface LessonDAO {
 
     @Insert
-    fun insertLesson(vararg lesson: ModelLesson): List<String>
+    fun insertLesson(lesson: ModelLesson): List<String>
 
     @Query("SELECT * FROM ModelLesson WHERE below = :belowProgID")
     fun getAllLessons(belowProgID: String): List<ModelLesson>

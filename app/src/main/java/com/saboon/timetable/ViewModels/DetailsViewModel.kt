@@ -10,8 +10,8 @@ import kotlinx.coroutines.launch
 
 class DetailsViewModel(application: Application): BaseViewModel(application) {
 
-    val lessonName =MutableLiveData<String>()
-    val lecturerName = MutableLiveData<String>()
+    val lessonName =MutableLiveData<String?>()
+    val lecturerName = MutableLiveData<String?>()
     val programTimes = MutableLiveData<List<ModelTime>?>()
     val loading = MutableLiveData<Boolean>()
     val error = MutableLiveData<Boolean>()
@@ -27,20 +27,27 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
         loading.value = true
         launch {
             val lesson = DatabaseTimeLine(getApplication()).lessonDAO().getLesson("id01")
-            val times = DatabaseTimeLine(getApplication()).timeDAO().getLessonTimes("id01")
+            //val times = DatabaseTimeLine(getApplication()).timeDAO().getLessonTimes("id01")
 
-            showDataInUI(lesson, times)
+            showDataInUI(null, null)
         }
     }
 
 
-    fun showDataInUI(lesson: ModelLesson, time: List<ModelTime>){
-        lessonName.value = lesson.lessonName!!
-        lecturerName.value = lesson.lecturerName!!
-        programTimes.value = time
+    fun showDataInUI(lesson: ModelLesson?, time: List<ModelTime>?){
+
+        if (lesson != null) {
+            lessonName.value = lesson.lessonName!!
+        }
+        if (lesson != null) {
+            lecturerName.value = lesson.lecturerName!!
+        }
+        if (time != null){
+            programTimes.value = time!!
+        }
         loading.value = false
         error.value = false
-        empty.value = false
+        empty.value = true
     }
 
 

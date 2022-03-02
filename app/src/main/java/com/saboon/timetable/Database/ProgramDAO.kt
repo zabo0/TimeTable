@@ -10,7 +10,7 @@ import com.saboon.timetable.Models.ModelProgram
 interface ProgramDAO {
 
     @Insert
-    fun insertProgram(vararg program: ModelProgram): List<String>
+    fun insertProgram(program: ModelProgram): List<String>
 
     @Query("SELECT * FROM ModelProgram")
     fun getAllProg(): List<ModelProgram>

@@ -28,7 +28,7 @@
                 android:layout_height="match_parent"
                 android:textColor="?attr/colorOnPrimary"
                 android:drawableLeft="@drawable/ic_baseline_arrow_drop_down_24"
-                android:drawableTint="?attr/colorOnPrimary"
+                android:drawableTint="?attr/colorOnSecondary"
                 android:text="@string/textView_programName"
                 android:textAlignment="textStart"
                 android:textSize="25sp" />
@@ -48,7 +48,7 @@
                 android:id="@+id/fragmentMain_imageView_add"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:tint="?attr/colorOnPrimary"
+                app:tint="?attr/colorOnSecondary"
                 android:src="@drawable/ic_baseline_add_circle_outline_24" />
 
             <ImageView
@@ -57,7 +57,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="5dp"
-                app:tint="?attr/colorOnPrimary"
+                app:tint="?attr/colorOnSecondary"
                 android:src="@drawable/ic_baseline_settings_24" />
 
         </LinearLayout>

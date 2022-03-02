@@ -9,7 +9,7 @@ import com.saboon.timetable.Models.ModelTime
 interface TimeDAO {
 
     @Insert
-    fun insertTime(vararg time: ModelTime): List<ModelTime>
+    fun insertTime(time: ModelTime): List<ModelTime>
 
     @Query("SELECT * FROM ModelTime WHERE belowProgram = :belowProgID ORDER BY day ASC, timeStart ASC")
     fun getAllTime(belowProgID: String): List<ModelTime>
