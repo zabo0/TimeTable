@@ -26,7 +26,7 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
     fun getDataFromSQLite(){
         loading.value = true
         launch {
-            val lesson = DatabaseTimeLine(getApplication()).lessonDAO().getLesson("id01")
+            //val lesson = DatabaseTimeLine(getApplication()).lessonDAO().getLesson("id01")
             //val times = DatabaseTimeLine(getApplication()).timeDAO().getLessonTimes("id01")
 
             showDataInUI(null, null)
@@ -49,8 +49,4 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
         error.value = false
         empty.value = true
     }
-
-
-
-
 }

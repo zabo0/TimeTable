@@ -27,14 +27,12 @@ class AddProgramFragment : Fragment() {
 
     lateinit var viewModel :AddProgViewModel
 
-    val DayItems = resources.getStringArray(R.array.Days)
-    val arrayAdapterDays = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, DayItems)
+    lateinit var arrayAdapterDays: ArrayAdapter<String>
+    lateinit var arrayAdapterReminder: ArrayAdapter<String>
+    lateinit var arrayAdapterTypeOfLesson: ArrayAdapter<String>
 
-    val RemindersItem = resources.getStringArray(R.array.reminder)
-    val arrayAdapterReminder = ArrayAdapter(requireContext(),R.layout.dropdown_list_item,RemindersItem)
 
-    val TypeOfLessonItem = resources.getStringArray(R.array.typeOfLesson)
-    val arrayAdapterTypeOfLesson = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, TypeOfLessonItem)
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,12 +56,19 @@ class AddProgramFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        val DayItems = resources.getStringArray(R.array.Days)
+        arrayAdapterDays = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, DayItems)
         binding.autoCompleteTextView.setAdapter(arrayAdapterDays)
 
 
+        val RemindersItem = resources.getStringArray(R.array.reminder)
+        arrayAdapterReminder = ArrayAdapter(requireContext(),R.layout.dropdown_list_item,RemindersItem)
         binding.autoCompleteTextViewReminderPicker.setAdapter(arrayAdapterReminder)
 
 
+        val TypeOfLessonItem = resources.getStringArray(R.array.typeOfLesson)
+        arrayAdapterTypeOfLesson = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, TypeOfLessonItem)
         binding.autoCompleteTextViewTypeLesson.setAdapter(arrayAdapterTypeOfLesson)
 
         binding.editTextStartTimePicker.setOnClickListener {
