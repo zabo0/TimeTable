@@ -12,10 +12,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.saboon.timetable.Database.DatabaseTimeLine
+import com.saboon.timetable.Models.ModelTime
 import com.saboon.timetable.R
 import com.saboon.timetable.ViewModels.AddProgViewModel
 import com.saboon.timetable.databinding.FragmentAddProgramBinding
+import kotlinx.coroutines.CoroutineScope
 import java.text.SimpleDateFormat
+import kotlin.coroutines.CoroutineContext
 
 // TODO: veri tabanina kaydetme islemleri
 
@@ -86,8 +90,8 @@ class AddProgramFragment : Fragment() {
             picker.addOnPositiveButtonClickListener{
                 val hour = picker.hour
                 val min = picker.minute
-                //val timeText = String.format("%02d:%02d", hour, min)
-                val timeText = SimpleDateFormat("hh:mm").format("${hour}:${min}")
+                val timeText = String.format("%02d:%02d", hour, min)
+                //val timeText = SimpleDateFormat("hh:mm").format("${hour}:${min}")
                 binding.fragmentAddProgEditTextStartTimePicker.editText?.setText(timeText)
             }
 
@@ -124,8 +128,22 @@ class AddProgramFragment : Fragment() {
 
         // TODO: kaydederken bu sekilde yap
         binding.fragmentAddProgButtonSave.setOnClickListener{
+//            val day = binding.autoCompleteTextView.text.toString()
+//            val dayix = resources.getStringArray(R.array.Days).indexOf(day)
+
+
             val day = binding.autoCompleteTextView.text.toString()
-            resources.getStringArray(R.array.Days).indexOf(day)
+            val classRoom = binding.fragmentDetailsEditTextClassroom.text.toString()
+            val timeStart = binding.editTextStartTimePicker.text.toString()
+            val timeFinish = binding.editTextFinishTimePicker.text.toString()
+            val type = binding.autoCompleteTextViewTypeLesson.text.toString()
+            val reminder = binding.autoCompleteTextViewReminderPicker.text.toString()
+
+            val lessonTimeProg = ModelTime("id",day,timeStart,timeFinish,type,classRoom,reminder,"idLesson","idProgram")
+
+
+            viewModel.storeDataInSQLite(lessonTimeProg)
+
         }
 
 
@@ -133,6 +151,7 @@ class AddProgramFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(AddProgViewModel::class.java)
         viewModel.refreshData()
+
 
         observeData()
 
@@ -184,5 +203,6 @@ class AddProgramFragment : Fragment() {
 
         _binding = null
     }
+
 
 }

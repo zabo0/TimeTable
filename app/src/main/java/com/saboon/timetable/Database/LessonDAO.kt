@@ -9,15 +9,15 @@ import com.saboon.timetable.Models.ModelLesson
 interface LessonDAO {
 
     @Insert
-    fun insertLesson(lesson: ModelLesson): List<String>
+    suspend fun insertLesson(lesson: ModelLesson)
 
     @Query("SELECT * FROM ModelLesson WHERE below = :belowProgID")
-    fun getAllLessons(belowProgID: String): List<ModelLesson>
+    suspend fun getAllLessons(belowProgID: String): List<ModelLesson>
 
     @Query("SELECT * FROM ModelLesson WHERE id = :lessonID")
-    fun getLesson(lessonID: String): ModelLesson
+    suspend fun getLesson(lessonID: String): ModelLesson
 
     @Query("DELETE FROM ModelLesson WHERE id = :lessonID")
-    fun deleteLesson(lessonID: String)
+    suspend fun deleteLesson(lessonID: String)
 
 }

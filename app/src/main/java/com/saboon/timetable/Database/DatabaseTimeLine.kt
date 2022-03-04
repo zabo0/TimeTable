@@ -30,11 +30,14 @@ abstract class DatabaseTimeLine: RoomDatabase() {
             }
         }
 
+
+        // TODO: burada hep patliyor
         private fun makeDatabase(context: Context) = Room.databaseBuilder(
             context.applicationContext,
             DatabaseTimeLine::class.java, "TimetableDatabase"
-        ).enableMultiInstanceInvalidation().build()
+        ).build()
 
+        //.enableMultiInstanceInvalidation()
     }
 
 }

@@ -2,9 +2,8 @@ package com.saboon.timetable.ViewModels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.saboon.timetable.Database.DatabaseTimeLine
 import com.saboon.timetable.Models.ModelTime
-import com.saboon.timetable.Utils.*
 import kotlinx.coroutines.launch
 
 class AddProgViewModel(application: Application): BaseViewModel(application) {
@@ -21,6 +20,17 @@ class AddProgViewModel(application: Application): BaseViewModel(application) {
     fun refreshData(){
 
     }
+
+    fun storeDataInSQLite(timeProg: ModelTime){
+
+        launch {
+
+            // TODO: databasede sorun var
+            DatabaseTimeLine(getApplication()).timeDAO().insertTime(timeProg)
+        }
+
+    }
+
 
     fun getDataFromSQLite(){
         launch {

@@ -10,15 +10,15 @@ import com.saboon.timetable.Models.ModelProgram
 interface ProgramDAO {
 
     @Insert
-    fun insertProgram(program: ModelProgram): List<String>
+    suspend fun insertProgram(program: ModelProgram)
 
     @Query("SELECT * FROM ModelProgram")
-    fun getAllProg(): List<ModelProgram>
+    suspend fun getAllProg(): List<ModelProgram>
 
     @Query("SELECT * FROM ModelProgram WHERE id = :progID")
-    fun getProg(progID: String): ModelProgram
+    suspend fun getProg(progID: String): ModelProgram
 
     @Query("DELETE FROM ModelProgram WHERE id = :progID")
-    fun deleteProg(progID: String)
+    suspend fun deleteProg(progID: String)
 
 }
