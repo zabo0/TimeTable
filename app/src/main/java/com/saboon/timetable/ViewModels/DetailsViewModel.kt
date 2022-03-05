@@ -71,8 +71,6 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
             empty.value = true
         }
 
-
-
         error.value = false
 
     }

@@ -64,6 +64,7 @@
     <string name="emptyText">To add a program click +</string>
     <string name="textView_manageProgram">Manage Programs</string>
     <string name="textView_search">Search</string>
+    <string name="dialogEditText_progName">Program Name</string>
 
 
 </resources>

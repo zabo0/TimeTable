@@ -1,16 +1,25 @@
 package com.saboon.timetable.Fragments
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.saboon.timetable.Adapters.ManageProgRecyclerAdapter
+import com.saboon.timetable.Models.ModelProgram
 import com.saboon.timetable.R
+import com.saboon.timetable.Utils.IDGenerator
 import com.saboon.timetable.ViewModels.ManageProgViewModel
 import com.saboon.timetable.databinding.FragmentManageProgramBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class ManageProgramFragment : Fragment() {
@@ -22,6 +31,8 @@ class ManageProgramFragment : Fragment() {
 
     lateinit var viewModel: ManageProgViewModel
     private val recyclerAdapter = ManageProgRecyclerAdapter(arrayListOf())
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,9 +49,6 @@ class ManageProgramFragment : Fragment() {
 
         _binding = FragmentManageProgramBinding.inflate(inflater,container,false)
         return binding.root
-
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,18 +57,17 @@ class ManageProgramFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(ManageProgViewModel::class.java)
         viewModel.getAllProgramsFromDatabase()
 
-
+        binding.fragmentManageProgRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.fragmentManageProgRecyclerView.adapter = recyclerAdapter
+        binding.fragmentManageProgRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
         binding.fragmentManageProgImageViewAdd.setOnClickListener{
-
-
+            alerDialog()
 
         }
 
 
         observeData()
-
-
     }
 
 
@@ -68,48 +75,79 @@ class ManageProgramFragment : Fragment() {
 
         viewModel.programs.observe(viewLifecycleOwner, Observer {
             it?.let {
+                binding.fragmentManageProgRecyclerView.visibility = View.VISIBLE
                 recyclerAdapter.updateList(it)
-                binding.fragmentMangeProgRecyclerView.visibility = View.VISIBLE
                 binding.manageLoadingProgressBar.visibility = View.GONE
                 binding.manageEmptyText.visibility = View.GONE
                 binding.manageErrorText.visibility = View.GONE
-            }.also {
-                binding.fragmentMangeProgRecyclerView.visibility = View.GONE
             }
         })
         viewModel.loading.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.fragmentMangeProgRecyclerView.visibility = View.GONE
-                binding.manageLoadingProgressBar.visibility = View.VISIBLE
-                binding.manageEmptyText.visibility = View.GONE
-                binding.manageErrorText.visibility = View.GONE
-            }.also {
-                binding.manageLoadingProgressBar.visibility = View.GONE
+                if(it){
+                    binding.fragmentManageProgRecyclerView.visibility = View.GONE
+                    binding.manageLoadingProgressBar.visibility = View.VISIBLE
+                    binding.manageEmptyText.visibility = View.GONE
+                    binding.manageErrorText.visibility = View.GONE
+                }else{
+                    binding.manageLoadingProgressBar.visibility = View.GONE
+                }
             }
         })
         viewModel.empty.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.fragmentMangeProgRecyclerView.visibility = View.GONE
-                binding.manageLoadingProgressBar.visibility = View.GONE
-                binding.manageEmptyText.visibility = View.VISIBLE
-                binding.manageErrorText.visibility = View.GONE
-            }.also {
-                binding.manageEmptyText.visibility = View.GONE
+                if(it){
+                    binding.fragmentManageProgRecyclerView.visibility = View.GONE
+                    binding.manageLoadingProgressBar.visibility = View.GONE
+                    binding.manageEmptyText.visibility = View.VISIBLE
+                    binding.manageErrorText.visibility = View.GONE
+                }else{
+                    binding.manageLoadingProgressBar.visibility = View.GONE
+                }
             }
         })
 
         viewModel.error.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.fragmentMangeProgRecyclerView.visibility = View.GONE
-                binding.manageLoadingProgressBar.visibility = View.GONE
-                binding.manageEmptyText.visibility = View.GONE
-                binding.manageErrorText.visibility = View.VISIBLE
-            }.also {
-                binding.manageErrorText.visibility = View.GONE
+                if(it){
+                    binding.fragmentManageProgRecyclerView.visibility = View.GONE
+                    binding.manageLoadingProgressBar.visibility = View.GONE
+                    binding.manageEmptyText.visibility = View.GONE
+                    binding.manageErrorText.visibility = View.VISIBLE
+                }else{
+                    binding.manageLoadingProgressBar.visibility = View.GONE
+                }
             }
         })
+    }
 
 
+
+    fun alerDialog(){
+
+        val alertDialogBuilder = AlertDialog.Builder(activity)
+
+        val inflater = requireActivity().layoutInflater
+        val dialogLayout = inflater.inflate(R.layout.manage_dialog_view, null)
+        val programNameText = dialogLayout.findViewById<EditText>(R.id.dialog_progName)
+
+       with(alertDialogBuilder){
+           setTitle("Add Program")
+           setPositiveButton("Save"){dialog, which ->
+               val programName = programNameText.text.toString()
+               val dateAdded = SimpleDateFormat("dd.mm.yyyy hh:mm:ss").format(Calendar.getInstance().time)
+               val dateEdited = SimpleDateFormat("dd.mm.yyyy hh:mm:ss").format(Calendar.getInstance().time)
+               val id = IDGenerator().generateProgramID(programName)
+               val newProgram = ModelProgram(id,programName,dateAdded,dateEdited)
+               viewModel.storeProgramInDatabase(newProgram)
+               viewModel.getAllProgramsFromDatabase()
+           }
+           setNegativeButton("Cancel") {dialog, which ->
+                dialog.cancel()
+           }
+           setView(dialogLayout)
+           show()
+       }
     }
 
 

@@ -134,9 +134,6 @@ class AddTimeFragment : Fragment() {
         }
 
 
-
-
-        // TODO: kaydederken bu sekilde yap
         binding.fragmentAddProgButtonSave.setOnClickListener{
             val id = IDGenerator().generateTimeID(belowLessonID)
             val day = binding.autoCompleteTextView.text.toString()

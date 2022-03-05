@@ -20,7 +20,6 @@ class AddTimeViewModel(application: Application): BaseViewModel(application) {
     fun storeTimeInDatabase(timeProg: ModelTime){
 
         launch {
-
             DatabaseTimeLine(getApplication()).timeDAO().insertTime(timeProg)
         }
 

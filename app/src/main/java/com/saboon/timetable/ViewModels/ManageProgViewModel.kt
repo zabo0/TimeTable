@@ -17,15 +17,17 @@ class ManageProgViewModel(application: Application): BaseViewModel(application) 
         loading.value = true
         launch {
             DatabaseTimeLine(getApplication()).programDAO().insertProgram(program)
+            //showDataInUI(arrayListOf(program))
         }
 
     }
 
     fun getAllProgramsFromDatabase(){
 
+        loading.value = true
         launch {
-            DatabaseTimeLine(getApplication()).programDAO().getAllProg()
-
+            val progList = DatabaseTimeLine(getApplication()).programDAO().getAllProg()
+            showDataInUI(progList)
         }
     }
 
@@ -34,11 +36,12 @@ class ManageProgViewModel(application: Application): BaseViewModel(application) 
     fun showDataInUI(prog: List<ModelProgram>){
         if (prog != null){
             programs.value = prog
+            empty.value = false
+            loading.value = false
+            error.value = false
         }else{
             empty.value = true
+            error.value = false
         }
-
-
-        error.value = false
     }
 }

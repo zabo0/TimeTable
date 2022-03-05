@@ -50,4 +50,5 @@
     <string name="emptyText">Program eklemek için + \'ya basın</string>
     <string name="textView_manageProgram">Programlari Yönet</string>
     <string name="textView_search">Ara</string>
+    <string name="dialogEditText_progName">Program Adı</string>
 </resources>

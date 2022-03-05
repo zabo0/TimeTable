@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_main"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/manageProgramFragment">
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.saboon.timetable.Fragments.MainFragment"
@@ -11,6 +11,13 @@
         <action
             android:id="@+id/action_mainFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_manageProgramFragment"
+            app:destination="@id/manageProgramFragment" />
+        <argument
+            android:name="programID"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -50,5 +57,14 @@
             android:name="belowProgramID"
             app:argType="string"
             app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/manageProgramFragment"
+        android:name="com.saboon.timetable.Fragments.ManageProgramFragment"
+        android:label="fragment_manage_program"
+        tools:layout="@layout/fragment_manage_program" >
+        <action
+            android:id="@+id/action_manageProgramFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
 </navigation>

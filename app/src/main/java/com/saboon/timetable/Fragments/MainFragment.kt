@@ -1,14 +1,16 @@
 package com.saboon.timetable.Fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.saboon.timetable.Adapters.MainRecyclerAdapter
@@ -19,7 +21,8 @@ import com.saboon.timetable.databinding.FragmentMainBinding
 class MainFragment : Fragment() {
 
 
-
+    private val SHARED_PREF_PROG_ID = "progID"
+    private lateinit var sharedPref: SharedPreferences
 
 
     private var _binding: FragmentMainBinding?=null
@@ -31,10 +34,11 @@ class MainFragment : Fragment() {
     private val recyclerAdapter = MainRecyclerAdapter(arrayListOf(), arrayListOf())
 
 
-    private val programID: String = "programID"
+    private lateinit var currentProgramID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
     }
 
@@ -54,19 +58,60 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+
+
+        arguments?.let {
+
+            //buradaki kontroller kullanicinin her zaman program secmesini engellemek icindir
+            //eger daha onceden program actiysa ve en son girdigi programsa uygulamayi kapatip tekrar actiginda
+            //en son goruntuledigi programin id si kayit edildigi icin dogrudan oradan baslar
+            //yani her seferinde program secme zahmetinden kurtulur
+
+            val comingID = MainFragmentArgs.fromBundle(it).programID
+            if(comingID != null){
+                //gelen ID yi kontrol et eger kaydedilmis id ile ayni ise yoluna devam et
+                val olderID = sharedPref.getString(SHARED_PREF_PROG_ID,null)
+                if(comingID == olderID){
+                    currentProgramID = comingID
+                }else{
+                    //eger degil ise yeni gelen id yi kaydet ve gelen id ile devam et
+                    sharedPref.edit().putString(SHARED_PREF_PROG_ID, comingID).apply()
+                    currentProgramID = comingID
+                }
+            }else{
+                //eger gelen id null ise kontrol et
+                val sharedID = sharedPref.getString(SHARED_PREF_PROG_ID,null).toString()
+                if(sharedID != null){
+                    //eger kayitli bir id var ise bunu al ve yoluna devam et
+                    currentProgramID = sharedID
+                }else{
+                    //eger kayitli bir id de yoksa demekki daha once hic program olusturulmamis yallah program olusturmaya
+                    val actionToManage = MainFragmentDirections.actionMainFragmentToManageProgramFragment()
+                    findNavController().navigate(actionToManage)
+                }
+
+            }
+
+        }
+
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel.refreshData(currentProgramID)
+
+
         binding.fragmentMainImageViewAdd.setOnClickListener {
-            val actionToAddLesson = MainFragmentDirections.actionMainFragmentToDetailsFragment(null, programID)
+            val actionToAddLesson = MainFragmentDirections.actionMainFragmentToDetailsFragment(null, currentProgramID)
             it.findNavController().navigate(actionToAddLesson)
         }
 
         binding.fragmentMainTextViewProgramName.setOnClickListener{
-            showFragmentDialog()
+            val actionToManageProgram = MainFragmentDirections.actionMainFragmentToManageProgramFragment()
+            it.findNavController().navigate(actionToManageProgram)
         }
 
 
 
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel.refreshData(programID)
+
 
         binding.fragmentMainRecyclerViewLessonsRecycler.layoutManager = LinearLayoutManager(context)
         binding.fragmentMainRecyclerViewLessonsRecycler.adapter = recyclerAdapter
@@ -77,11 +122,7 @@ class MainFragment : Fragment() {
     }
 
 
-    fun showFragmentDialog(){
-        val fragmentManager = parentFragmentManager
-        val newFragment = ChooseProgramDialog()
-        newFragment.show(fragmentManager,"dialog")
-    }
+
 
 
 
