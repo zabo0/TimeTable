@@ -6,7 +6,7 @@ import com.saboon.timetable.Database.DatabaseTimeLine
 import com.saboon.timetable.Models.ModelTime
 import kotlinx.coroutines.launch
 
-class AddProgViewModel(application: Application): BaseViewModel(application) {
+class AddTimeViewModel(application: Application): BaseViewModel(application) {
 
     val timeProg = MutableLiveData<ModelTime>()
     val whichDay = MutableLiveData<String?>()
@@ -16,10 +16,6 @@ class AddProgViewModel(application: Application): BaseViewModel(application) {
     val typeLesson =  MutableLiveData<String?>()
     val reminder = MutableLiveData<String?>()
 
-
-    fun refreshData(){
-
-    }
 
     fun storeTimeInDatabase(timeProg: ModelTime){
 

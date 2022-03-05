@@ -37,7 +37,7 @@ class MainViewModel(application: Application): BaseViewModel(application){
             lessonList.value = lessons
         }
         if (lessonsTimes != null){
-            lessonTimeList.value = lessonsTimes!!
+            lessonTimeList.value = lessonsTimes
         }
         error.value = false
         loading.value = false

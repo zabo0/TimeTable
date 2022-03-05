@@ -32,9 +32,9 @@
     </fragment>
     <fragment
         android:id="@+id/addProgramFragment"
-        android:name="com.saboon.timetable.Fragments.AddProgramFragment"
+        android:name="com.saboon.timetable.Fragments.AddTimeFragment"
         android:label="fragment_add_program"
-        tools:layout="@layout/fragment_add_program" >
+        tools:layout="@layout/fragment_add_time" >
         <action
             android:id="@+id/action_addProgramFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />

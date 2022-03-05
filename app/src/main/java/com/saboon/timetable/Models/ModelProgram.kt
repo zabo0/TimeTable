@@ -9,6 +9,9 @@ data class ModelProgram(
     @PrimaryKey
     val id: String,
 
+    @ColumnInfo(name = "name")
+    val name: String,
+
     @ColumnInfo(name = "dateAdded")
     val dateCreated: String,
 

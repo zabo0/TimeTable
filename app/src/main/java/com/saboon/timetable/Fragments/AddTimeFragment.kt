@@ -15,18 +15,16 @@ import com.google.android.material.timepicker.TimeFormat
 import com.saboon.timetable.Models.ModelTime
 import com.saboon.timetable.R
 import com.saboon.timetable.Utils.IDGenerator
-import com.saboon.timetable.ViewModels.AddProgViewModel
-import com.saboon.timetable.databinding.FragmentAddProgramBinding
-
-// TODO: veri tabanina kaydetme islemleri
+import com.saboon.timetable.ViewModels.AddTimeViewModel
+import com.saboon.timetable.databinding.FragmentAddTimeBinding
 
 
-class AddProgramFragment : Fragment() {
+class AddTimeFragment : Fragment() {
 
-    private var _binding: FragmentAddProgramBinding?=null
+    private var _binding: FragmentAddTimeBinding?=null
     private val binding get() = _binding!!
 
-    lateinit var viewModel :AddProgViewModel
+    lateinit var viewModel :AddTimeViewModel
 
     lateinit var arrayAdapterDays: ArrayAdapter<String>
     lateinit var arrayAdapterReminder: ArrayAdapter<String>
@@ -51,7 +49,7 @@ class AddProgramFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        _binding = FragmentAddProgramBinding.inflate(inflater,container,false)
+        _binding = FragmentAddTimeBinding.inflate(inflater,container,false)
         return binding.root
     }
 
@@ -60,15 +58,14 @@ class AddProgramFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        viewModel = ViewModelProvider(this).get(AddProgViewModel::class.java)
-        viewModel.refreshData()
+        viewModel = ViewModelProvider(this).get(AddTimeViewModel::class.java)
 
         arguments?.let {
             if (it != null){
-                AddProgramFragmentArgs.fromBundle(it).belowLessonID?.let {
+                AddTimeFragmentArgs.fromBundle(it).belowLessonID?.let {
                     belowLessonID = it
                 }
-                AddProgramFragmentArgs.fromBundle(it).belowProgramID?.let {
+                AddTimeFragmentArgs.fromBundle(it).belowProgramID?.let {
                     belowProgramID = it
                 }
             }
@@ -131,8 +128,8 @@ class AddProgramFragment : Fragment() {
 
         }
 
-        binding.fragmentAddProgramTextViewAddProgram.setOnClickListener{
-            val actionToBack = AddProgramFragmentDirections.actionAddProgramFragmentToDetailsFragment(null, belowProgramID)
+        binding.fragmentAddTimeTextViewAddTime.setOnClickListener{
+            val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(null, belowProgramID)
             it.findNavController().navigate(actionToBack)
         }
 
@@ -153,7 +150,7 @@ class AddProgramFragment : Fragment() {
 
             viewModel.storeTimeInDatabase(lessonTimeProg)
 
-            val actionToBack = AddProgramFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
+            val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
             it.findNavController().navigate(actionToBack)
 
         }

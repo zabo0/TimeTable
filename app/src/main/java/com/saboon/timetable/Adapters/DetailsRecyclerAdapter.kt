@@ -22,7 +22,7 @@ class DetailsRecyclerAdapter(val programTimesList: ArrayList<ModelTime>):Recycle
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailsViewHolder {
-        val view_ = LayoutInflater.from(parent.context).inflate(R.layout.fragment_add_prog_recycler_row_prog,parent,false)
+        val view_ = LayoutInflater.from(parent.context).inflate(R.layout.fragment_add_time_recycler_row_prog,parent,false)
         return DetailsViewHolder(view_)
     }
 

@@ -23,7 +23,7 @@
     <string name="button_cancel">Cancel</string>
 
 
-<!--    fragment add program-->
+    <!--    fragment add program-->
     <string name="textView_appBar_addProg">Add Program</string>
 
     <string-array name="Days">
@@ -62,6 +62,8 @@
     </string-array>
     <string name="main_textView_error">There is something wrong!</string>
     <string name="emptyText">To add a program click +</string>
+    <string name="textView_manageProgram">Manage Programs</string>
+    <string name="textView_search">Search</string>
 
 
 </resources>
