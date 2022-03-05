@@ -6,15 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.saboon.timetable.Adapters.DetailsRecyclerAdapter
-import com.saboon.timetable.R
+import com.saboon.timetable.Models.ModelLesson
+import com.saboon.timetable.Utils.IDGenerator
 import com.saboon.timetable.ViewModels.DetailsViewModel
 import com.saboon.timetable.databinding.FragmentDetailsBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class DetailsFragment : Fragment() {
@@ -26,9 +27,15 @@ class DetailsFragment : Fragment() {
     lateinit var viewModel: DetailsViewModel
     private val recyclerAdapter = DetailsRecyclerAdapter(arrayListOf())
 
+
+    private lateinit var selectedLessonID: String
+    private lateinit var belowProgramID : String
+
+    lateinit var createdLesson: ModelLesson
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -46,8 +53,29 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        viewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
+        //viewModel.refreshData()
+
+        arguments?.let {
+            if(it != null){
+                DetailsFragmentArgs.fromBundle(it).selectedLessonID?.let {
+                    selectedLessonID = it
+                    viewModel.getDataFromSQLite(it)
+                    showButtons(false)
+                }.also {
+                    activateAddProgram(false)
+                }
+
+                DetailsFragmentArgs.fromBundle(it).belowProgramID?.let {
+                    belowProgramID = it
+                }
+
+            }
+        }
+
+
         binding.fragmentDetailsTextViewAddProgram.setOnClickListener {
-            val actionToAddProgram = DetailsFragmentDirections.actionDetailsFragmentToAddProgramFragment(null)
+            val actionToAddProgram = DetailsFragmentDirections.actionDetailsFragmentToAddProgramFragment(null,createdLesson.id, belowProgramID)
             it.findNavController().navigate(actionToAddProgram)
         }
 
@@ -57,8 +85,21 @@ class DetailsFragment : Fragment() {
         }
 
 
-        viewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
-        viewModel.refreshData()
+        binding.fragmentDetailsButtonSave.setOnClickListener{
+            val id = IDGenerator().generateLessonID(belowProgramID)
+            val dateAdded = SimpleDateFormat("dd.mm.yyyy hh:mm:ss").format(Calendar.getInstance().time)
+            val lessonName = binding.fragmentDetailsEditTextLessonName.text.toString()
+            val lecturerName = binding.fragmentDetailsEditTextLecturerName.text.toString()
+            val color = "#C62910"
+            val absenteeism = "2"
+            val belowProgram = belowProgramID
+
+            createdLesson = ModelLesson(id,dateAdded,lessonName,lecturerName,color,absenteeism,belowProgram)
+
+            viewModel.storeLessonInDatabase(createdLesson)
+            showButtons(false)
+            activateAddProgram(true)
+        }
 
 
         binding.fragmentDetailsRecyclerViewProgramRecycler.layoutManager = LinearLayoutManager(context)
@@ -67,7 +108,6 @@ class DetailsFragment : Fragment() {
 
 
         observeLiveData()
-
 
     }
 
@@ -81,6 +121,7 @@ class DetailsFragment : Fragment() {
         })
         viewModel.programTimes.observe(viewLifecycleOwner, Observer {
             if (it != null) {
+                binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.VISIBLE
                 recyclerAdapter.updateList(it)
             }
         })
@@ -91,10 +132,7 @@ class DetailsFragment : Fragment() {
                 binding.detailsErrorText.visibility = View.GONE
                 binding.detailsEmptyText.visibility = View.GONE
             }else{
-                //binding.detailsLoadingProgressBar.visibility = View.VISIBLE
-                binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
-                binding.detailsErrorText.visibility = View.GONE
-                binding.detailsEmptyText.visibility = View.GONE
+                binding.detailsLoadingProgressBar.visibility = View.GONE
             }
         })
 
@@ -104,9 +142,8 @@ class DetailsFragment : Fragment() {
                     binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
                     binding.detailsLoadingProgressBar.visibility = View.GONE
                     binding.detailsErrorText.visibility = View.VISIBLE
+                    binding.detailsEmptyText.visibility = View.GONE
                 }else{
-                    //binding.detailsLoadingProgressBar.visibility = View.VISIBLE
-                    binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
                     binding.detailsErrorText.visibility = View.GONE
                 }
             }
@@ -120,15 +157,32 @@ class DetailsFragment : Fragment() {
                     binding.detailsErrorText.visibility = View.GONE
                     binding.detailsEmptyText.visibility = View.VISIBLE
                 }else{
-                    //binding.detailsLoadingProgressBar.visibility = View.VISIBLE
-                    binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
-                    binding.detailsErrorText.visibility = View.GONE
-                    binding.detailsEmptyText.visibility = View.VISIBLE
+                    binding.detailsEmptyText.visibility = View.GONE
                 }
             }
         })
 
 
+    }
+
+    fun showButtons(state: Boolean){
+        if(state){
+            binding.fragmentDetailsLinearLayoutButtons.visibility = View.VISIBLE
+            binding.fragmentDetailsEditTextLessonName.isEnabled = true
+            binding.fragmentDetailsEditTextLecturerName.isEnabled = true
+        }else{
+            binding.fragmentDetailsLinearLayoutButtons.visibility = View.GONE
+            binding.fragmentDetailsEditTextLessonName.isEnabled = false
+            binding.fragmentDetailsEditTextLecturerName.isEnabled = false
+        }
+    }
+
+    fun activateAddProgram(state: Boolean){
+        if (state){
+            binding.fragmentDetailsLinearLayoutAddProgram.visibility = View.VISIBLE
+        }else{
+            binding.fragmentDetailsLinearLayoutAddProgram.visibility = View.INVISIBLE
+        }
     }
 
     override fun onDestroyView() {

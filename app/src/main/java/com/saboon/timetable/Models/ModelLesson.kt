@@ -27,6 +27,6 @@ data class ModelLesson(
     val absenteeism: String?,
 
     @ColumnInfo(name = "below")
-    val below: String
+    val belowProgram: String
 
 )

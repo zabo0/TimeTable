@@ -19,18 +19,33 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
 
     fun refreshData(){
 
-        getDataFromSQLite()
+
 
     }
 
-    fun getDataFromSQLite(){
+    fun getDataFromSQLite(idLesson:String?){
         loading.value = true
-        launch {
-            //val lesson = DatabaseTimeLine(getApplication()).lessonDAO().getLesson("id01")
-            //val times = DatabaseTimeLine(getApplication()).timeDAO().getLessonTimes("id01")
+        if (idLesson != null){
+            launch {
+                val lesson = DatabaseTimeLine(getApplication()).lessonDAO().getLesson(idLesson)
+                val times = DatabaseTimeLine(getApplication()).timeDAO().getLessonTimes(idLesson)
 
+                showDataInUI(lesson, times)
+            }
+        }else{
             showDataInUI(null, null)
         }
+    }
+
+    fun storeLessonInDatabase(lesson: ModelLesson){
+        launch {
+            DatabaseTimeLine(getApplication()).lessonDAO().insertLesson(lesson)
+            showDataInUI(lesson,null)
+        }
+    }
+
+    fun updateLesson(){
+
     }
 
 
@@ -39,14 +54,26 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
         if (lesson != null) {
             lessonName.value = lesson.lessonName!!
         }
+
+
+
         if (lesson != null) {
             lecturerName.value = lesson.lecturerName!!
         }
+
+
+
         if (time != null){
             programTimes.value = time!!
+            loading.value = false
+            empty.value = false
+        }else{
+            empty.value = true
         }
-        loading.value = false
+
+
+
         error.value = false
-        empty.value = true
+
     }
 }

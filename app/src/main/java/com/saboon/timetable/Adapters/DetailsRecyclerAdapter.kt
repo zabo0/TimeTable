@@ -37,7 +37,10 @@ class DetailsRecyclerAdapter(val programTimesList: ArrayList<ModelTime>):Recycle
 
 
         holder.itemView.setOnClickListener{
-            val action = DetailsFragmentDirections.actionDetailsFragmentToAddProgramFragment(programTimesList[position].id)
+            val selectedItem = programTimesList[position].id
+            val belowLesson = programTimesList[position].belowLesson
+            val belowProgram = programTimesList[position].belowProgram
+            val action = DetailsFragmentDirections.actionDetailsFragmentToAddProgramFragment(selectedItem, belowLesson, belowProgram)
             it.findNavController().navigate(action)
         }
     }

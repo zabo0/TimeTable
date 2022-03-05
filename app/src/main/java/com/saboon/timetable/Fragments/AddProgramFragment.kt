@@ -12,14 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
-import com.saboon.timetable.Database.DatabaseTimeLine
 import com.saboon.timetable.Models.ModelTime
 import com.saboon.timetable.R
+import com.saboon.timetable.Utils.IDGenerator
 import com.saboon.timetable.ViewModels.AddProgViewModel
 import com.saboon.timetable.databinding.FragmentAddProgramBinding
-import kotlinx.coroutines.CoroutineScope
-import java.text.SimpleDateFormat
-import kotlin.coroutines.CoroutineContext
 
 // TODO: veri tabanina kaydetme islemleri
 
@@ -36,6 +33,8 @@ class AddProgramFragment : Fragment() {
     lateinit var arrayAdapterTypeOfLesson: ArrayAdapter<String>
 
 
+    private lateinit var belowProgramID : String
+    private lateinit var belowLessonID: String
 
 
 
@@ -60,6 +59,20 @@ class AddProgramFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        viewModel = ViewModelProvider(this).get(AddProgViewModel::class.java)
+        viewModel.refreshData()
+
+        arguments?.let {
+            if (it != null){
+                AddProgramFragmentArgs.fromBundle(it).belowLessonID?.let {
+                    belowLessonID = it
+                }
+                AddProgramFragmentArgs.fromBundle(it).belowProgramID?.let {
+                    belowProgramID = it
+                }
+            }
+        }
 
         val DayItems = resources.getStringArray(R.array.Days)
         arrayAdapterDays = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, DayItems)
@@ -119,7 +132,7 @@ class AddProgramFragment : Fragment() {
         }
 
         binding.fragmentAddProgramTextViewAddProgram.setOnClickListener{
-            val actionToBack = AddProgramFragmentDirections.actionAddProgramFragmentToDetailsFragment(null)
+            val actionToBack = AddProgramFragmentDirections.actionAddProgramFragmentToDetailsFragment(null, belowProgramID)
             it.findNavController().navigate(actionToBack)
         }
 
@@ -128,10 +141,7 @@ class AddProgramFragment : Fragment() {
 
         // TODO: kaydederken bu sekilde yap
         binding.fragmentAddProgButtonSave.setOnClickListener{
-//            val day = binding.autoCompleteTextView.text.toString()
-//            val dayix = resources.getStringArray(R.array.Days).indexOf(day)
-
-
+            val id = IDGenerator().generateTimeID(belowLessonID)
             val day = binding.autoCompleteTextView.text.toString()
             val classRoom = binding.fragmentDetailsEditTextClassroom.text.toString()
             val timeStart = binding.editTextStartTimePicker.text.toString()
@@ -139,18 +149,19 @@ class AddProgramFragment : Fragment() {
             val type = binding.autoCompleteTextViewTypeLesson.text.toString()
             val reminder = binding.autoCompleteTextViewReminderPicker.text.toString()
 
-            val lessonTimeProg = ModelTime("id",day,timeStart,timeFinish,type,classRoom,reminder,"idLesson","idProgram")
+            val lessonTimeProg = ModelTime(id,day,timeStart,timeFinish,type,classRoom,reminder,belowLessonID, belowProgramID)
 
+            viewModel.storeTimeInDatabase(lessonTimeProg)
 
-            viewModel.storeDataInSQLite(lessonTimeProg)
+            val actionToBack = AddProgramFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
+            it.findNavController().navigate(actionToBack)
 
         }
 
 
 
 
-        viewModel = ViewModelProvider(this).get(AddProgViewModel::class.java)
-        viewModel.refreshData()
+
 
 
         observeData()

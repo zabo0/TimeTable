@@ -21,11 +21,10 @@ class AddProgViewModel(application: Application): BaseViewModel(application) {
 
     }
 
-    fun storeDataInSQLite(timeProg: ModelTime){
+    fun storeTimeInDatabase(timeProg: ModelTime){
 
         launch {
 
-            // TODO: databasede sorun var
             DatabaseTimeLine(getApplication()).timeDAO().insertTime(timeProg)
         }
 

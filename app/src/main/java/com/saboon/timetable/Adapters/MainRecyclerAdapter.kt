@@ -34,8 +34,9 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
 
 
+
         val indexLesson = lessonsList.indexOfFirst {
-            it.below == lessonTimeList[position].belowLesson
+            it.belowProgram == lessonTimeList[position].belowLesson
         }
 
         holder.lessonName.text = lessonsList[indexLesson].lessonName
@@ -49,7 +50,9 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
 
 
         holder.itemView.setOnClickListener{
-            val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(lessonsList[position].id)
+            val selectedItem = lessonsList[position].id
+            val belowProgram = lessonsList[position].belowProgram
+            val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(selectedItem, belowProgram)
             it.findNavController().navigate(action)
         }
     }

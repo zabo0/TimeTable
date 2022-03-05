@@ -30,6 +30,9 @@ class MainFragment : Fragment() {
     lateinit var viewModel: MainViewModel
     private val recyclerAdapter = MainRecyclerAdapter(arrayListOf(), arrayListOf())
 
+
+    private val programID: String = "programID"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -52,7 +55,7 @@ class MainFragment : Fragment() {
 
 
         binding.fragmentMainImageViewAdd.setOnClickListener {
-            val actionToAddLesson = MainFragmentDirections.actionMainFragmentToDetailsFragment(null)
+            val actionToAddLesson = MainFragmentDirections.actionMainFragmentToDetailsFragment(null, programID)
             it.findNavController().navigate(actionToAddLesson)
         }
 
@@ -63,7 +66,7 @@ class MainFragment : Fragment() {
 
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel.refreshData("belowID")
+        viewModel.refreshData(programID)
 
         binding.fragmentMainRecyclerViewLessonsRecycler.layoutManager = LinearLayoutManager(context)
         binding.fragmentMainRecyclerViewLessonsRecycler.adapter = recyclerAdapter
