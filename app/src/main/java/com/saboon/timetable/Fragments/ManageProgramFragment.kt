@@ -47,11 +47,11 @@ class ManageProgramFragment : Fragment() {
         // TODO: burasini algoritmasi dogru degil kullanici mainden buraya gelince burasi direkt tekrardan maine gonderiyor
         sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
 
-        val currentProgramID = sharedPref.getString(SHARED_PREF_PROG_ID, null)
-        if (currentProgramID != null){
-            val actionToMain = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(currentProgramID)
-            findNavController().navigate(actionToMain)
-        }
+//        val currentProgramID = sharedPref.getString(SHARED_PREF_PROG_ID, null)
+//        if (currentProgramID != null){
+//            val actionToMain = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(currentProgramID)
+//            findNavController().navigate(actionToMain)
+//        }
     }
 
     override fun onCreateView(
@@ -81,8 +81,15 @@ class ManageProgramFragment : Fragment() {
         }
 
         binding.fragmentManageProgTextViewManagePrograms.setOnClickListener{
-            val actionToBack = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(null)
-            it.findNavController().navigate(actionToBack)
+            //////////////////////////////////
+            val currentProgramID = sharedPref.getString(SHARED_PREF_PROG_ID, null)
+            if (currentProgramID != null){
+                val actionToMain = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(currentProgramID)
+                findNavController().navigate(actionToMain)
+            }
+            //////////////////////////////////
+//            val actionToBack = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(null)
+//            it.findNavController().navigate(actionToBack)
         }
 
 

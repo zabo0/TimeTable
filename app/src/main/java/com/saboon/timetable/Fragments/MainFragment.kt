@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.saboon.timetable.Adapters.MainRecyclerAdapter
+import com.saboon.timetable.R
 import com.saboon.timetable.ViewModels.MainViewModel
 import com.saboon.timetable.databinding.FragmentMainBinding
 
@@ -64,14 +65,12 @@ class MainFragment : Fragment() {
 
 
         arguments?.let {
-
             val comingID = MainFragmentArgs.fromBundle(it).programID.toString()
             if(comingID != null || comingID != "null"){
                 currentProgramID = comingID
             }else{
                 currentProgramID = sharedPref.getString(SHARED_PREF_PROG_ID, null).toString()
             }
-
         }
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
@@ -130,6 +129,8 @@ class MainFragment : Fragment() {
                     binding.mainLoadingProgressBar.visibility = View.VISIBLE
                     binding.mainErrorText.visibility = View.GONE
                     binding.mainEmptyText.visibility = View.GONE
+                }else{
+                    binding.mainLoadingProgressBar.visibility = View.GONE
                 }
             }
         })
@@ -141,6 +142,8 @@ class MainFragment : Fragment() {
                     binding.mainLoadingProgressBar.visibility = View.GONE
                     binding.mainErrorText.visibility = View.VISIBLE
                     binding.mainEmptyText.visibility = View.GONE
+                }else{
+                    binding.mainErrorText.visibility = View.GONE
                 }
             }
         })
@@ -151,6 +154,8 @@ class MainFragment : Fragment() {
                     binding.mainLoadingProgressBar.visibility = View.GONE
                     binding.mainErrorText.visibility = View.GONE
                     binding.mainEmptyText.visibility = View.VISIBLE
+                }else{
+                    binding.mainEmptyText.visibility = View.GONE
                 }
             }
         })
