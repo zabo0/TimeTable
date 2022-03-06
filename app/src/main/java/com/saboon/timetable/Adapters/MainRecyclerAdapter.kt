@@ -35,12 +35,12 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
 
 
 
-        val indexLesson = lessonsList.indexOfFirst {
-            it.belowProgram == lessonTimeList[position].belowLesson
-        }
+//        val indexLesson = lessonsList.indexOfFirst {
+//            it.belowProgram == lessonTimeList[position].belowLesson
+//        }
 
-        holder.lessonName.text = lessonsList[indexLesson].lessonName
-        holder.lecturerName.text = lessonsList[indexLesson].lecturerName
+        holder.lessonName.text = lessonsList[position].lessonName
+        holder.lecturerName.text = lessonsList[position].lecturerName
         holder.startTime.text = lessonTimeList[position].timeStart
         holder.finisTime.text = lessonTimeList[position].timeFinish
         holder.colorDivider.setBackgroundColor(Color.parseColor(lessonsList[position].color))
