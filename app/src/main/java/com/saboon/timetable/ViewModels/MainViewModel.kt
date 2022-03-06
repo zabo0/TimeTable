@@ -2,7 +2,6 @@ package com.saboon.timetable.ViewModels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.saboon.timetable.Database.DatabaseTimeLine
 import com.saboon.timetable.Models.ModelLesson
 import com.saboon.timetable.Models.ModelTime
@@ -10,6 +9,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application): BaseViewModel(application){
 
+    val programName = MutableLiveData<String?>()
     val lessonList = MutableLiveData<List<ModelLesson>?>()
     val lessonTimeList = MutableLiveData<List<ModelTime>?>()
     val error = MutableLiveData<Boolean>()
@@ -18,30 +18,45 @@ class MainViewModel(application: Application): BaseViewModel(application){
 
 
 
-    fun refreshData(belowProgID: String){
-        getDataFromSQLite(belowProgID)
+    fun refreshData(progID: String){
+        getProgName(progID)
+        getDataFromSQLite(progID)
     }
 
-    fun getDataFromSQLite(belowProgID: String){
+    fun getDataFromSQLite(progID: String){
         loading.value = true
         launch {
-            //val lessons = DatabaseTimeLine(getApplication()).lessonDAO().getAllLessons(belowProgID)
-            //val lessonsTimes = DatabaseTimeLine(getApplication()).timeDAO().getAllTime(belowProgID)
-            showDataInUI(null, null)
+            val lessons = DatabaseTimeLine(getApplication()).lessonDAO().getAllLessons(progID)
+            val lessonsTimes = DatabaseTimeLine(getApplication()).timeDAO().getAllTime(progID)
+            showDataInUI(lessons, lessonsTimes)
         }
+    }
+
+    fun getProgName(progID: String){
+        launch {
+            val progName = DatabaseTimeLine(getApplication()).programDAO().getProgramName(progID)
+            programName.value = progName
+        }
+
     }
 
 
     fun showDataInUI(lessons : List<ModelLesson>?, lessonsTimes: List<ModelTime>?){
-        if (lessons != null){
+
+        if(lessons.isNullOrEmpty()){
+            empty.value = true
+        }else{
             lessonList.value = lessons
+            if (lessonsTimes.isNullOrEmpty()){
+                empty.value = true
+            }else{
+                lessonTimeList.value = lessonsTimes
+                error.value = false
+                loading.value = false
+                empty.value = false
+            }
         }
-        if (lessonsTimes != null){
-            lessonTimeList.value = lessonsTimes
-        }
-        error.value = false
-        loading.value = false
-        empty.value = true
+
     }
 
 

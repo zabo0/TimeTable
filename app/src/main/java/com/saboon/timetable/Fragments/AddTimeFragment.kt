@@ -152,12 +152,6 @@ class AddTimeFragment : Fragment() {
 
         }
 
-
-
-
-
-
-
         observeData()
 
 

@@ -20,6 +20,8 @@ import com.saboon.timetable.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
 
+    // TODO: maine gelince vievmodelden listeler bos geliyor sorun viewmodelde olmali oraya bak
+
 
     private val SHARED_PREF_PROG_ID = "progID"
     private lateinit var sharedPref: SharedPreferences
@@ -63,34 +65,11 @@ class MainFragment : Fragment() {
 
         arguments?.let {
 
-            //buradaki kontroller kullanicinin her zaman program secmesini engellemek icindir
-            //eger daha onceden program actiysa ve en son girdigi programsa uygulamayi kapatip tekrar actiginda
-            //en son goruntuledigi programin id si kayit edildigi icin dogrudan oradan baslar
-            //yani her seferinde program secme zahmetinden kurtulur
-
-            val comingID = MainFragmentArgs.fromBundle(it).programID
-            if(comingID != null){
-                //gelen ID yi kontrol et eger kaydedilmis id ile ayni ise yoluna devam et
-                val olderID = sharedPref.getString(SHARED_PREF_PROG_ID,null)
-                if(comingID == olderID){
-                    currentProgramID = comingID
-                }else{
-                    //eger degil ise yeni gelen id yi kaydet ve gelen id ile devam et
-                    sharedPref.edit().putString(SHARED_PREF_PROG_ID, comingID).apply()
-                    currentProgramID = comingID
-                }
+            val comingID = MainFragmentArgs.fromBundle(it).programID.toString()
+            if(comingID != null || comingID != "null"){
+                currentProgramID = comingID
             }else{
-                //eger gelen id null ise kontrol et
-                val sharedID = sharedPref.getString(SHARED_PREF_PROG_ID,null).toString()
-                if(sharedID != null){
-                    //eger kayitli bir id var ise bunu al ve yoluna devam et
-                    currentProgramID = sharedID
-                }else{
-                    //eger kayitli bir id de yoksa demekki daha once hic program olusturulmamis yallah program olusturmaya
-                    val actionToManage = MainFragmentDirections.actionMainFragmentToManageProgramFragment()
-                    findNavController().navigate(actionToManage)
-                }
-
+                currentProgramID = sharedPref.getString(SHARED_PREF_PROG_ID, null).toString()
             }
 
         }
@@ -109,10 +88,6 @@ class MainFragment : Fragment() {
             it.findNavController().navigate(actionToManageProgram)
         }
 
-
-
-
-
         binding.fragmentMainRecyclerViewLessonsRecycler.layoutManager = LinearLayoutManager(context)
         binding.fragmentMainRecyclerViewLessonsRecycler.adapter = recyclerAdapter
         binding.fragmentMainRecyclerViewLessonsRecycler.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
@@ -127,6 +102,13 @@ class MainFragment : Fragment() {
 
 
     fun observeData(){
+
+
+        viewModel.programName.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.fragmentMainTextViewProgramName.setText(it)
+            }
+        })
 
         viewModel.lessonList.observe(viewLifecycleOwner, Observer {lessonList ->
             lessonList?.let {
@@ -173,15 +155,13 @@ class MainFragment : Fragment() {
             }
         })
 
-
-
     }
-
-
 
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+        sharedPref.edit().putString(SHARED_PREF_PROG_ID, currentProgramID).apply()
 
         _binding = null
     }

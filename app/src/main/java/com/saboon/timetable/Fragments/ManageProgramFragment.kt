@@ -1,7 +1,9 @@
 package com.saboon.timetable.Fragments
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.saboon.timetable.Adapters.ManageProgRecyclerAdapter
@@ -24,6 +28,8 @@ import java.util.*
 
 class ManageProgramFragment : Fragment() {
 
+    private val SHARED_PREF_PROG_ID = "progID"
+    private lateinit var sharedPref: SharedPreferences
 
     private var _binding: FragmentManageProgramBinding? = null
     private val binding get() = _binding!!
@@ -38,6 +44,14 @@ class ManageProgramFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // TODO: burasini algoritmasi dogru degil kullanici mainden buraya gelince burasi direkt tekrardan maine gonderiyor
+        sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+
+        val currentProgramID = sharedPref.getString(SHARED_PREF_PROG_ID, null)
+        if (currentProgramID != null){
+            val actionToMain = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(currentProgramID)
+            findNavController().navigate(actionToMain)
+        }
     }
 
     override fun onCreateView(
@@ -64,6 +78,11 @@ class ManageProgramFragment : Fragment() {
         binding.fragmentManageProgImageViewAdd.setOnClickListener{
             alerDialog()
 
+        }
+
+        binding.fragmentManageProgTextViewManagePrograms.setOnClickListener{
+            val actionToBack = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(null)
+            it.findNavController().navigate(actionToBack)
         }
 
 
@@ -102,7 +121,7 @@ class ManageProgramFragment : Fragment() {
                     binding.manageEmptyText.visibility = View.VISIBLE
                     binding.manageErrorText.visibility = View.GONE
                 }else{
-                    binding.manageLoadingProgressBar.visibility = View.GONE
+                    binding.manageEmptyText.visibility = View.GONE
                 }
             }
         })
@@ -115,7 +134,7 @@ class ManageProgramFragment : Fragment() {
                     binding.manageEmptyText.visibility = View.GONE
                     binding.manageErrorText.visibility = View.VISIBLE
                 }else{
-                    binding.manageLoadingProgressBar.visibility = View.GONE
+                    binding.manageErrorText.visibility = View.GONE
                 }
             }
         })

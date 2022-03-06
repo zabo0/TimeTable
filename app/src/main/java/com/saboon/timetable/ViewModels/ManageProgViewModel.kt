@@ -34,7 +34,7 @@ class ManageProgViewModel(application: Application): BaseViewModel(application) 
 
 
     fun showDataInUI(prog: List<ModelProgram>){
-        if (prog != null){
+        if (prog.size != 0){
             programs.value = prog
             empty.value = false
             loading.value = false

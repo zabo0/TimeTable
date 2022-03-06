@@ -18,6 +18,9 @@ interface ProgramDAO {
     @Query("SELECT * FROM ModelProgram WHERE id = :progID")
     suspend fun getProg(progID: String): ModelProgram
 
+    @Query("SELECT name FROM ModelProgram WHERE id = :progID")
+    suspend fun getProgramName(progID: String): String
+
     @Query("DELETE FROM ModelProgram WHERE id = :progID")
     suspend fun deleteProg(progID: String)
 

@@ -64,7 +64,7 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
 
 
         if (time != null){
-            programTimes.value = time!!
+            programTimes.value = time
             loading.value = false
             empty.value = false
         }else{
