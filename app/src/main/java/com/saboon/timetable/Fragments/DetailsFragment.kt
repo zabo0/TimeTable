@@ -80,7 +80,7 @@ class DetailsFragment : Fragment() {
         }
 
         binding.fragmentDetailsTextViewLessonDetails.setOnClickListener {
-            val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(null)
+            val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
             it.findNavController().navigate(actionToBack)
         }
 

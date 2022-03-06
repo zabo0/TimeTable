@@ -30,10 +30,8 @@ class ManageProgRecyclerAdapter(val programList: ArrayList<ModelProgram>):Recycl
         holder.dateAdded.text =programList[position].dateCreated
 
         holder.itemView.setOnClickListener{
-
             val actionToManageProg = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(programList[position].id)
             it.findNavController().navigate(actionToManageProg)
-
         }
 
 

@@ -14,17 +14,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.saboon.timetable.Adapters.MainRecyclerAdapter
-import com.saboon.timetable.R
 import com.saboon.timetable.ViewModels.MainViewModel
 import com.saboon.timetable.databinding.FragmentMainBinding
 
 
 class MainFragment : Fragment() {
 
-    // TODO: maine gelince vievmodelden listeler bos geliyor sorun viewmodelde olmali oraya bak
 
 
-    private val SHARED_PREF_PROG_ID = "progID"
+    private val SHARED_PREF_CURRENT_PROG_ID = "progID"
+    private val SHARED_PREF_OLD_PROG_ID = "oldProgID"
     private lateinit var sharedPref: SharedPreferences
 
 
@@ -64,14 +63,18 @@ class MainFragment : Fragment() {
         sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
 
 
+
         arguments?.let {
-            val comingID = MainFragmentArgs.fromBundle(it).programID.toString()
-            if(comingID != null || comingID != "null"){
-                currentProgramID = comingID
-            }else{
-                currentProgramID = sharedPref.getString(SHARED_PREF_PROG_ID, null).toString()
+            MainFragmentArgs.fromBundle(it).programID.let {
+                currentProgramID = it
             }
         }
+
+        sharedPref.edit()
+            .putString(SHARED_PREF_CURRENT_PROG_ID, currentProgramID)
+            .putString(SHARED_PREF_OLD_PROG_ID, currentProgramID)
+            .apply()
+
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.refreshData(currentProgramID)
@@ -83,6 +86,7 @@ class MainFragment : Fragment() {
         }
 
         binding.fragmentMainTextViewProgramName.setOnClickListener{
+            sharedPref.edit().putString(SHARED_PREF_CURRENT_PROG_ID, null).apply()
             val actionToManageProgram = MainFragmentDirections.actionMainFragmentToManageProgramFragment()
             it.findNavController().navigate(actionToManageProgram)
         }
@@ -162,11 +166,8 @@ class MainFragment : Fragment() {
 
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
-
-        sharedPref.edit().putString(SHARED_PREF_PROG_ID, currentProgramID).apply()
 
         _binding = null
     }

@@ -29,6 +29,7 @@ import java.util.*
 class ManageProgramFragment : Fragment() {
 
     private val SHARED_PREF_PROG_ID = "progID"
+    private val SHARED_PREF_OLD_PROG_ID = "oldProgID"
     private lateinit var sharedPref: SharedPreferences
 
     private var _binding: FragmentManageProgramBinding? = null
@@ -39,19 +40,19 @@ class ManageProgramFragment : Fragment() {
     private val recyclerAdapter = ManageProgRecyclerAdapter(arrayListOf())
 
 
+    private lateinit var currentProgramID: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // TODO: burasini algoritmasi dogru degil kullanici mainden buraya gelince burasi direkt tekrardan maine gonderiyor
         sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
 
-//        val currentProgramID = sharedPref.getString(SHARED_PREF_PROG_ID, null)
-//        if (currentProgramID != null){
-//            val actionToMain = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(currentProgramID)
-//            findNavController().navigate(actionToMain)
-//        }
+        sharedPref.getString(SHARED_PREF_PROG_ID, null)?.let {
+            val actionToMain = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(it)
+            findNavController().navigate(actionToMain)
+        }
+
     }
 
     override fun onCreateView(
@@ -81,15 +82,9 @@ class ManageProgramFragment : Fragment() {
         }
 
         binding.fragmentManageProgTextViewManagePrograms.setOnClickListener{
-            //////////////////////////////////
-            val currentProgramID = sharedPref.getString(SHARED_PREF_PROG_ID, null)
-            if (currentProgramID != null){
-                val actionToMain = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(currentProgramID)
-                findNavController().navigate(actionToMain)
-            }
-            //////////////////////////////////
-//            val actionToBack = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(null)
-//            it.findNavController().navigate(actionToBack)
+            currentProgramID = sharedPref.getString(SHARED_PREF_OLD_PROG_ID, null).toString()
+            val actionToBack = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(currentProgramID)
+            it.findNavController().navigate(actionToBack)
         }
 
 
