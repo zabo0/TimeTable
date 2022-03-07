@@ -12,9 +12,20 @@ import com.saboon.timetable.Models.ModelLesson
 import com.saboon.timetable.Models.ModelTime
 import com.saboon.timetable.R
 
-class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTimeList: ArrayList<ModelTime>):RecyclerView.Adapter<MainRecyclerAdapter.MainViewHolder>() {
+class MainRecyclerAdapter(val lessList: ArrayList<ModelLesson>, val lessTimeList: ArrayList<ModelTime>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    class MainViewHolder(view : View):RecyclerView.ViewHolder(view) {
+
+
+    companion object {
+
+        const val VIEW_TYPE_MAIN = 1
+        const val VIEW_TYPE_DAY = 2
+    }
+
+    val lessonsList: ArrayList<ModelLesson> = lessList
+    val lessonTimeList: ArrayList<ModelTime> = lessTimeList
+
+    private inner class MainViewHolder(view : View):RecyclerView.ViewHolder(view) {
         val startTime: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_startTime)
         val finisTime: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_finishTime)
         val colorDivider: View = view.findViewById(R.id.fragmentMain_recycler_view_divider)
@@ -22,46 +33,71 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
         val lecturerName: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_lecturerName)
         val roomText: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_classRoom)
         val typeText: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_type)
+
+        fun bind(position: Int){
+            //bir derste birden fazla time olabiliyor bu yuzden mesela lesson listesinde 3 item var ise bazen time listesinde 5 item olabiliyor
+            //recycler item countu ise time iteme bakilarak aliniyor.
+            //burada yapilan islem su sekilde;
+            // siradaki timein hangi derse ait oldugunu bulmamiz gerek bunu da belowLesson a bakarak yapabiliriz
+            //ancak siradaki time liste icerisinde 4. sirada olabilir. bu da position degerinin 4 olmasi demek
+            //ancak lessonList icerisinde 4. positionda item yok o yuzden dogrudan lessonsList icerisinde position degeri ile arama yapamayiz
+            //bizde lessonsList icerisinde id si timeList.belowLesson a esit olanin indexsini aliyoruz ve lessonsList icerisinden o sekilde veri aliyoruz
+            val indexLesson = lessonsList.indexOfFirst {
+                //bu islem lessonsList icerisinde id si lessonTimeList.belowLesson a esit olan index bulunur ve indexLesson a atanir
+                it.id == lessonTimeList[position].belowLesson
+            }
+
+            lessonName.text = lessonsList[indexLesson].lessonName
+            lecturerName.text = lessonsList[indexLesson].lecturerName
+            startTime.text = lessonTimeList[position].timeStart
+            finisTime.text = lessonTimeList[position].timeFinish
+            colorDivider.setBackgroundColor(Color.parseColor(lessonsList[indexLesson].color))
+            roomText.text= "Classroom: ${lessonTimeList[position].classRoom}"
+            typeText.text = lessonTimeList[position].typeOfLesson.toString()
+
+            itemView.setOnClickListener{
+                val selectedItem = lessonTimeList[position].belowLesson
+                val belowProgram = lessonTimeList[position].belowProgram
+                val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(selectedItem, belowProgram)
+                it.findNavController().navigate(action)
+            }
+
+        }
+
+
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
+    private inner class DayViewHolder(view: View):RecyclerView.ViewHolder(view){
+
+        val day: TextView = view.findViewById(R.id.recyclerRow_days)
+
+        fun bind(position: Int){
+            day.text = lessonTimeList[position].day
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+        if (viewType == VIEW_TYPE_DAY){
+            val viewDayItem = LayoutInflater.from(parent.context).inflate(R.layout.fragment_main_recycler_row_days,parent,false)
+            return DayViewHolder(viewDayItem)
+        }
         val viewLessonItem = LayoutInflater.from(parent.context).inflate(R.layout.fragment_main_recycler_row_lessons,parent,false)
         return MainViewHolder(viewLessonItem)
     }
 
 
-    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-
-
-        //bir derste birden fazla time olabiliyor bu yuzden mesela lesson listesinde 3 item var ise bazen time listesinde 5 item olabiliyor
-        //recycler item countu ise time iteme bakilarak aliniyor.
-        //burada yapilan islem su sekilde;
-        // siradaki timein hangi derse ait oldugunu bulmamiz gerek bunu da belowLesson a bakarak yapabiliriz
-        //ancak siradaki time liste icerisinde 4. sirada olabilir. bu da position degerinin 4 olmasi demek
-        //ancak lessonList icerisinde 4. positionda item yok o yuzden dogrudan lessonsList icerisinde position degeri ile arama yapamayiz
-        //bizde lessonsList icerisinde id si timeList.belowLesson a esit olanin indexsini aliyoruz ve lessonsList icerisinden o sekilde veri aliyoruz
-        val indexLesson = lessonsList.indexOfFirst {
-            //bu islem lessonsList icerisinde id si lessonTimeList.belowLesson a esit olan index bulunur ve indexLesson a atanir
-            it.id == lessonTimeList[position].belowLesson
-        }
-
-
-        holder.lessonName.text = lessonsList[indexLesson].lessonName
-        holder.lecturerName.text = lessonsList[indexLesson].lecturerName
-        holder.startTime.text = lessonTimeList[position].timeStart
-        holder.finisTime.text = lessonTimeList[position].timeFinish
-        holder.colorDivider.setBackgroundColor(Color.parseColor(lessonsList[indexLesson].color))
-        holder.roomText.text= "Classroom: ${lessonTimeList[position].classRoom}"
-        holder.typeText.text = lessonTimeList[position].typeOfLesson.toString()
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
 
 
-        holder.itemView.setOnClickListener{
-            val selectedItem = lessonTimeList[position].belowLesson
-            val belowProgram = lessonTimeList[position].belowProgram
-            val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(selectedItem, belowProgram)
-            it.findNavController().navigate(action)
-        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+
+
+
     }
 
     override fun getItemCount(): Int {

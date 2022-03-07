@@ -4,9 +4,10 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/recyclerRow_days"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Days"
+        android:text="Day"
         android:textSize="20sp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
