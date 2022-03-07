@@ -15,7 +15,6 @@ import com.saboon.timetable.R
 class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTimeList: ArrayList<ModelTime>):RecyclerView.Adapter<MainRecyclerAdapter.MainViewHolder>() {
 
     class MainViewHolder(view : View):RecyclerView.ViewHolder(view) {
-
         val startTime: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_startTime)
         val finisTime: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_finishTime)
         val colorDivider: View = view.findViewById(R.id.fragmentMain_recycler_view_divider)
@@ -26,17 +25,18 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        val view_ = LayoutInflater.from(parent.context).inflate(R.layout.fragment_main_recycler_row_lessons,parent,false)
-        return MainViewHolder(view_)
+        val viewLessonItem = LayoutInflater.from(parent.context).inflate(R.layout.fragment_main_recycler_row_lessons,parent,false)
+        return MainViewHolder(viewLessonItem)
     }
 
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
 
 
-        //bir dersete birden fazla time olabiliyor bu yuzden mesela lesson listesinde 3 item var ise bazen time listesinde 5 item olabiliyor
+        //bir derste birden fazla time olabiliyor bu yuzden mesela lesson listesinde 3 item var ise bazen time listesinde 5 item olabiliyor
         //recycler item countu ise time iteme bakilarak aliniyor.
-        //burada yapilan islem su sekilde siradaki timein hangi derse ait oldugunu bulmamiz gerek bunu da belowLesson a bakarak yapabiliriz
+        //burada yapilan islem su sekilde;
+        // siradaki timein hangi derse ait oldugunu bulmamiz gerek bunu da belowLesson a bakarak yapabiliriz
         //ancak siradaki time liste icerisinde 4. sirada olabilir. bu da position degerinin 4 olmasi demek
         //ancak lessonList icerisinde 4. positionda item yok o yuzden dogrudan lessonsList icerisinde position degeri ile arama yapamayiz
         //bizde lessonsList icerisinde id si timeList.belowLesson a esit olanin indexsini aliyoruz ve lessonsList icerisinden o sekilde veri aliyoruz
@@ -68,20 +68,6 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
         return lessonTimeList.size
     }
 
-    override fun getItemViewType(position: Int): Int {
-
-        when(lessonTimeList[position].day){
-            "Pazartesi" -> return 0
-            "Salı" -> return 1
-            "Çarşamba" -> return 2
-            "Perşembe" -> return 3
-            "Cuma" -> return 4
-            "Cumartesi" -> return 5
-            "Pazar" -> return 6
-        }
-        return super.getItemViewType(position)
-
-    }
 
 
     fun updateList(newLessonsList: List<ModelLesson>, newTimeList: List<ModelTime>){
