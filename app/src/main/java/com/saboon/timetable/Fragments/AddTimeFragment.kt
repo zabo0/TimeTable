@@ -136,7 +136,10 @@ class AddTimeFragment : Fragment() {
 
         binding.fragmentAddProgButtonSave.setOnClickListener{
             val id = IDGenerator().generateTimeID()
-            val day = binding.autoCompleteTextView.text.toString()
+            //burada "day" databaseden cekerken gunleri oncelik sirasina gore cekebilmesi icin gunlerin karsilik geldigi sayiyi database e kaydediyor
+            //eger duz "pazartesi" olarak kaydediliyor olsaydi "carsamba" daha once cekiliyor olacakti(alfabede daha onde)
+            //ancak "pazartesi" string klasorundeki array da indexi "0" carsamba ise "2" boylece "pazartesi"nin onceligi daha fazla oluyor
+            val day = requireActivity().resources.getStringArray(R.array.Days).indexOf(binding.autoCompleteTextView.text.toString()).toString()
             val classRoom = binding.fragmentDetailsEditTextClassroom.text.toString()
             val timeStart = binding.editTextStartTimePicker.text.toString()
             val timeFinish = binding.editTextFinishTimePicker.text.toString()

@@ -34,8 +34,14 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
 
 
-        //eger ModelLessonun id si ModelTimedaki below lessona esit ise
+        //bir dersete birden fazla time olabiliyor bu yuzden mesela lesson listesinde 3 item var ise bazen time listesinde 5 item olabiliyor
+        //recycler item countu ise time iteme bakilarak aliniyor.
+        //burada yapilan islem su sekilde siradaki timein hangi derse ait oldugunu bulmamiz gerek bunu da belowLesson a bakarak yapabiliriz
+        //ancak siradaki time liste icerisinde 4. sirada olabilir. bu da position degerinin 4 olmasi demek
+        //ancak lessonList icerisinde 4. positionda item yok o yuzden dogrudan lessonsList icerisinde position degeri ile arama yapamayiz
+        //bizde lessonsList icerisinde id si timeList.belowLesson a esit olanin indexsini aliyoruz ve lessonsList icerisinden o sekilde veri aliyoruz
         val indexLesson = lessonsList.indexOfFirst {
+            //bu islem lessonsList icerisinde id si lessonTimeList.belowLesson a esit olan index bulunur ve indexLesson a atanir
             it.id == lessonTimeList[position].belowLesson
         }
 
@@ -51,8 +57,8 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
 
 
         holder.itemView.setOnClickListener{
-            val selectedItem = lessonsList[position].id
-            val belowProgram = lessonsList[position].belowProgram
+            val selectedItem = lessonTimeList[position].belowLesson
+            val belowProgram = lessonTimeList[position].belowProgram
             val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(selectedItem, belowProgram)
             it.findNavController().navigate(action)
         }
