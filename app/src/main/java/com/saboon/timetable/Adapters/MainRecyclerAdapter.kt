@@ -34,16 +34,17 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
 
 
+        //eger ModelLessonun id si ModelTimedaki below lessona esit ise
+        val indexLesson = lessonsList.indexOfFirst {
+            it.id == lessonTimeList[position].belowLesson
+        }
 
-//        val indexLesson = lessonsList.indexOfFirst {
-//            it.belowProgram == lessonTimeList[position].belowLesson
-//        }
 
-        holder.lessonName.text = lessonsList[position].lessonName
-        holder.lecturerName.text = lessonsList[position].lecturerName
+        holder.lessonName.text = lessonsList[indexLesson].lessonName
+        holder.lecturerName.text = lessonsList[indexLesson].lecturerName
         holder.startTime.text = lessonTimeList[position].timeStart
         holder.finisTime.text = lessonTimeList[position].timeFinish
-        holder.colorDivider.setBackgroundColor(Color.parseColor(lessonsList[position].color))
+        holder.colorDivider.setBackgroundColor(Color.parseColor(lessonsList[indexLesson].color))
         holder.roomText.text= "Classroom: ${lessonTimeList[position].classRoom}"
         holder.typeText.text = lessonTimeList[position].typeOfLesson.toString()
 
@@ -59,6 +60,21 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
 
     override fun getItemCount(): Int {
         return lessonTimeList.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+
+        when(lessonTimeList[position].day){
+            "Pazartesi" -> return 0
+            "Salı" -> return 1
+            "Çarşamba" -> return 2
+            "Perşembe" -> return 3
+            "Cuma" -> return 4
+            "Cumartesi" -> return 5
+            "Pazar" -> return 6
+        }
+        return super.getItemViewType(position)
+
     }
 
 

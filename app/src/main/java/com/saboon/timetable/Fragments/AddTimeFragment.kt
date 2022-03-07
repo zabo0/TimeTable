@@ -135,7 +135,7 @@ class AddTimeFragment : Fragment() {
 
 
         binding.fragmentAddProgButtonSave.setOnClickListener{
-            val id = IDGenerator().generateTimeID(belowLessonID)
+            val id = IDGenerator().generateTimeID()
             val day = binding.autoCompleteTextView.text.toString()
             val classRoom = binding.fragmentDetailsEditTextClassroom.text.toString()
             val timeStart = binding.editTextStartTimePicker.text.toString()

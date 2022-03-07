@@ -28,7 +28,7 @@ class DetailsFragment : Fragment() {
     private val recyclerAdapter = DetailsRecyclerAdapter(arrayListOf())
 
 
-    private lateinit var selectedLessonID: String
+    private lateinit var lessonID: String
     private lateinit var belowProgramID : String
 
     lateinit var createdLesson: ModelLesson
@@ -59,10 +59,10 @@ class DetailsFragment : Fragment() {
         arguments?.let {
             if(it != null){
                 DetailsFragmentArgs.fromBundle(it).selectedLessonID?.let {
-                    selectedLessonID = it
+                    lessonID = it
                     viewModel.getDataFromSQLite(it)
                     showButtons(false)
-                }.also {
+                } ?: run {
                     activateAddProgram(false)
                 }
 
@@ -74,10 +74,7 @@ class DetailsFragment : Fragment() {
         }
 
 
-        binding.fragmentDetailsTextViewAddProgram.setOnClickListener {
-            val actionToAddProgram = DetailsFragmentDirections.actionDetailsFragmentToAddProgramFragment(null,createdLesson.id, belowProgramID)
-            it.findNavController().navigate(actionToAddProgram)
-        }
+
 
         binding.fragmentDetailsTextViewLessonDetails.setOnClickListener {
             val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
@@ -86,19 +83,21 @@ class DetailsFragment : Fragment() {
 
 
         binding.fragmentDetailsButtonSave.setOnClickListener{
-            val id = IDGenerator().generateLessonID(belowProgramID)
-            val dateAdded = SimpleDateFormat("dd.mm.yyyy hh:mm:ss").format(Calendar.getInstance().time)
-            val lessonName = binding.fragmentDetailsEditTextLessonName.text.toString()
-            val lecturerName = binding.fragmentDetailsEditTextLecturerName.text.toString()
-            val color = "#C62910"
-            val absenteeism = "2"
-            val belowProgram = belowProgramID
-
-            createdLesson = ModelLesson(id,dateAdded,lessonName,lecturerName,color,absenteeism,belowProgram)
-
-            viewModel.storeLessonInDatabase(createdLesson)
+            storeData()
             showButtons(false)
             activateAddProgram(true)
+        }
+
+
+        binding.fragmentDetailsTextViewAddProgram.setOnClickListener {
+            //storeData()
+            if (lessonID != null || lessonID != "null"){
+                val actionToAddProgram = DetailsFragmentDirections.actionDetailsFragmentToAddProgramFragment(null,lessonID, belowProgramID)
+                it.findNavController().navigate(actionToAddProgram)
+            }else{
+                //show alert Dialog
+            }
+
         }
 
 
@@ -109,6 +108,22 @@ class DetailsFragment : Fragment() {
 
         observeLiveData()
 
+    }
+
+
+    fun storeData(){
+        val lessonName = binding.fragmentDetailsEditTextLessonName.text.toString()
+        val id = IDGenerator().generateLessonID(lessonName)
+        val dateAdded = SimpleDateFormat("dd.MM.yyyy hh:mm:ss").format(Calendar.getInstance().time)
+        val lecturerName = binding.fragmentDetailsEditTextLecturerName.text.toString()
+        val color = "#C62910"
+        val absenteeism = "2"
+        val belowProgram = belowProgramID
+
+        createdLesson = ModelLesson(id,dateAdded,lessonName,lecturerName,color,absenteeism,belowProgram)
+        lessonID = createdLesson.id
+
+        viewModel.storeLessonInDatabase(createdLesson)
     }
 
 
@@ -168,20 +183,20 @@ class DetailsFragment : Fragment() {
     fun showButtons(state: Boolean){
         if(state){
             binding.fragmentDetailsLinearLayoutButtons.visibility = View.VISIBLE
-            binding.fragmentDetailsEditTextLessonName.isEnabled = true
-            binding.fragmentDetailsEditTextLecturerName.isEnabled = true
+            binding.fragmentDetailsEditTextLessonName.isFocusable = true
+            binding.fragmentDetailsEditTextLecturerName.isFocusable = true
         }else{
             binding.fragmentDetailsLinearLayoutButtons.visibility = View.GONE
-            binding.fragmentDetailsEditTextLessonName.isEnabled = false
-            binding.fragmentDetailsEditTextLecturerName.isEnabled = false
+            binding.fragmentDetailsEditTextLessonName.isFocusable = false
+            binding.fragmentDetailsEditTextLecturerName.isFocusable = false
         }
     }
 
     fun activateAddProgram(state: Boolean){
         if (state){
-            binding.fragmentDetailsLinearLayoutAddProgram.visibility = View.VISIBLE
+            binding.fragmentDetailsLinearLayoutAddProgram.isEnabled = true
         }else{
-            binding.fragmentDetailsLinearLayoutAddProgram.visibility = View.INVISIBLE
+            binding.fragmentDetailsLinearLayoutAddProgram.isEnabled = false
         }
     }
 

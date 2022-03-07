@@ -56,22 +56,21 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
         }
 
 
-
         if (lesson != null) {
             lecturerName.value = lesson.lecturerName!!
         }
 
-
-
-        if (time != null){
-            programTimes.value = time
-            loading.value = false
-            empty.value = false
-        }else{
-            empty.value = true
+        time?.let {
+            if (time.isNotEmpty()){
+                programTimes.value = time
+                loading.value = false
+                empty.value = false
+            }else{
+                empty.value = true
+            }
+            error.value = false
         }
 
-        error.value = false
 
     }
 }
