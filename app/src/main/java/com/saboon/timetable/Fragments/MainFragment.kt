@@ -93,7 +93,7 @@ class MainFragment : Fragment() {
 
         binding.fragmentMainRecyclerViewLessonsRecycler.layoutManager = LinearLayoutManager(context)
         binding.fragmentMainRecyclerViewLessonsRecycler.adapter = recyclerAdapter
-        binding.fragmentMainRecyclerViewLessonsRecycler.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        //binding.fragmentMainRecyclerViewLessonsRecycler.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
         observeData()
 

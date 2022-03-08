@@ -12,7 +12,7 @@ import com.saboon.timetable.Models.ModelLesson
 import com.saboon.timetable.Models.ModelTime
 import com.saboon.timetable.R
 
-class MainRecyclerAdapter(val lessList: ArrayList<ModelLesson>, val lessTimeList: ArrayList<ModelTime>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTimeList: ArrayList<ModelTime>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
 
@@ -22,10 +22,10 @@ class MainRecyclerAdapter(val lessList: ArrayList<ModelLesson>, val lessTimeList
         const val VIEW_TYPE_DAY = 2
     }
 
-    val lessonsList: ArrayList<ModelLesson> = lessList
-    val lessonTimeList: ArrayList<ModelTime> = lessTimeList
+
 
     private inner class MainViewHolder(view : View):RecyclerView.ViewHolder(view) {
+
         val startTime: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_startTime)
         val finisTime: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_finishTime)
         val colorDivider: View = view.findViewById(R.id.fragmentMain_recycler_view_divider)
@@ -71,8 +71,43 @@ class MainRecyclerAdapter(val lessList: ArrayList<ModelLesson>, val lessTimeList
 
         val day: TextView = view.findViewById(R.id.recyclerRow_days)
 
+        val startTime: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_startTime)
+        val finisTime: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_finishTime)
+        val colorDivider: View = view.findViewById(R.id.fragmentMain_recycler_view_divider)
+        val lessonName:TextView = view.findViewById(R.id.fragmentMain_recycler_textView_lessonName)
+        val lecturerName: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_lecturerName)
+        val roomText: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_classRoom)
+        val typeText: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_type)
+
         fun bind(position: Int){
-            day.text = lessonTimeList[position].day
+            day.text = itemView.context.resources.getStringArray(R.array.Days)[lessonTimeList[position].day!!.toInt()].toString()
+
+            //bir derste birden fazla time olabiliyor bu yuzden mesela lesson listesinde 3 item var ise bazen time listesinde 5 item olabiliyor
+            //recycler item countu ise time iteme bakilarak aliniyor.
+            //burada yapilan islem su sekilde;
+            // siradaki timein hangi derse ait oldugunu bulmamiz gerek bunu da belowLesson a bakarak yapabiliriz
+            //ancak siradaki time liste icerisinde 4. sirada olabilir. bu da position degerinin 4 olmasi demek
+            //ancak lessonList icerisinde 4. positionda item yok o yuzden dogrudan lessonsList icerisinde position degeri ile arama yapamayiz
+            //bizde lessonsList icerisinde id si timeList.belowLesson a esit olanin indexsini aliyoruz ve lessonsList icerisinden o sekilde veri aliyoruz
+            val indexLesson = lessonsList.indexOfFirst {
+                //bu islem lessonsList icerisinde id si lessonTimeList.belowLesson a esit olan index bulunur ve indexLesson a atanir
+                it.id == lessonTimeList[position].belowLesson
+            }
+
+            lessonName.text = lessonsList[indexLesson].lessonName
+            lecturerName.text = lessonsList[indexLesson].lecturerName
+            startTime.text = lessonTimeList[position].timeStart
+            finisTime.text = lessonTimeList[position].timeFinish
+            colorDivider.setBackgroundColor(Color.parseColor(lessonsList[indexLesson].color))
+            roomText.text= "Classroom: ${lessonTimeList[position].classRoom}"
+            typeText.text = lessonTimeList[position].typeOfLesson.toString()
+
+            itemView.setOnClickListener{
+                val selectedItem = lessonTimeList[position].belowLesson
+                val belowProgram = lessonTimeList[position].belowProgram
+                val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(selectedItem, belowProgram)
+                it.findNavController().navigate(action)
+            }
         }
     }
 
@@ -90,13 +125,27 @@ class MainRecyclerAdapter(val lessList: ArrayList<ModelLesson>, val lessTimeList
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
 
+        when(holder.itemViewType){
+            VIEW_TYPE_MAIN -> (holder as MainViewHolder) .bind(position)
+            VIEW_TYPE_DAY -> (holder as DayViewHolder) .bind(position)
+        }
+
 
     }
 
     override fun getItemViewType(position: Int): Int {
-        return super.getItemViewType(position)
+        //return super.getItemViewType(position)
 
 
+        //burada eger listede gelen gun bir enceki ile ayni degil ise day gorunumunu dondurur
+        //bu gorunumde recycler viewin icinde gunu de yazar
+        //ilk positionda dogrudan gun viewi dondurmesinin sebebi ilk gunu direk en ustte yazmasi icin
+        if(position == 0){
+            return VIEW_TYPE_DAY
+        }else if(lessonTimeList[position].day != lessonTimeList[position-1].day){
+            return VIEW_TYPE_DAY
+        }
+        return VIEW_TYPE_MAIN
 
     }
 
@@ -113,4 +162,5 @@ class MainRecyclerAdapter(val lessList: ArrayList<ModelLesson>, val lessTimeList
         lessonTimeList.addAll(newTimeList)
         notifyDataSetChanged()
     }
+
 }
