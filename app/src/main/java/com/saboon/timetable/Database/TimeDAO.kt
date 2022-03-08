@@ -20,8 +20,8 @@ interface TimeDAO {
     @Query("SELECT * FROM ModelTime WHERE belowLesson = :belowLessID ORDER BY day ASC,  timeStart ASC")
     suspend fun getLessonTimes(belowLessID: String): List<ModelTime>
 
-    @Query("DELETE FROM ModelTime WHERE id= :timeID")
-    suspend fun deleteTime(timeID: String)
+    @Query("DELETE FROM ModelTime WHERE belowLesson= :belowLessID")
+    suspend fun deleteTimes(belowLessID: String)
 
 
 }

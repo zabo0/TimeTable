@@ -65,6 +65,11 @@
     <string name="textView_manageProgram">Manage Programs</string>
     <string name="textView_search">Search</string>
     <string name="dialogEditText_progName">Program Name</string>
+    <string name="alertDialog_sureDelete">Are you sure you want to delete?</string>
+    <string name="alertDialog_titleDelete">Delete</string>
+    <string name="alertDialog_posButton">Yes</string>
+    <string name="alertDialog_negButton">No</string>
+    <string name="toast_successful">Successful</string>
 
 
 </resources>

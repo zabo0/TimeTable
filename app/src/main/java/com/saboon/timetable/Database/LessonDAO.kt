@@ -20,4 +20,7 @@ interface LessonDAO {
     @Query("DELETE FROM ModelLesson WHERE id = :lessonID")
     suspend fun deleteLesson(lessonID: String)
 
+    @Query("UPDATE ModelLesson SET lessonName = :newLessonName , lecturerName = :newLecturerName, absenteeism = :newAbsenteeism, color = :newColor WHERE id = :lessonID")
+    suspend fun updateLesson(lessonID: String, newLessonName:String, newLecturerName: String, newAbsenteeism:String, newColor: String)
+
 }

@@ -2,11 +2,11 @@ package com.saboon.timetable.ViewModels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.saboon.timetable.Database.DatabaseTimeLine
 import com.saboon.timetable.Models.ModelLesson
 import com.saboon.timetable.Models.ModelTime
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class DetailsViewModel(application: Application): BaseViewModel(application) {
 
@@ -21,6 +21,13 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
 
 
 
+    }
+
+    fun getLessonFromSQLite(lessonID: String, response: (ModelLesson)-> Unit ){
+        launch {
+            val lesson = DatabaseTimeLine(getApplication()).lessonDAO().getLesson(lessonID)
+            response(lesson)
+        }
     }
 
     fun getDataFromSQLite(idLesson:String?){
@@ -44,8 +51,29 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
         }
     }
 
-    fun updateLesson(){
+    fun updateLesson(lesson: ModelLesson, response: (Boolean)-> Unit){
+        try {
+            launch {
+                DatabaseTimeLine(getApplication()).lessonDAO().updateLesson(
+                    lesson.id,
+                    lesson.lessonName!!,
+                    lesson.lecturerName!!,
+                    lesson.absenteeism!!,
+                    lesson.color!!
+                )
+            }
+            response(true)
+        }catch (error:Exception){
+            response(false)
+            throw error
+        }
+    }
 
+    fun deleteLesson(lessonID: String){
+        launch {
+            DatabaseTimeLine(getApplication()).timeDAO().deleteTimes(lessonID)
+            DatabaseTimeLine(getApplication()).lessonDAO().deleteLesson(lessonID)
+        }
     }
 
 

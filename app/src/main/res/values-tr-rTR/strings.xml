@@ -51,4 +51,9 @@
     <string name="textView_manageProgram">Programlari Yönet</string>
     <string name="textView_search">Ara</string>
     <string name="dialogEditText_progName">Program Adı</string>
+    <string name="alertDialog_sureDelete">Silmek istediğize emin misiniz?</string>
+    <string name="alertDialog_titleDelete">Sil</string>
+    <string name="alertDialog_posButton">Evet</string>
+    <string name="alertDialog_negButton">Hayır</string>
+    <string name="toast_successful">Başarılı</string>
 </resources>
