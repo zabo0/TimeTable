@@ -30,7 +30,7 @@ class AddTimeFragment : Fragment() {
     lateinit var arrayAdapterReminder: ArrayAdapter<String>
     lateinit var arrayAdapterTypeOfLesson: ArrayAdapter<String>
 
-
+    private lateinit var selectedTimeID: String
     private lateinit var belowProgramID : String
     private lateinit var belowLessonID: String
 
@@ -62,10 +62,15 @@ class AddTimeFragment : Fragment() {
 
         arguments?.let {
             if (it != null){
+                AddTimeFragmentArgs.fromBundle(it).selectedTimeID?.let {
+                    selectedTimeID = it
+                    viewModel.getDataFromSQLite(selectedTimeID)
+                }
                 AddTimeFragmentArgs.fromBundle(it).belowLessonID?.let {
                     belowLessonID = it
                 }
                 AddTimeFragmentArgs.fromBundle(it).belowProgramID?.let {
+                    //bu verinin alinmasinin sebebi database e kayit yapilirken kullanilacak olmasi
                     belowProgramID = it
                 }
             }
@@ -84,6 +89,9 @@ class AddTimeFragment : Fragment() {
         val TypeOfLessonItem = resources.getStringArray(R.array.typeOfLesson)
         arrayAdapterTypeOfLesson = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, TypeOfLessonItem)
         binding.autoCompleteTextViewTypeLesson.setAdapter(arrayAdapterTypeOfLesson)
+
+        binding.autoCompleteTextView.setText(arrayAdapterDays.getItem(0), false)
+        binding.autoCompleteTextViewReminderPicker.setText(arrayAdapterReminder.getItem(0), false)
 
         binding.editTextStartTimePicker.setOnClickListener {
             val isSystem24Hour = is24HourFormat(requireContext())
@@ -155,6 +163,7 @@ class AddTimeFragment : Fragment() {
 
         }
 
+
         observeData()
 
 
@@ -165,34 +174,33 @@ class AddTimeFragment : Fragment() {
 
     fun observeData(){
 
-        viewModel.whichDay.observe(viewLifecycleOwner, Observer {
+        viewModel.timeProg.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.autoCompleteTextView.setText(arrayAdapterDays.getPosition(it))
+                setValuesToView(it, false)
             }
         })
-        viewModel.classRoom.observe(viewLifecycleOwner, Observer{
+
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.fragmentDetailsEditTextClassroom.setText(it)
+                if (it){
+                    binding.addProgramContent.visibility = View.GONE
+                    binding.addProgramLoadingProgressBar.visibility = View.VISIBLE
+                    binding.addProgramErrorText.visibility = View.GONE
+                }else{
+                    binding.addProgramLoadingProgressBar.visibility = View.GONE
+                }
             }
         })
-        viewModel.startTime.observe(viewLifecycleOwner, Observer {
+
+        viewModel.error.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.editTextStartTimePicker.setText(it)
-            }
-        })
-        viewModel.finishTime.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                binding.editTextFinishTimePicker.setText(it)
-            }
-        })
-        viewModel.typeLesson.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                binding.autoCompleteTextViewTypeLesson.setText(arrayAdapterTypeOfLesson.getPosition(it))
-            }
-        })
-        viewModel.reminder.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                binding.autoCompleteTextViewReminderPicker.setText(arrayAdapterReminder.getPosition(it))
+                if (it){
+                    binding.addProgramContent.visibility = View.GONE
+                    binding.addProgramLoadingProgressBar.visibility = View.GONE
+                    binding.addProgramErrorText.visibility = View.VISIBLE
+                }else{
+                    binding.addProgramErrorText.visibility = View.GONE
+                }
             }
         })
 
@@ -206,5 +214,32 @@ class AddTimeFragment : Fragment() {
         _binding = null
     }
 
+
+    fun setValuesToView(time: ModelTime, isInEditMode: Boolean){
+
+        //changeable in amaci edit modda degil iken kullanicinin verileri degistirmesini engellemek
+        //true ise degistirilebilir
+        //false ise degistirilemez
+        if (isInEditMode){
+            binding.addProgramContent.visibility = View.VISIBLE
+            binding.fragmentDetailsEditTextClassroom.setText( time.classRoom.toString())
+            binding.editTextStartTimePicker.setText(time.timeStart.toString())
+            binding.editTextFinishTimePicker.setText(time.timeFinish.toString())
+            binding.autoCompleteTextViewTypeLesson.setText(time.typeOfLesson.toString(), false)
+            binding.autoCompleteTextView.setText(arrayAdapterDays.getItem(time.day!!.toInt()), false)
+            binding.autoCompleteTextViewReminderPicker.setText(time.reminderTime, false)
+        }else{
+            binding.addProgramContent.visibility = View.VISIBLE
+            binding.fragmentDetailsEditTextClassroom.setText( time.classRoom.toString())
+            binding.fragmentDetailsEditTextClassroom.isFocusable = false
+            binding.editTextStartTimePicker.setText(time.timeStart.toString())
+            binding.editTextStartTimePicker.isFocusable = false
+            binding.editTextFinishTimePicker.setText(time.timeFinish.toString())
+            binding.editTextFinishTimePicker.isFocusable = false
+            binding.autoCompleteTextViewTypeLesson.setText(time.typeOfLesson.toString())
+            binding.autoCompleteTextView.setText(arrayAdapterDays.getItem(time.day!!.toInt()))
+            binding.autoCompleteTextViewReminderPicker.setText(time.reminderTime)
+        }
+    }
 
 }

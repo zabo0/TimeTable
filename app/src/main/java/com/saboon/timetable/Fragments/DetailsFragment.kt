@@ -113,6 +113,10 @@ class DetailsFragment : Fragment() {
 
         }
 
+        binding.fragmentDetailsImageViewEdit.setOnClickListener {
+            // TODO: duzenleme butonunu yap
+        }
+
 
         binding.fragmentDetailsButtonSave.setOnClickListener{
             storeData()

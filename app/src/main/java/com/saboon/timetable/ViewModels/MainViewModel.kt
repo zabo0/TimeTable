@@ -32,6 +32,7 @@ class MainViewModel(application: Application): BaseViewModel(application){
         }
     }
 
+
     fun getProgName(progID: String){
         launch {
             val progName = DatabaseTimeLine(getApplication()).programDAO().getProgramName(progID)

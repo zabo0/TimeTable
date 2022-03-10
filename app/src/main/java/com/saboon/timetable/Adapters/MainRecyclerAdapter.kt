@@ -22,6 +22,7 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
         const val VIEW_TYPE_DAY = 2
     }
 
+    var listOfLesson = lessonsList
 
 
     private inner class MainViewHolder(view : View):RecyclerView.ViewHolder(view) {
@@ -52,7 +53,7 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
             startTime.text = lessonTimeList[position].timeStart
             finisTime.text = lessonTimeList[position].timeFinish
             colorDivider.setBackgroundColor(Color.parseColor(lessonsList[indexLesson].color))
-            roomText.text= "Classroom: ${lessonTimeList[position].classRoom}"
+            roomText.text= lessonTimeList[position].classRoom
             typeText.text = lessonTimeList[position].typeOfLesson.toString()
 
             itemView.setOnClickListener{
@@ -80,6 +81,7 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
         val typeText: TextView = view.findViewById(R.id.fragmentMain_recycler_textView_type)
 
         fun bind(position: Int){
+
             day.text = itemView.context.resources.getStringArray(R.array.Days)[lessonTimeList[position].day!!.toInt()].toString()
 
             //bir derste birden fazla time olabiliyor bu yuzden mesela lesson listesinde 3 item var ise bazen time listesinde 5 item olabiliyor
@@ -99,7 +101,7 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
             startTime.text = lessonTimeList[position].timeStart
             finisTime.text = lessonTimeList[position].timeFinish
             colorDivider.setBackgroundColor(Color.parseColor(lessonsList[indexLesson].color))
-            roomText.text= "Classroom: ${lessonTimeList[position].classRoom}"
+            roomText.text= lessonTimeList[position].classRoom
             typeText.text = lessonTimeList[position].typeOfLesson.toString()
 
             itemView.setOnClickListener{

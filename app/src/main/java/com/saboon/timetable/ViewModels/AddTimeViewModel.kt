@@ -9,16 +9,11 @@ import kotlinx.coroutines.launch
 class AddTimeViewModel(application: Application): BaseViewModel(application) {
 
     val timeProg = MutableLiveData<ModelTime>()
-    val whichDay = MutableLiveData<String?>()
-    val classRoom = MutableLiveData<String?>()
-    val startTime = MutableLiveData<String?>()
-    val finishTime = MutableLiveData<String?>()
-    val typeLesson =  MutableLiveData<String?>()
-    val reminder = MutableLiveData<String?>()
+    val loading = MutableLiveData<Boolean>()
+    val error = MutableLiveData<Boolean>()
 
 
     fun storeTimeInDatabase(timeProg: ModelTime){
-
         launch {
             DatabaseTimeLine(getApplication()).timeDAO().insertTime(timeProg)
         }
@@ -26,14 +21,23 @@ class AddTimeViewModel(application: Application): BaseViewModel(application) {
     }
 
 
-    fun getDataFromSQLite(){
+    fun getDataFromSQLite(timeID: String){
+        loading.value = true
         launch {
-
+            val time = DatabaseTimeLine(getApplication()).timeDAO().getTime(timeID)
+            showDataInUI(time)
         }
     }
 
-    fun showDataInUI(prog: ModelTime){
-        timeProg.value = prog
+    fun showDataInUI(prog: ModelTime?){
+        prog.let {
+            timeProg.value = it
+            loading.value = false
+            error.value = false
+        }?: run {
+            loading.value = false
+            error.value = true
+        }
     }
 
 

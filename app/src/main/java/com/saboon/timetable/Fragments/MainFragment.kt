@@ -12,7 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.saboon.timetable.Adapters.MainRecyclerAdapter
 import com.saboon.timetable.ViewModels.MainViewModel
 import com.saboon.timetable.databinding.FragmentMainBinding
@@ -35,8 +37,38 @@ class MainFragment : Fragment() {
     lateinit var viewModel: MainViewModel
     private val recyclerAdapter = MainRecyclerAdapter(arrayListOf(), arrayListOf())
 
-
     private lateinit var currentProgramID: String
+
+
+
+    //recyclerviewde saga ve sola kaydirma islemleri icin
+    val swipeCallback = object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean = false
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val position = viewHolder.adapterPosition
+            val lesson = viewModel.lessonList.value
+            lesson?.get(position)?.id
+
+            when( direction){
+                ItemTouchHelper.LEFT -> {
+                    //devamsizligi bir arttir
+                }
+                ItemTouchHelper.RIGHT -> {
+                    //devamsizligi bir azalt
+                }
+            }
+        }
+
+
+    }
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +125,8 @@ class MainFragment : Fragment() {
 
         binding.fragmentMainRecyclerViewLessonsRecycler.layoutManager = LinearLayoutManager(context)
         binding.fragmentMainRecyclerViewLessonsRecycler.adapter = recyclerAdapter
-        //binding.fragmentMainRecyclerViewLessonsRecycler.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        //ItemTouchHelper(swipeCallback).attachToRecyclerView(binding.fragmentMainRecyclerViewLessonsRecycler)
+        binding.fragmentMainRecyclerViewLessonsRecycler.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
         observeData()
 
@@ -171,6 +204,8 @@ class MainFragment : Fragment() {
 
         _binding = null
     }
+
+
 
 
 }
