@@ -12,11 +12,8 @@ class IDGenerator {
     }
 
 
-    fun generateLessonID(lessonName: String): String{
-        val lesName = lessonName.filter { !it.isWhitespace() }
-        val uuid = UUID.randomUUID().toString()
-        val id = lesName + "_" + uuid
-        return id
+    fun generateLessonID(): String{
+        return UUID.randomUUID().toString()
     }
 
     fun generateTimeID(): String{

@@ -47,25 +47,19 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
     fun storeLessonInDatabase(lesson: ModelLesson){
         launch {
             DatabaseTimeLine(getApplication()).lessonDAO().insertLesson(lesson)
-            showDataInUI(lesson,null)
+            //showDataInUI(lesson,null)
         }
     }
 
-    fun updateLesson(lesson: ModelLesson, response: (Boolean)-> Unit){
-        try {
-            launch {
-                DatabaseTimeLine(getApplication()).lessonDAO().updateLesson(
-                    lesson.id,
-                    lesson.lessonName!!,
-                    lesson.lecturerName!!,
-                    lesson.absenteeism!!,
-                    lesson.color!!
-                )
-            }
-            response(true)
-        }catch (error:Exception){
-            response(false)
-            throw error
+    fun updateLessonName(lessonID: String, newLessonName:String?){
+        launch {
+            DatabaseTimeLine(getApplication()).lessonDAO().updateLessonName(lessonID,newLessonName)
+        }
+    }
+
+    fun updateLecturerName(lessonID: String, newLecturerName:String?){
+        launch {
+            DatabaseTimeLine(getApplication()).lessonDAO().updateLecturerName(lessonID,newLecturerName)
         }
     }
 
@@ -80,12 +74,14 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
     fun showDataInUI(lesson: ModelLesson?, time: List<ModelTime>?){
 
         if (lesson != null) {
-            lessonName.value = lesson.lessonName!!
+            lesson.lessonName?.let {
+                lessonName.value = it
+            }
         }
-
-
         if (lesson != null) {
-            lecturerName.value = lesson.lecturerName!!
+            lesson.lecturerName?.let {
+                lecturerName.value = it
+            }
         }
 
         time?.let {

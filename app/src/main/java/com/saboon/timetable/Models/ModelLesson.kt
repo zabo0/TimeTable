@@ -21,10 +21,10 @@ data class ModelLesson(
     val lecturerName: String?,
 
     @ColumnInfo(name = "color")
-    val color: String?,
+    val color: String,
 
     @ColumnInfo(name = "absenteeism")
-    val absenteeism: String?,
+    val absenteeism: String,
 
     @ColumnInfo(name = "below")
     val belowProgram: String

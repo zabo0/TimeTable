@@ -2,6 +2,8 @@ package com.saboon.timetable.Fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -49,13 +51,8 @@ class DetailsFragment : Fragment() {
         //eger geri tusuna basilirsa burasi calisir
         requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
-                //geri tusuna basilirsa degisiklikleri kontrol et
-                checkTheChanges{response ->
-                    if (response){
-                        val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
-                        findNavController().navigate(actionToBack)
-                    }
-                }
+                val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
+                findNavController().navigate(actionToBack)
             }
         })
     }
@@ -80,18 +77,19 @@ class DetailsFragment : Fragment() {
 
         arguments?.let {
             if(it != null){
+                DetailsFragmentArgs.fromBundle(it).belowProgramID?.let {
+                    belowProgramID = it
+                }
+
                 DetailsFragmentArgs.fromBundle(it).selectedLessonID?.let {
                     lessonID = it
                     isNewLesson = false
                     viewModel.getDataFromSQLite(it)
-                    showButtons(false)
-                } ?: run {
-                    activateAddProgram(false)
+                }?: run{
+                    //eger yeni bir ders ekleniyorsa burayi calistir
+                    createNewLesson()
                 }
 
-                DetailsFragmentArgs.fromBundle(it).belowProgramID?.let {
-                    belowProgramID = it
-                }
 
             }
         }
@@ -104,30 +102,14 @@ class DetailsFragment : Fragment() {
 
 
         binding.fragmentDetailsTextViewLessonDetails.setOnClickListener {
-            checkTheChanges{response ->
-                if (response){
-                    val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
-                    it.findNavController().navigate(actionToBack)
-                }
-            }
+            val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
+            it.findNavController().navigate(actionToBack)
 
         }
-
-        binding.fragmentDetailsImageViewEdit.setOnClickListener {
-            // TODO: duzenleme butonunu yap
-        }
-
-
-        binding.fragmentDetailsButtonSave.setOnClickListener{
-            storeData()
-            showButtons(false)
-            activateAddProgram(true)
-        }
-
 
         binding.fragmentDetailsTextViewAddProgram.setOnClickListener {
 
-            if (lessonID != null || lessonID != "null"){
+            if (lessonID != "null"){
                 val actionToAddProgram = DetailsFragmentDirections.actionDetailsFragmentToAddProgramFragment(null,lessonID, belowProgramID)
                 it.findNavController().navigate(actionToAddProgram)
             }else{
@@ -136,36 +118,89 @@ class DetailsFragment : Fragment() {
 
         }
 
-        binding.fragmentDetailsImageViewDelete.setOnClickListener {
 
-            val title = resources.getString(R.string.alertDialog_titleDelete)
-            val message = resources.getString(R.string.alertDialog_sureDelete)
+        binding.fragmentDetailsEditTextLessonName.setOnFocusChangeListener { view, b ->
 
-            showAlert(title,message){
-                if(it){
-                    viewModel.deleteLesson(lessonID)
-                    Toast.makeText(context,resources.getString(R.string.toast_successful),Toast.LENGTH_LONG).show()
-                    val actionToMain = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
-                    findNavController().navigate(actionToMain)
+            //buranin olayi eger editText focusu kaybettiyse edittexte yazilani kontrol et
+            //eger databasedeki ile ayni degilse yazilan degeri database kaydet
+            //ayni ise hic bir sey yapma
+            if (!b){
+                binding.fragmentDetailsEditTextLessonName.text?.let {
+
+                    viewModel.getLessonFromSQLite(lessonID){ lesson ->
+                        if (it.toString() != lesson.lessonName && it.toString() != ""){
+                            viewModel.updateLessonName(lesson.id, it.toString())
+                            isNewLesson = false
+                            // TODO: burada focus ustundeiken kullanici geriye bastiginda veri henuz databaseye kaydedilemeden main fragmente gidiyor ve orada eski veriyi cekmis oluyor
+                        }
+                    }
                 }
             }
         }
 
+        binding.fragmentDetailsEditTextLecturerName.setOnFocusChangeListener { view, b ->
+            //buranin olayi eger editText focusu kaybettiyse edittexte yazilani kontrol et
+            //eger databasedeki ile ayni degilse yazilan degeri database kaydet
+            //ayni ise hic bir sey yapma
+            if (!b){
+                binding.fragmentDetailsEditTextLecturerName.text?.let {
+                    viewModel.getLessonFromSQLite(lessonID){lesson ->
+                        if (it.toString() != lesson.lecturerName && it.toString() != ""){
+                            viewModel.updateLecturerName(lesson.id, it.toString())
+                            isNewLesson = false
+                            // TODO: burada focus ustundeiken kullanici geriye bastiginda veri henuz databaseye kaydedilemeden main fragmente gidiyor ve orada eski veriyi cekmis oluyor
+                        }
+                    }
+                }
+            }
+        }
+
+        binding.fragmentDetailsImageViewDelete.setOnClickListener {
+
+
+
+            if (isNewLesson){
+                viewModel.deleteLesson(lessonID)
+                val actionToMain = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
+                findNavController().navigate(actionToMain)
+            }else{
+                val title = resources.getString(R.string.alertDialog_titleDelete)
+                val message = resources.getString(R.string.alertDialog_sureDelete)
+
+                showAlert(title,message){
+                    if(it){
+                        viewModel.deleteLesson(lessonID)
+                        Toast.makeText(context,resources.getString(R.string.toast_successful),Toast.LENGTH_LONG).show()
+                        val actionToMain = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
+                        findNavController().navigate(actionToMain)
+                    }
+                }
+            }
+
+
+
+        }
+
         observeLiveData()
+
 
     }
 
 
-    fun storeData(){
-        val lessonName = binding.fragmentDetailsEditTextLessonName.text.toString()
-        val id = IDGenerator().generateLessonID(lessonName)
+    fun createNewLesson(){
+
+        //bu fonksiyonun amaci sudur:
+        //kullanici ana sayfadan buraya yeni bir ders eklemek icin geliyorsa bu fragment acildiginda direkt yeni bir ders olusturulur
+        //ancak bu olusturulan dersin nullable fieldlari database e sonradan degistirilmek uzere null olarak kaydedilir
+        //kullanici bu fragmentte her ekledigi deger icin databade guncellenir
+
+        val id = IDGenerator().generateLessonID()
         val dateAdded = SimpleDateFormat("dd.MM.yyyy hh:mm:ss").format(Calendar.getInstance().time)
-        val lecturerName = binding.fragmentDetailsEditTextLecturerName.text.toString()
-        val color = "#C62910"
-        val absenteeism = "2"
+        val defaultColor = "#C62910"
+        val defaultAbsenteeism = "0"
         val belowProgram = belowProgramID
 
-        createdLesson = ModelLesson(id,dateAdded,lessonName,lecturerName,color,absenteeism,belowProgram)
+        createdLesson = ModelLesson(id,dateAdded,null,null,defaultColor,defaultAbsenteeism,belowProgram)
         lessonID = createdLesson.id
 
         viewModel.storeLessonInDatabase(createdLesson)
@@ -225,18 +260,6 @@ class DetailsFragment : Fragment() {
 
     }
 
-    fun showButtons(state: Boolean){
-        if(state){
-            binding.fragmentDetailsLinearLayoutButtons.visibility = View.VISIBLE
-            //binding.fragmentDetailsEditTextLessonName.isFocusable = true
-            //binding.fragmentDetailsEditTextLecturerName.isFocusable = true
-        }else{
-            binding.fragmentDetailsLinearLayoutButtons.visibility = View.GONE
-            //binding.fragmentDetailsEditTextLessonName.isFocusable = false
-            //binding.fragmentDetailsEditTextLecturerName.isFocusable = false
-        }
-    }
-
     fun showAlert(title: String,message: String, response: (Boolean) -> Unit){
 
         val alertDialogBuilder = AlertDialog.Builder(activity)
@@ -255,13 +278,6 @@ class DetailsFragment : Fragment() {
         alertDialogBuilder.show()
     }
 
-    fun activateAddProgram(state: Boolean){
-        if (state){
-            binding.fragmentDetailsLinearLayoutAddProgram.isEnabled = true
-        }else{
-            binding.fragmentDetailsLinearLayoutAddProgram.isEnabled = false
-        }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -270,57 +286,6 @@ class DetailsFragment : Fragment() {
     }
 
 
-
-
-
-    fun checkTheChanges(response: (Boolean) -> Unit){
-
-        //burasi kullanici degisiklik yapip yapmadigini kotrol eder
-        //eger yapmis ise kullaniciya degisiklikleri kaydetmek isteyip istemedigi sorulur
-        //kullanici evet yanitini verirse veri tabani degisen degerler ile guncellenir
-        if (!isNewLesson){
-            val newLessonName = binding.fragmentDetailsEditTextLessonName.text.toString()
-            val newLecturerName = binding.fragmentDetailsEditTextLecturerName.text.toString()
-            val newColor = "#C65910"
-            val newAbsenteeism = "0"
-
-            viewModel.getLessonFromSQLite(lessonID){
-                if (it.lessonName != newLessonName || it.lecturerName != newLecturerName /*|| it.color != newColor || it.absenteeism != newAbsenteeism*/){
-                    showAlert("kaydet","degisiklikleri kaydetmek istiyormusunuz"){ wantSave ->
-                        if(wantSave){
-                            val updatedLesson = ModelLesson(
-                                it.id,
-                                it.dateAdded,
-                                newLessonName,
-                                newLecturerName,
-                                it.color,
-                                it.absenteeism,
-                                it.belowProgram
-                            )
-                            viewModel.updateLesson(updatedLesson){
-                                if (it){
-                                    //eger kayit basarili ise true gonder
-                                    response(true)
-                                }else{
-                                    //eger kayit basarisiz ise false gonder
-                                    response(false)
-                                }
-                            }
-                        }else{
-                            //eger kullanici iptale bastiysa true gonder
-                            response(true)
-                        }
-                    }
-                }else{
-                    //eger kayit yapilmayacaksa true gonder
-                    response(true)
-                }
-            }
-        }else{
-            //eger kayit yapilmayacaksa true gonder
-            response(true)
-        }
-    }
 
 
 }

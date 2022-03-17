@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -83,8 +84,12 @@ class ManageProgramFragment : Fragment() {
 
         binding.fragmentManageProgTextViewManagePrograms.setOnClickListener{
             currentProgramID = sharedPref.getString(SHARED_PREF_OLD_PROG_ID, null).toString()
-            val actionToBack = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(currentProgramID)
-            it.findNavController().navigate(actionToBack)
+            if(currentProgramID != "null"){
+                val actionToBack = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(currentProgramID)
+                it.findNavController().navigate(actionToBack)
+            }else{
+                Toast.makeText(context,"Program secmelisin",Toast.LENGTH_LONG)
+            }
         }
 
 
