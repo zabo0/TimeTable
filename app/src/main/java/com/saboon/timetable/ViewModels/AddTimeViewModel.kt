@@ -5,10 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import com.saboon.timetable.Database.DatabaseTimeLine
 import com.saboon.timetable.Models.ModelTime
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class AddTimeViewModel(application: Application): BaseViewModel(application) {
 
-    val timeProg = MutableLiveData<ModelTime>()
+    val timeProg = MutableLiveData<ModelTime?>()
     val loading = MutableLiveData<Boolean>()
     val error = MutableLiveData<Boolean>()
 
@@ -20,6 +21,34 @@ class AddTimeViewModel(application: Application): BaseViewModel(application) {
 
     }
 
+    fun getTimeFromSQLite(timeID: String, response:(ModelTime) -> Unit){
+        launch {
+            val lesson = DatabaseTimeLine(getApplication()).timeDAO().getTime(timeID)
+            response(lesson)
+        }
+    }
+
+    fun updateTime(time: ModelTime, response: (Boolean)-> Unit){
+        try {
+            launch {
+                DatabaseTimeLine(getApplication()).timeDAO().updateTime(
+                    time.id,
+                    time.day!!,
+                    time.timeStart!!,
+                    time.timeFinish!!,
+                    time.typeOfLesson!!,
+                    time.classRoom!!,
+                    time.reminderTime!!,
+                    time.belowLesson,
+                    time.belowProgram
+                )
+            }
+            response(true)
+        }catch (error: Exception){
+            response(false)
+            throw error
+        }
+    }
 
     fun getDataFromSQLite(timeID: String){
         loading.value = true
@@ -30,11 +59,11 @@ class AddTimeViewModel(application: Application): BaseViewModel(application) {
     }
 
     fun showDataInUI(prog: ModelTime?){
-        prog.let {
-            timeProg.value = it
+        if (prog != null){
+            timeProg.value = prog
             loading.value = false
             error.value = false
-        }?: run {
+        }else{
             loading.value = false
             error.value = true
         }

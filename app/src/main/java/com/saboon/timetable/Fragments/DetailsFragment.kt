@@ -290,7 +290,7 @@ class DetailsFragment : Fragment() {
                         if(wantSave){
                             val updatedLesson = ModelLesson(
                                 it.id,
-                                it.id,
+                                it.dateAdded,
                                 newLessonName,
                                 newLecturerName,
                                 it.color,
@@ -306,6 +306,9 @@ class DetailsFragment : Fragment() {
                                     response(false)
                                 }
                             }
+                        }else{
+                            //eger kullanici iptale bastiysa true gonder
+                            response(true)
                         }
                     }
                 }else{

@@ -1,6 +1,9 @@
 package com.saboon.timetable.Fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.format.DateFormat.is24HourFormat
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.saboon.timetable.Models.ModelLesson
 import com.saboon.timetable.Models.ModelTime
 import com.saboon.timetable.R
 import com.saboon.timetable.Utils.IDGenerator
@@ -35,6 +39,7 @@ class AddTimeFragment : Fragment() {
     private lateinit var belowLessonID: String
 
 
+    private var isNewTime = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +69,7 @@ class AddTimeFragment : Fragment() {
             if (it != null){
                 AddTimeFragmentArgs.fromBundle(it).selectedTimeID?.let {
                     selectedTimeID = it
+                    isNewTime = false
                     viewModel.getDataFromSQLite(selectedTimeID)
                 }
                 AddTimeFragmentArgs.fromBundle(it).belowLessonID?.let {
@@ -90,6 +96,7 @@ class AddTimeFragment : Fragment() {
         arrayAdapterTypeOfLesson = ArrayAdapter(requireContext(), R.layout.dropdown_list_item, TypeOfLessonItem)
         binding.autoCompleteTextViewTypeLesson.setAdapter(arrayAdapterTypeOfLesson)
 
+        //baslagicta gun ve hatirlaticiya default deger verilir
         binding.autoCompleteTextView.setText(arrayAdapterDays.getItem(0), false)
         binding.autoCompleteTextViewReminderPicker.setText(arrayAdapterReminder.getItem(0), false)
 
@@ -137,29 +144,45 @@ class AddTimeFragment : Fragment() {
         }
 
         binding.fragmentAddTimeTextViewAddTime.setOnClickListener{
-            val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(null, belowProgramID)
-            it.findNavController().navigate(actionToBack)
+            checkTheChanges { response ->
+                if (response){
+                    val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
+                    it.findNavController().navigate(actionToBack)
+                }
+            }
         }
 
 
         binding.fragmentAddProgButtonSave.setOnClickListener{
-            val id = IDGenerator().generateTimeID()
-            //burada "day" databaseden cekerken gunleri oncelik sirasina gore cekebilmesi icin gunlerin karsilik geldigi sayiyi database e kaydediyor
-            //eger duz "pazartesi" olarak kaydediliyor olsaydi "carsamba" daha once cekiliyor olacakti(alfabede daha onde)
-            //ancak "pazartesi" string klasorundeki array da indexi "0" carsamba ise "2" boylece "pazartesi"nin onceligi daha fazla oluyor
-            val day = requireActivity().resources.getStringArray(R.array.Days).indexOf(binding.autoCompleteTextView.text.toString()).toString()
-            val classRoom = binding.fragmentDetailsEditTextClassroom.text.toString()
-            val timeStart = binding.editTextStartTimePicker.text.toString()
-            val timeFinish = binding.editTextFinishTimePicker.text.toString()
-            val type = binding.autoCompleteTextViewTypeLesson.text.toString()
-            val reminder = binding.autoCompleteTextViewReminderPicker.text.toString()
 
-            val lessonTimeProg = ModelTime(id,day,timeStart,timeFinish,type,classRoom,reminder,belowLessonID, belowProgramID)
+            if (isNewTime){
+                val id = IDGenerator().generateTimeID()
+                //burada "day" databaseden cekerken gunleri oncelik sirasina gore cekebilmesi icin gunlerin karsilik geldigi sayiyi database e kaydediyor
+                //eger duz "pazartesi" olarak kaydediliyor olsaydi "carsamba" daha once cekiliyor olacakti(alfabede daha onde)
+                //ancak "pazartesi" string klasorundeki array da indexi "0" carsamba ise "2" boylece "pazartesi"nin onceligi daha fazla oluyor
+                val day = requireActivity().resources.getStringArray(R.array.Days).indexOf(binding.autoCompleteTextView.text.toString()).toString()
+                val classRoom = binding.fragmentAddProgEditTextClassroom.text.toString()
+                val timeStart = binding.editTextStartTimePicker.text.toString()
+                val timeFinish = binding.editTextFinishTimePicker.text.toString()
+                val type = binding.autoCompleteTextViewTypeLesson.text.toString()
+                val reminder = binding.autoCompleteTextViewReminderPicker.text.toString()
 
-            viewModel.storeTimeInDatabase(lessonTimeProg)
+                val lessonTimeProg = ModelTime(id,day,timeStart,timeFinish,type,classRoom,reminder,belowLessonID, belowProgramID)
 
-            val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
-            it.findNavController().navigate(actionToBack)
+                viewModel.storeTimeInDatabase(lessonTimeProg)
+
+                val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
+                it.findNavController().navigate(actionToBack)
+            }else{
+                checkTheChanges { response ->
+                    if (response){
+                        val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
+                        it.findNavController().navigate(actionToBack)
+                    }
+                }
+            }
+
+
 
         }
 
@@ -222,7 +245,7 @@ class AddTimeFragment : Fragment() {
         //false ise degistirilemez
         if (isInEditMode){
             binding.addProgramContent.visibility = View.VISIBLE
-            binding.fragmentDetailsEditTextClassroom.setText( time.classRoom.toString())
+            binding.fragmentAddProgEditTextClassroom.setText( time.classRoom.toString())
             binding.editTextStartTimePicker.setText(time.timeStart.toString())
             binding.editTextFinishTimePicker.setText(time.timeFinish.toString())
             binding.autoCompleteTextViewTypeLesson.setText(time.typeOfLesson.toString(), false)
@@ -230,8 +253,8 @@ class AddTimeFragment : Fragment() {
             binding.autoCompleteTextViewReminderPicker.setText(time.reminderTime, false)
         }else{
             binding.addProgramContent.visibility = View.VISIBLE
-            binding.fragmentDetailsEditTextClassroom.setText( time.classRoom.toString())
-            binding.fragmentDetailsEditTextClassroom.isFocusable = false
+            binding.fragmentAddProgEditTextClassroom.setText( time.classRoom.toString())
+            binding.fragmentAddProgEditTextClassroom.isFocusable = false
             binding.editTextStartTimePicker.setText(time.timeStart.toString())
             binding.editTextStartTimePicker.isFocusable = false
             binding.editTextFinishTimePicker.setText(time.timeFinish.toString())
@@ -239,6 +262,85 @@ class AddTimeFragment : Fragment() {
             binding.autoCompleteTextViewTypeLesson.setText(time.typeOfLesson.toString())
             binding.autoCompleteTextView.setText(arrayAdapterDays.getItem(time.day!!.toInt()))
             binding.autoCompleteTextViewReminderPicker.setText(time.reminderTime)
+        }
+    }
+
+
+    fun showAlert(title: String,message: String, response: (Boolean) -> Unit){
+
+        val alertDialogBuilder = AlertDialog.Builder(activity)
+
+        val string = requireActivity().resources
+
+        alertDialogBuilder.setMessage(message)
+        alertDialogBuilder.setTitle(title)
+        alertDialogBuilder.setPositiveButton(string.getString(R.string.alertDialog_posButton)) { dialog, id ->
+            response(true)
+        }
+        alertDialogBuilder.setNegativeButton(string.getString(R.string.alertDialog_negButton)){dialog, id ->
+            response(false)
+        }
+
+        alertDialogBuilder.show()
+    }
+
+
+    fun checkTheChanges(response: (Boolean) -> Unit){
+
+        //burasi kullanici degisiklik yapip yapmadigini kotrol eder
+        //eger yapmis ise kullaniciya degisiklikleri kaydetmek isteyip istemedigi sorulur
+        //kullanici evet yanitini verirse veri tabani degisen degerler ile guncellenir
+        //kullanici hayir yanitini verirse hic bir sey yapilmadan gecilir
+        if (!isNewTime){
+
+            val newDay = binding.autoCompleteTextView.text.toString()
+            val newClasroom = binding.fragmentAddProgEditTextClassroom.text.toString()
+            val newStartTime = binding.fragmentAddProgEditTextStartTimePicker.editText?.text.toString()
+            val newFinishTime = binding.fragmentAddProgEditTextFinishTimePicker.editText?.text.toString()
+            val newTypeOfLesson = binding.autoCompleteTextViewTypeLesson.text.toString()
+            val newReminder = binding.autoCompleteTextViewReminderPicker.text.toString()
+
+            viewModel.getTimeFromSQLite(selectedTimeID){
+                if (arrayAdapterDays.getItem(it.day!!.toInt()) != newDay
+                    || it.classRoom != newClasroom
+                    || it.timeStart != newStartTime
+                    || it.timeFinish != newFinishTime
+                    || it.typeOfLesson != newTypeOfLesson
+                    || it.reminderTime != newReminder){
+                    showAlert("kaydet","degisiklikleri kaydetmek istiyormusunuz"){ wantSave ->
+                        if(wantSave){
+                            val updatedTime = ModelTime(
+                                it.id,newDay,
+                                newStartTime,
+                                newFinishTime,
+                                newTypeOfLesson,
+                                newClasroom,
+                                newFinishTime,
+                                it.belowLesson,
+                                it.belowProgram
+                            )
+                            viewModel.updateTime(updatedTime){
+                                if (it){
+                                    //eger kayit basarili ise true gonder
+                                    response(true)
+                                }else{
+                                    //eger kayit basarisiz ise false gonder
+                                    response(false)
+                                }
+                            }
+                        }else{
+                            //eger kullanici iptale bastiysa true gonder
+                            response(true)
+                        }
+                    }
+                }else{
+                    //eger kayit yapilmayacaksa true gonder(kullanici hayira bastiysa)
+                    response(true)
+                }
+            }
+        }else{
+            //eger kayit yapilmayacaksa true gonder(kullanici evete bastiysa)
+            response(true)
         }
     }
 

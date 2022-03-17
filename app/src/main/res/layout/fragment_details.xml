@@ -107,12 +107,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Absenteeism: 2"
-            android:textAlignment="textEnd"
-            android:layout_marginTop="5dp"/>
+<!--        <TextView-->
+<!--            geicici bir sureligine devre disi-->
+<!--            android:id="@+id/framentDetails_textView_absenteeism"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Absenteeism: 2"-->
+<!--            android:textAlignment="textEnd"-->
+<!--            android:layout_marginTop="5dp"/>-->
 
 
         <View
