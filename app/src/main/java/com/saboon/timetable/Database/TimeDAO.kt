@@ -21,7 +21,10 @@ interface TimeDAO {
     suspend fun getLessonTimes(belowLessID: String): List<ModelTime>
 
     @Query("DELETE FROM ModelTime WHERE belowLesson= :belowLessID")
-    suspend fun deleteTimes(belowLessID: String)
+    suspend fun deleteAllLessonTimes(belowLessID: String)
+
+    @Query("DELETE FROM ModelTime WHERE id = :timeID")
+    suspend fun deleteTime(timeID: String)
 
     @Query("UPDATE ModelTime SET " +
             "day = :day, " +

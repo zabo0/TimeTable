@@ -186,6 +186,18 @@ class AddTimeFragment : Fragment() {
 
         }
 
+        binding.fragmentAddProgButtonCancel.setOnClickListener {
+            val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
+            it.findNavController().navigate(actionToBack)
+        }
+
+        binding.fragmentAddProgImageViewDelete.setOnClickListener {
+            if(!isNewTime){
+                viewModel.deleteTime(selectedTimeID)
+                val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
+                it.findNavController().navigate(actionToBack)
+            }
+        }
 
         observeData()
 
@@ -199,7 +211,7 @@ class AddTimeFragment : Fragment() {
 
         viewModel.timeProg.observe(viewLifecycleOwner, Observer {
             it?.let {
-                setValuesToView(it, false)
+                setValuesToView(it)
             }
         })
 
@@ -226,9 +238,6 @@ class AddTimeFragment : Fragment() {
                 }
             }
         })
-
-
-
     }
 
     override fun onDestroyView() {
@@ -238,31 +247,15 @@ class AddTimeFragment : Fragment() {
     }
 
 
-    fun setValuesToView(time: ModelTime, isInEditMode: Boolean){
+    fun setValuesToView(time: ModelTime){
 
-        //changeable in amaci edit modda degil iken kullanicinin verileri degistirmesini engellemek
-        //true ise degistirilebilir
-        //false ise degistirilemez
-        if (isInEditMode){
-            binding.addProgramContent.visibility = View.VISIBLE
-            binding.fragmentAddProgEditTextClassroom.setText( time.classRoom.toString())
-            binding.editTextStartTimePicker.setText(time.timeStart.toString())
-            binding.editTextFinishTimePicker.setText(time.timeFinish.toString())
-            binding.autoCompleteTextViewTypeLesson.setText(time.typeOfLesson.toString(), false)
-            binding.autoCompleteTextView.setText(arrayAdapterDays.getItem(time.day!!.toInt()), false)
-            binding.autoCompleteTextViewReminderPicker.setText(time.reminderTime, false)
-        }else{
-            binding.addProgramContent.visibility = View.VISIBLE
-            binding.fragmentAddProgEditTextClassroom.setText( time.classRoom.toString())
-            binding.fragmentAddProgEditTextClassroom.isFocusable = false
-            binding.editTextStartTimePicker.setText(time.timeStart.toString())
-            binding.editTextStartTimePicker.isFocusable = false
-            binding.editTextFinishTimePicker.setText(time.timeFinish.toString())
-            binding.editTextFinishTimePicker.isFocusable = false
-            binding.autoCompleteTextViewTypeLesson.setText(time.typeOfLesson.toString())
-            binding.autoCompleteTextView.setText(arrayAdapterDays.getItem(time.day!!.toInt()))
-            binding.autoCompleteTextViewReminderPicker.setText(time.reminderTime)
-        }
+        binding.addProgramContent.visibility = View.VISIBLE
+        binding.fragmentAddProgEditTextClassroom.setText( time.classRoom.toString())
+        binding.editTextStartTimePicker.setText(time.timeStart.toString())
+        binding.editTextFinishTimePicker.setText(time.timeFinish.toString())
+        binding.autoCompleteTextViewTypeLesson.setText(time.typeOfLesson.toString(), false)
+        binding.autoCompleteTextView.setText(arrayAdapterDays.getItem(time.day!!.toInt()), false)
+        binding.autoCompleteTextViewReminderPicker.setText(time.reminderTime, false)
     }
 
 
@@ -329,17 +322,17 @@ class AddTimeFragment : Fragment() {
                                 }
                             }
                         }else{
-                            //eger kullanici iptale bastiysa true gonder
+                            //eger kullanici iptale bastiysa true gonder (kullanici hayira bastiysa)
                             response(true)
                         }
                     }
                 }else{
-                    //eger kayit yapilmayacaksa true gonder(kullanici hayira bastiysa)
+                    //eger degisiklik yok true gonder
                     response(true)
                 }
             }
         }else{
-            //eger kayit yapilmayacaksa true gonder(kullanici evete bastiysa)
+            //eger henuz yeni kayit yapiliyorsa true gonder
             response(true)
         }
     }

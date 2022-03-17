@@ -28,6 +28,12 @@ class AddTimeViewModel(application: Application): BaseViewModel(application) {
         }
     }
 
+    fun deleteTime(timeID:String){
+        launch {
+            DatabaseTimeLine(getApplication()).timeDAO().deleteTime(timeID)
+        }
+    }
+
     fun updateTime(time: ModelTime, response: (Boolean)-> Unit){
         try {
             launch {

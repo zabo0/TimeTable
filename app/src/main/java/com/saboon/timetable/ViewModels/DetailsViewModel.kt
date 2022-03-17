@@ -71,7 +71,7 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
 
     fun deleteLesson(lessonID: String){
         launch {
-            DatabaseTimeLine(getApplication()).timeDAO().deleteTimes(lessonID)
+            DatabaseTimeLine(getApplication()).timeDAO().deleteAllLessonTimes(lessonID)
             DatabaseTimeLine(getApplication()).lessonDAO().deleteLesson(lessonID)
         }
     }
