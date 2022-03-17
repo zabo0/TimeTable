@@ -303,7 +303,7 @@ class AddTimeFragment : Fragment() {
                     showAlert("kaydet","degisiklikleri kaydetmek istiyormusunuz"){ wantSave ->
                         if(wantSave){
                             val updatedTime = ModelTime(
-                                it.id,newDay,
+                                it.id,requireActivity().resources.getStringArray(R.array.Days).indexOf(newDay).toString(),
                                 newStartTime,
                                 newFinishTime,
                                 newTypeOfLesson,
