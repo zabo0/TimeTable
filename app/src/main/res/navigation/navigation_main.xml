@@ -24,10 +24,13 @@
         android:label="DetailsFragment" >
         <action
             android:id="@+id/action_detailsFragment_to_addProgramFragment"
-            app:destination="@id/addProgramFragment" />
+            app:destination="@id/addProgramFragment"/>
         <action
             android:id="@+id/action_detailsFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true"
+            app:popUpToSaveState="true"/>
         <argument android:name="selectedLessonID"
             app:argType="string"
             app:nullable="true" />
@@ -43,7 +46,9 @@
         tools:layout="@layout/fragment_add_time" >
         <action
             android:id="@+id/action_addProgramFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment" />
+            app:destination="@id/detailsFragment"
+            app:popUpTo="@id/detailsFragment"
+            app:popUpToInclusive="true"/>
         <argument
             android:name="selectedTimeID"
             app:argType="string"
@@ -64,6 +69,9 @@
         tools:layout="@layout/fragment_manage_program" >
         <action
             android:id="@+id/action_manageProgramFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true"
+            app:popUpToSaveState="true"/>
     </fragment>
 </navigation>

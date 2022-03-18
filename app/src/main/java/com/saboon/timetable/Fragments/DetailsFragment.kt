@@ -49,12 +49,12 @@ class DetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         //eger geri tusuna basilirsa burasi calisir
-        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
-                findNavController().navigate(actionToBack)
-            }
-        })
+//        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
+//            override fun handleOnBackPressed() {
+//                val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
+//                findNavController().navigate(actionToBack)
+//            }
+//        })
     }
 
     override fun onCreateView(
@@ -128,7 +128,7 @@ class DetailsFragment : Fragment() {
 
                     viewModel.getLessonFromSQLite(lessonID){ lesson ->
                         if (it.toString() != lesson.lessonName && it.toString() != ""){
-                            viewModel.updateLessonName(lesson.id, it.trim().toString())
+                            viewModel.updateLessonName(lesson.id, it.trimEnd().toString())
                             isNewLesson = false
                             // TODO: burada focus ustundeiken kullanici geriye bastiginda veri henuz databaseye kaydedilemeden main fragmente gidiyor ve orada eski veriyi cekmis oluyor
                         }
@@ -145,7 +145,7 @@ class DetailsFragment : Fragment() {
                 binding.fragmentDetailsEditTextLecturerName.text?.let {
                     viewModel.getLessonFromSQLite(lessonID){lesson ->
                         if (it.toString() != lesson.lecturerName && it.toString() != ""){
-                            viewModel.updateLecturerName(lesson.id, it.trim().toString())
+                            viewModel.updateLecturerName(lesson.id, it.trimEnd().toString())
                             isNewLesson = false
                             // TODO: burada focus ustundeiken kullanici geriye bastiginda veri henuz databaseye kaydedilemeden main fragmente gidiyor ve orada eski veriyi cekmis oluyor
                         }
@@ -194,7 +194,7 @@ class DetailsFragment : Fragment() {
         //kullanici bu fragmentte her ekledigi deger icin databade guncellenir
 
         val id = IDGenerator().generateLessonID()
-        val dateAdded = SimpleDateFormat("dd.MM.yyyy hh:mm:ss").format(Calendar.getInstance().time)
+        val dateAdded = SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().time)
         val defaultColor = "#C62910"
         val defaultAbsenteeism = "0"
         val belowProgram = belowProgramID

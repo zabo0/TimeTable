@@ -42,7 +42,8 @@
     <string name="editText_dropDown_reminderText">Reminder</string>
 
     <string-array name="reminder">
-        <item>None</item>
+        <item>No Reminder</item>
+        <item>On Time</item>
         <item>5 Minutes ago</item>
         <item>10 Minutes ago</item>
         <item>15 Minutes ago</item>

@@ -32,13 +32,7 @@ class DetailsRecyclerAdapter(val programTimesList: ArrayList<ModelTime>):Recycle
         holder.dayText.text = holder.itemView.context.resources.getStringArray(R.array.Days)[programTimesList[position].day!!.toInt()]
         holder.timeText.text = "${programTimesList[position].timeStart}-${programTimesList[position].timeFinish}"
         holder.lessonTypeText.text = programTimesList[position].typeOfLesson
-        //eger hatirlatici kurulmamissa yani "Yok" ya da "None" ise
-        //hic bir sey gosterme
-        if (programTimesList[position].reminderTime == holder.itemView.context.resources.getStringArray(R.array.reminder).indexOf(programTimesList[position].reminderTime).toString()){
-            holder.reminderText.text = programTimesList[position].reminderTime
-        }else{
-            holder.reminderText.text = ""
-        }
+        holder.reminderText.text = programTimesList[position].reminderTime
 
 
 

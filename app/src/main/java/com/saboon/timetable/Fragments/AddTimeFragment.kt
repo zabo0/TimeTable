@@ -10,9 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.saboon.timetable.Models.ModelLesson
@@ -44,6 +46,18 @@ class AddTimeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //eger geri tusuna basilirsa burasi calisir
+        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                checkTheChanges {
+                    if(it){
+                        val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
+                        findNavController().navigate(actionToBack)
+                    }
+                }
+
+            }
+        })
 
 
     }
@@ -161,10 +175,10 @@ class AddTimeFragment : Fragment() {
                 //eger duz "pazartesi" olarak kaydediliyor olsaydi "carsamba" daha once cekiliyor olacakti(alfabede daha onde)
                 //ancak "pazartesi" string klasorundeki array da indexi "0" carsamba ise "2" boylece "pazartesi"nin onceligi daha fazla oluyor
                 val day = requireActivity().resources.getStringArray(R.array.Days).indexOf(binding.autoCompleteTextView.text.toString()).toString()
-                val classRoom = binding.fragmentAddProgEditTextClassroom.text?.trim().toString()
+                val classRoom = binding.fragmentAddProgEditTextClassroom.text?.trimEnd().toString()
                 val timeStart = binding.editTextStartTimePicker.text.toString()
                 val timeFinish = binding.editTextFinishTimePicker.text.toString()
-                val type = binding.autoCompleteTextViewTypeLesson.text?.trim().toString()
+                val type = binding.autoCompleteTextViewTypeLesson.text?.trimEnd().toString()
                 val reminder = binding.autoCompleteTextViewReminderPicker.text.toString()
 
                 val lessonTimeProg = ModelTime(id,day,timeStart,timeFinish,type,classRoom,reminder,belowLessonID, belowProgramID)
@@ -303,12 +317,13 @@ class AddTimeFragment : Fragment() {
                     showAlert("kaydet","degisiklikleri kaydetmek istiyormusunuz"){ wantSave ->
                         if(wantSave){
                             val updatedTime = ModelTime(
-                                it.id,requireActivity().resources.getStringArray(R.array.Days).indexOf(newDay).toString(),
+                                it.id,
+                                requireActivity().resources.getStringArray(R.array.Days).indexOf(newDay).toString(),
                                 newStartTime,
                                 newFinishTime,
                                 newTypeOfLesson,
                                 newClasroom,
-                                newFinishTime,
+                                newReminder,
                                 it.belowLesson,
                                 it.belowProgram
                             )

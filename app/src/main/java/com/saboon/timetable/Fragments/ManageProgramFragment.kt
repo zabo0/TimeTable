@@ -161,8 +161,8 @@ class ManageProgramFragment : Fragment() {
            setTitle("Add Program")
            setPositiveButton("Save"){dialog, which ->
                val programName = programNameText.text.toString()
-               val dateAdded = SimpleDateFormat("dd.MM.yyyy hh:mm:ss").format(Calendar.getInstance().time)
-               val dateEdited = SimpleDateFormat("dd.MM.yyyy hh:mm:ss").format(Calendar.getInstance().time)
+               val dateAdded = SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().time)
+               val dateEdited = SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().time)
                val id = IDGenerator().generateProgramID(programName)
                val newProgram = ModelProgram(id,programName,dateAdded,dateEdited)
                viewModel.storeProgramInDatabase(newProgram){callback ->

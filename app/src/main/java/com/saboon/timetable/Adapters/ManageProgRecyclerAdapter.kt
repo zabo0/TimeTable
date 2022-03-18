@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.saboon.timetable.Fragments.ManageProgramFragmentDirections
 import com.saboon.timetable.Models.ModelProgram
 import com.saboon.timetable.R
+import java.text.SimpleDateFormat
 
 class ManageProgRecyclerAdapter(val programList: ArrayList<ModelProgram>):RecyclerView.Adapter<ManageProgRecyclerAdapter.ManageProgViewHolder>() {
 
@@ -27,7 +28,8 @@ class ManageProgRecyclerAdapter(val programList: ArrayList<ModelProgram>):Recycl
 
     override fun onBindViewHolder(holder: ManageProgViewHolder, position: Int) {
         holder.programName.text = programList[position].name
-        holder.dateAdded.text =programList[position].dateCreated
+        holder.dateAdded.text = programList[position].dateCreated
+
 
         holder.itemView.setOnClickListener{
             val actionToManageProg = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(programList[position].id)
@@ -35,7 +37,7 @@ class ManageProgRecyclerAdapter(val programList: ArrayList<ModelProgram>):Recycl
         }
 
         holder.itemView.setOnLongClickListener {
-            println("setOnLongClick")
+            println("deleted ${programList[position].name}")
             true
         }
 

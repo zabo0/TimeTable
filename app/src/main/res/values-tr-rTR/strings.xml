@@ -29,7 +29,8 @@
     <string name="editText_dropDown_finishTimeText">Bitiş Saati</string>
     <string name="editText_dropDown_reminderText">Hatırlatıcı</string>
     <string-array name="reminder">
-        <item>Yok</item>
+        <item>Hatırlatıcı Yok</item>
+        <item>Vaktinde</item>
         <item>5 Dakika önce</item>
         <item>10 Dakika önce</item>
         <item>15 Dakika önce</item>
