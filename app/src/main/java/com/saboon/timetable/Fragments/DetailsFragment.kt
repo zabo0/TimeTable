@@ -104,7 +104,6 @@ class DetailsFragment : Fragment() {
         binding.fragmentDetailsTextViewLessonDetails.setOnClickListener {
             val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
             it.findNavController().navigate(actionToBack)
-
         }
 
         binding.fragmentDetailsTextViewAddProgram.setOnClickListener {
@@ -129,7 +128,7 @@ class DetailsFragment : Fragment() {
 
                     viewModel.getLessonFromSQLite(lessonID){ lesson ->
                         if (it.toString() != lesson.lessonName && it.toString() != ""){
-                            viewModel.updateLessonName(lesson.id, it.toString())
+                            viewModel.updateLessonName(lesson.id, it.trim().toString())
                             isNewLesson = false
                             // TODO: burada focus ustundeiken kullanici geriye bastiginda veri henuz databaseye kaydedilemeden main fragmente gidiyor ve orada eski veriyi cekmis oluyor
                         }
@@ -146,7 +145,7 @@ class DetailsFragment : Fragment() {
                 binding.fragmentDetailsEditTextLecturerName.text?.let {
                     viewModel.getLessonFromSQLite(lessonID){lesson ->
                         if (it.toString() != lesson.lecturerName && it.toString() != ""){
-                            viewModel.updateLecturerName(lesson.id, it.toString())
+                            viewModel.updateLecturerName(lesson.id, it.trim().toString())
                             isNewLesson = false
                             // TODO: burada focus ustundeiken kullanici geriye bastiginda veri henuz databaseye kaydedilemeden main fragmente gidiyor ve orada eski veriyi cekmis oluyor
                         }

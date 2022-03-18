@@ -13,11 +13,11 @@ class ManageProgViewModel(application: Application): BaseViewModel(application) 
     val loading = MutableLiveData<Boolean>()
     val empty = MutableLiveData<Boolean>()
 
-    fun storeProgramInDatabase(program: ModelProgram){
+    fun storeProgramInDatabase(program: ModelProgram, callback: (Boolean) -> Unit){
         loading.value = true
         launch {
             DatabaseTimeLine(getApplication()).programDAO().insertProgram(program)
-            //showDataInUI(arrayListOf(program))
+            callback(true)
         }
 
     }

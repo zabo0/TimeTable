@@ -34,6 +34,11 @@ class ManageProgRecyclerAdapter(val programList: ArrayList<ModelProgram>):Recycl
             it.findNavController().navigate(actionToManageProg)
         }
 
+        holder.itemView.setOnLongClickListener {
+            println("setOnLongClick")
+            true
+        }
+
 
     }
 
