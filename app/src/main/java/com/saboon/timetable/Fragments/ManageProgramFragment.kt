@@ -29,31 +29,22 @@ import java.util.*
 
 class ManageProgramFragment : Fragment() {
 
-    private val SHARED_PREF_PROG_ID = "progID"
-    private val SHARED_PREF_OLD_PROG_ID = "oldProgID"
-    private lateinit var sharedPref: SharedPreferences
 
     private var _binding: FragmentManageProgramBinding? = null
     private val binding get() = _binding!!
 
 
     lateinit var viewModel: ManageProgViewModel
-    private val recyclerAdapter = ManageProgRecyclerAdapter(arrayListOf())
 
+    lateinit var recyclerAdapter: ManageProgRecyclerAdapter
 
-    private lateinit var currentProgramID: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-
-        sharedPref.getString(SHARED_PREF_PROG_ID, null)?.let {
-            val actionToMain = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(it)
-            findNavController().navigate(actionToMain)
-        }
-
+        //requireActivity() methodunu dogru cagirabilmek icin bunu burada initialize ediyorum
+        recyclerAdapter = ManageProgRecyclerAdapter(arrayListOf(), requireActivity())
     }
 
     override fun onCreateView(
@@ -79,17 +70,11 @@ class ManageProgramFragment : Fragment() {
 
         binding.fragmentManageProgImageViewAdd.setOnClickListener{
             alerDialog()
-
         }
 
         binding.fragmentManageProgTextViewManagePrograms.setOnClickListener{
-            currentProgramID = sharedPref.getString(SHARED_PREF_OLD_PROG_ID, null).toString()
-            if(currentProgramID != "null"){
-                val actionToBack = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(currentProgramID)
-                it.findNavController().navigate(actionToBack)
-            }else{
-                Toast.makeText(context,"Program secmelisin",Toast.LENGTH_LONG)
-            }
+            val actionToBack = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment()
+            it.findNavController().navigate(actionToBack)
         }
 
 

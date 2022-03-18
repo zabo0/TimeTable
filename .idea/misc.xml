@@ -4,7 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Sabahattin/.gradle/caches/transforms-3/2a261cac9142af4563bea40b34e5c926/transformed/material-1.5.0/res/layout-land/material_timepicker.xml" value="0.2980599647266314" />
-        <entry key="..\:/Users/Sabahattin/Desktop/projects/Android/TimeTable/app/src/main/res/layout/activity_main.xml" value="0.35208333333333336" />
+        <entry key="..\:/Users/Sabahattin/Desktop/projects/Android/TimeTable/app/src/main/res/layout/activity_main.xml" value="0.1248339973439575" />
         <entry key="..\:/Users/Sabahattin/Desktop/projects/Android/TimeTable/app/src/main/res/layout/choose_program_dialog.xml" value="0.23958333333333334" />
         <entry key="..\:/Users/Sabahattin/Desktop/projects/Android/TimeTable/app/src/main/res/layout/fragment_add_prog_day_picker_list_item.xml" value="0.33" />
         <entry key="..\:/Users/Sabahattin/Desktop/projects/Android/TimeTable/app/src/main/res/layout/fragment_add_prog_recycler_row_prog.xml" value="0.25" />
@@ -21,6 +21,9 @@
         <entry key="..\:/Users/Sabahattin/Desktop/projects/Android/TimeTable/app/src/main/res/layout/manage_dialog_view.xml" value="0.33" />
       </map>
     </option>
+  </component>
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_prog.xml" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />

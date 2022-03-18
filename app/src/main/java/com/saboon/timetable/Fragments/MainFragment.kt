@@ -16,18 +16,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.saboon.timetable.Adapters.MainRecyclerAdapter
+import com.saboon.timetable.Utils.SharedPref
 import com.saboon.timetable.ViewModels.MainViewModel
 import com.saboon.timetable.databinding.FragmentMainBinding
 
 
 class MainFragment : Fragment() {
-
-
-
-    private val SHARED_PREF_CURRENT_PROG_ID = "progID"
-    private val SHARED_PREF_OLD_PROG_ID = "oldProgID"
-    private lateinit var sharedPref: SharedPreferences
-
 
     private var _binding: FragmentMainBinding?=null
 
@@ -73,6 +67,15 @@ class MainFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //sharedPrefe kaydedilen son program getirilir
+        SharedPref(requireActivity()).getIDFromSharedPref {
+            if (it != "null"){
+                currentProgramID = it
+            }else{
+                val actionToManageProgram = MainFragmentDirections.actionMainFragmentToManageProgramFragment()
+                findNavController().navigate(actionToManageProgram)
+            }
+        }
 
     }
 
@@ -91,23 +94,6 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-
-
-
-        arguments?.let {
-            MainFragmentArgs.fromBundle(it).programID.let {
-                currentProgramID = it
-            }
-        }
-
-        sharedPref.edit()
-            .putString(SHARED_PREF_CURRENT_PROG_ID, currentProgramID)
-            .putString(SHARED_PREF_OLD_PROG_ID, currentProgramID)
-            .apply()
-
-
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.refreshData(currentProgramID)
 
@@ -118,7 +104,6 @@ class MainFragment : Fragment() {
         }
 
         binding.fragmentMainTextViewProgramName.setOnClickListener{
-            sharedPref.edit().putString(SHARED_PREF_CURRENT_PROG_ID, null).apply()
             val actionToManageProgram = MainFragmentDirections.actionMainFragmentToManageProgramFragment()
             it.findNavController().navigate(actionToManageProgram)
         }

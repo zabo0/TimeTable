@@ -1,5 +1,6 @@
 package com.saboon.timetable.Adapters
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.saboon.timetable.Fragments.ManageProgramFragmentDirections
 import com.saboon.timetable.Models.ModelProgram
 import com.saboon.timetable.R
+import com.saboon.timetable.Utils.SharedPref
 import java.text.SimpleDateFormat
 
-class ManageProgRecyclerAdapter(val programList: ArrayList<ModelProgram>):RecyclerView.Adapter<ManageProgRecyclerAdapter.ManageProgViewHolder>() {
+class ManageProgRecyclerAdapter(val programList: ArrayList<ModelProgram>, val activity: Activity):RecyclerView.Adapter<ManageProgRecyclerAdapter.ManageProgViewHolder>() {
 
 
     class ManageProgViewHolder(view: View):RecyclerView.ViewHolder(view) {
@@ -32,7 +34,10 @@ class ManageProgRecyclerAdapter(val programList: ArrayList<ModelProgram>):Recycl
 
 
         holder.itemView.setOnClickListener{
-            val actionToManageProg = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment(programList[position].id)
+            //secilen program shared prefe kaydedilir
+            //boylece main fragment her acildiginda dogrudan son acilan programla devam eder
+            SharedPref(activity).saveIDToSharedPref(programList[position].id)
+            val actionToManageProg = ManageProgramFragmentDirections.actionManageProgramFragmentToMainFragment()
             it.findNavController().navigate(actionToManageProg)
         }
 

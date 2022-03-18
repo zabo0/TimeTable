@@ -102,7 +102,7 @@ class DetailsFragment : Fragment() {
 
 
         binding.fragmentDetailsTextViewLessonDetails.setOnClickListener {
-            val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
+            val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment()
             it.findNavController().navigate(actionToBack)
         }
 
@@ -160,7 +160,7 @@ class DetailsFragment : Fragment() {
 
             if (isNewLesson){
                 viewModel.deleteLesson(lessonID)
-                val actionToMain = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
+                val actionToMain = DetailsFragmentDirections.actionDetailsFragmentToMainFragment()
                 findNavController().navigate(actionToMain)
             }else{
                 val title = resources.getString(R.string.alertDialog_titleDelete)
@@ -170,7 +170,7 @@ class DetailsFragment : Fragment() {
                     if(it){
                         viewModel.deleteLesson(lessonID)
                         Toast.makeText(context,resources.getString(R.string.toast_successful),Toast.LENGTH_LONG).show()
-                        val actionToMain = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
+                        val actionToMain = DetailsFragmentDirections.actionDetailsFragmentToMainFragment()
                         findNavController().navigate(actionToMain)
                     }
                 }
