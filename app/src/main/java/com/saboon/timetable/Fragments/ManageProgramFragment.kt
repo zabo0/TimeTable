@@ -39,6 +39,7 @@ class ManageProgramFragment : Fragment() {
     lateinit var recyclerAdapter: ManageProgRecyclerAdapter
 
 
+    // TODO: burada silme ve duzenleme islemlerini yap selectionTracker kullanarak
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -145,7 +146,7 @@ class ManageProgramFragment : Fragment() {
        with(alertDialogBuilder){
            setTitle("Add Program")
            setPositiveButton("Save"){dialog, which ->
-               val programName = programNameText.text.toString()
+               val programName = programNameText.text.trimEnd().toString()
                val dateAdded = SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().time)
                val dateEdited = SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().time)
                val id = IDGenerator().generateProgramID(programName)

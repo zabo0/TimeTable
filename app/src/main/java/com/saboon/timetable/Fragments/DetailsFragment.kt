@@ -102,8 +102,15 @@ class DetailsFragment : Fragment() {
 
 
         binding.fragmentDetailsTextViewLessonDetails.setOnClickListener {
-            val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment()
-            it.findNavController().navigate(actionToBack)
+
+            if(isEmpty()){
+                viewModel.deleteLesson(createdLesson.id)
+                val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment()
+                it.findNavController().navigate(actionToBack)
+            }else{
+                val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment()
+                it.findNavController().navigate(actionToBack)
+            }
         }
 
         binding.fragmentDetailsTextViewAddProgram.setOnClickListener {
@@ -275,6 +282,16 @@ class DetailsFragment : Fragment() {
         }
 
         alertDialogBuilder.show()
+    }
+
+
+
+    fun isEmpty(): Boolean{
+        if (binding.fragmentDetailsEditTextLessonName.text.toString() == "" || binding.fragmentDetailsEditTextLecturerName.text.toString() == ""){
+            return true
+        }
+
+        return false
     }
 
 
