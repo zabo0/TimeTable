@@ -3,9 +3,14 @@ package com.saboon.timetable.Adapters
 import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.annotation.MenuRes
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.saboon.timetable.Fragments.ManageProgramFragmentDirections
@@ -14,13 +19,18 @@ import com.saboon.timetable.R
 import com.saboon.timetable.Utils.SharedPref
 import java.text.SimpleDateFormat
 
-class ManageProgRecyclerAdapter(val programList: ArrayList<ModelProgram>, val activity: Activity):RecyclerView.Adapter<ManageProgRecyclerAdapter.ManageProgViewHolder>() {
+class ManageProgRecyclerAdapter(
+    val programList: ArrayList<ModelProgram>,
+    val activity: Activity
+    ):RecyclerView.Adapter<ManageProgRecyclerAdapter.ManageProgViewHolder>() {
+
 
 
     class ManageProgViewHolder(view: View):RecyclerView.ViewHolder(view) {
 
         val programName:TextView = view.findViewById(R.id.fragmentAddProg_recyclerRow_progName)
         val dateAdded: TextView = view.findViewById(R.id.fragmentAddProg_recyclerRow_dateAdded)
+        val edit: ImageView = view.findViewById(R.id.fragmentProgManage_recyclerRow_edit)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ManageProgViewHolder {
@@ -41,9 +51,8 @@ class ManageProgRecyclerAdapter(val programList: ArrayList<ModelProgram>, val ac
             it.findNavController().navigate(actionToManageProg)
         }
 
-        holder.itemView.setOnLongClickListener {
-            println("deleted ${programList[position].name}")
-            true
+        holder.edit.setOnClickListener {
+            println("pressed edit: ${position}")
         }
 
 
@@ -52,6 +61,7 @@ class ManageProgRecyclerAdapter(val programList: ArrayList<ModelProgram>, val ac
     override fun getItemCount(): Int {
         return programList.size
     }
+
 
 
 

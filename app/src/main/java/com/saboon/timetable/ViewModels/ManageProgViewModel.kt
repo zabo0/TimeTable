@@ -31,6 +31,13 @@ class ManageProgViewModel(application: Application): BaseViewModel(application) 
         }
     }
 
+    fun deleteProgram(programID : String, response: (Boolean)-> Unit){
+        launch {
+            DatabaseTimeLine(getApplication()).programDAO().deleteProg(programID)
+            response(true)
+        }
+    }
+
 
 
     fun showDataInUI(prog: List<ModelProgram>){

@@ -7,10 +7,13 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.annotation.MenuRes
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -47,6 +50,9 @@ class ManageProgramFragment : Fragment() {
         //requireActivity() methodunu dogru cagirabilmek icin bunu burada initialize ediyorum
         recyclerAdapter = ManageProgRecyclerAdapter(arrayListOf(), requireActivity())
     }
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
