@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.EditProgramFragment">
+
+    <LinearLayout
+        android:id="@+id/fragmentEditProg_linearLayout_appBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?attr/colorSecondary"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/fragmenEditProg_textView_EditProgram"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="?attr/colorOnSecondary"
+                android:drawableLeft="@drawable/ic_baseline_arrow_back_24"
+                android:drawableTint="?attr/colorOnPrimary"
+                android:text="@string/TextView_appBar_addProg"
+                android:textSize="25sp"
+                android:textAlignment="textStart"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/fragmentEditProg_imageView_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorOnSecondary"
+                android:src="@drawable/ic_baseline_delete_24" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragmentEditProg_textField_programName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/editText_progNameHint"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_baseline_menu_book_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragmentEditProg_editText_programName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="?attr/colorSecondaryVariant" />
+
+    </LinearLayout>
+
+</LinearLayout>

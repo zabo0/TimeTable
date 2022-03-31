@@ -13,15 +13,10 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
     val lessonName =MutableLiveData<String?>()
     val lecturerName = MutableLiveData<String?>()
     val programTimes = MutableLiveData<List<ModelTime>?>()
-    val loading = MutableLiveData<Boolean>()
+    //val loading = MutableLiveData<Boolean>()
     val error = MutableLiveData<Boolean>()
     val empty = MutableLiveData<Boolean>()
 
-    fun refreshData(){
-
-
-
-    }
 
     fun getLessonFromSQLite(lessonID: String, response: (ModelLesson)-> Unit ){
         launch {
@@ -31,7 +26,7 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
     }
 
     fun getDataFromSQLite(idLesson:String?){
-        loading.value = true
+        //loading.value = true
         if (idLesson != null){
             launch {
                 val lesson = DatabaseTimeLine(getApplication()).lessonDAO().getLesson(idLesson)
@@ -44,10 +39,22 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
         }
     }
 
+    fun getTimeFromSQLite(lessonID: String){
+        launch {
+            val times = DatabaseTimeLine(getApplication()).timeDAO().getLessonTimes(lessonID)
+        }
+    }
+
     fun storeLessonInDatabase(lesson: ModelLesson){
         launch {
             DatabaseTimeLine(getApplication()).lessonDAO().insertLesson(lesson)
             //showDataInUI(lesson,null)
+        }
+    }
+
+    fun updateLesson(lessonID: String, newLessonName: String?, newLecturerName: String?, newColor: String){
+        launch {
+            DatabaseTimeLine(getApplication()).lessonDAO().updateLesson(lessonID, newLessonName,newLecturerName, newColor)
         }
     }
 
@@ -87,7 +94,7 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
         time?.let {
             if (time.isNotEmpty()){
                 programTimes.value = time
-                loading.value = false
+                //loading.value = false
                 empty.value = false
             }else{
                 empty.value = true

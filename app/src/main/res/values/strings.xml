@@ -71,6 +71,9 @@
     <string name="alertDialog_posButton">Yes</string>
     <string name="alertDialog_negButton">No</string>
     <string name="toast_successful">Successful</string>
+    <string name="textView_appBar_editProg">Edit</string>
+    <string name="TextView_appBar_addProg">Add Program</string>
+    <string name="editText_progNameHint">Program Name</string>
 
 
 </resources>

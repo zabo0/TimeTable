@@ -57,4 +57,7 @@
     <string name="alertDialog_posButton">Evet</string>
     <string name="alertDialog_negButton">Hayır</string>
     <string name="toast_successful">Başarılı</string>
+    <string name="textView_appBar_editProg">Düzenle</string>
+    <string name="TextView_appBar_addProg">Program Ekle</string>
+    <string name="editText_progNameHint">Program Adı</string>
 </resources>

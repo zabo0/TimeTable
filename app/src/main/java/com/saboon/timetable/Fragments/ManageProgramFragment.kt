@@ -42,7 +42,7 @@ class ManageProgramFragment : Fragment() {
     lateinit var recyclerAdapter: ManageProgRecyclerAdapter
 
 
-    // TODO: burada silme ve duzenleme islemlerini yap selectionTracker kullanarak
+    // TODO: yeni bir editprogram diye fragment olustur
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

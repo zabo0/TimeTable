@@ -38,6 +38,10 @@ class DetailsFragment : Fragment() {
     private lateinit var lessonID: String
     private lateinit var belowProgramID : String
 
+
+    private var isEmpty = true
+
+
     lateinit var createdLesson: ModelLesson
 
     //yeni kayit icinmi gelindi yoksa eski kayitmi gosteriliyor diye kotrol icin
@@ -49,12 +53,24 @@ class DetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         //eger geri tusuna basilirsa burasi calisir
-//        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
-//            override fun handleOnBackPressed() {
-//                val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment(belowProgramID)
-//                findNavController().navigate(actionToBack)
-//            }
-//        })
+        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if (binding.fragmentDetailsEditTextLessonName.hasFocus() || binding.fragmentDetailsEditTextLecturerName.hasFocus()){
+                    binding.fragmentDetailsEditTextLessonName.clearFocus()
+                    binding.fragmentDetailsEditTextLecturerName.clearFocus()
+                }else{
+                    if(isEmpty){
+                        viewModel.deleteLesson(createdLesson.id)
+                        val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment()
+                        findNavController().navigate(actionToBack)
+                    }else{
+                        val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment()
+                        findNavController().navigate(actionToBack)
+                    }
+                }
+
+            }
+        })
     }
 
     override fun onCreateView(
@@ -73,7 +89,7 @@ class DetailsFragment : Fragment() {
 
 
         viewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
-        //viewModel.refreshData()
+
 
         arguments?.let {
             if(it != null){
@@ -101,15 +117,30 @@ class DetailsFragment : Fragment() {
 
 
 
-        binding.fragmentDetailsTextViewLessonDetails.setOnClickListener {
+        binding.fragmentDetailsTextViewLessonDetails.setOnClickListener {view->
 
-            if(isEmpty()){
-                viewModel.deleteLesson(createdLesson.id)
-                val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment()
-                it.findNavController().navigate(actionToBack)
+            if(isEmpty){
+                //eger kullanici ders icerisine henuz bir program eklememisse bu ders silinir
+
+                //ders adi veya ogretmen adi texti bos degil ise aler dialog goster
+                if (binding.fragmentDetailsEditTextLessonName.text.toString() != "" || binding.fragmentDetailsEditTextLecturerName.text.toString() != ""){
+                    showAlert("Alert","eger program eklemezseniz ders silinecektir. devam etmek istiyormusunuz"){
+                        if (it){
+                            viewModel.deleteLesson(createdLesson.id)
+                            val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment()
+                            view.findNavController().navigate(actionToBack)
+                        }
+                    }
+                }else{
+                    viewModel.deleteLesson(createdLesson.id)
+                    val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment()
+                    view.findNavController().navigate(actionToBack)
+                }
+
+
             }else{
                 val actionToBack = DetailsFragmentDirections.actionDetailsFragmentToMainFragment()
-                it.findNavController().navigate(actionToBack)
+                view.findNavController().navigate(actionToBack)
             }
         }
 
@@ -125,41 +156,49 @@ class DetailsFragment : Fragment() {
         }
 
 
-        binding.fragmentDetailsEditTextLessonName.setOnFocusChangeListener { view, b ->
 
-            //buranin olayi eger editText focusu kaybettiyse edittexte yazilani kontrol et
-            //eger databasedeki ile ayni degilse yazilan degeri database kaydet
-            //ayni ise hic bir sey yapma
-            if (!b){
-                binding.fragmentDetailsEditTextLessonName.text?.let {
+        with(binding) {
+            fragmentDetailsEditTextLessonName.addTextChangedListener(object : TextWatcher{
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
                     viewModel.getLessonFromSQLite(lessonID){ lesson ->
-                        if (it.toString() != lesson.lessonName && it.toString() != ""){
-                            viewModel.updateLessonName(lesson.id, it.trimEnd().toString())
+                        if (p0.toString() != lesson.lessonName && p0.toString() != ""){
+                            viewModel.updateLessonName(lesson.id, p0.toString().trimEnd())
                             isNewLesson = false
-                            // TODO: burada focus ustundeiken kullanici geriye bastiginda veri henuz databaseye kaydedilemeden main fragmente gidiyor ve orada eski veriyi cekmis oluyor
                         }
                     }
                 }
-            }
+
+            })
+
+            fragmentDetailsEditTextLecturerName.addTextChangedListener(object : TextWatcher{
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    viewModel.getLessonFromSQLite(lessonID){ lesson ->
+                        if (p0.toString() != lesson.lecturerName && p0.toString() != ""){
+                            viewModel.updateLecturerName(lesson.id, p0.toString().trimEnd())
+                            isNewLesson = false
+                        }
+                    }
+                }
+
+            })
         }
 
-        binding.fragmentDetailsEditTextLecturerName.setOnFocusChangeListener { view, b ->
-            //buranin olayi eger editText focusu kaybettiyse edittexte yazilani kontrol et
-            //eger databasedeki ile ayni degilse yazilan degeri database kaydet
-            //ayni ise hic bir sey yapma
-            if (!b){
-                binding.fragmentDetailsEditTextLecturerName.text?.let {
-                    viewModel.getLessonFromSQLite(lessonID){lesson ->
-                        if (it.toString() != lesson.lecturerName && it.toString() != ""){
-                            viewModel.updateLecturerName(lesson.id, it.trimEnd().toString())
-                            isNewLesson = false
-                            // TODO: burada focus ustundeiken kullanici geriye bastiginda veri henuz databaseye kaydedilemeden main fragmente gidiyor ve orada eski veriyi cekmis oluyor
-                        }
-                    }
-                }
-            }
-        }
 
         binding.fragmentDetailsImageViewDelete.setOnClickListener {
 
@@ -182,9 +221,6 @@ class DetailsFragment : Fragment() {
                     }
                 }
             }
-
-
-
         }
 
         observeLiveData()
@@ -222,26 +258,27 @@ class DetailsFragment : Fragment() {
         })
         viewModel.programTimes.observe(viewLifecycleOwner, Observer {
             if (it != null) {
+                isEmpty = false
                 binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.VISIBLE
                 recyclerAdapter.updateList(it)
             }
         })
-        viewModel.loading.observe(viewLifecycleOwner, Observer {
-            if (it){
-                binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
-                binding.detailsLoadingProgressBar.visibility = View.VISIBLE
-                binding.detailsErrorText.visibility = View.GONE
-                binding.detailsEmptyText.visibility = View.GONE
-            }else{
-                binding.detailsLoadingProgressBar.visibility = View.GONE
-            }
-        })
+//        viewModel.loading.observe(viewLifecycleOwner, Observer {
+//            if (it){
+//                binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
+//                //binding.detailsLoadingProgressBar.visibility = View.VISIBLE
+//                binding.detailsErrorText.visibility = View.GONE
+//                binding.detailsEmptyText.visibility = View.GONE
+//            }else{
+//                //binding.detailsLoadingProgressBar.visibility = View.GONE
+//            }
+//        })
 
         viewModel.error.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it){
                     binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
-                    binding.detailsLoadingProgressBar.visibility = View.GONE
+                    //binding.detailsLoadingProgressBar.visibility = View.GONE
                     binding.detailsErrorText.visibility = View.VISIBLE
                     binding.detailsEmptyText.visibility = View.GONE
                 }else{
@@ -254,7 +291,7 @@ class DetailsFragment : Fragment() {
             it?.let {
                 if (it){
                     binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
-                    binding.detailsLoadingProgressBar.visibility = View.GONE
+                    //binding.detailsLoadingProgressBar.visibility = View.GONE
                     binding.detailsErrorText.visibility = View.GONE
                     binding.detailsEmptyText.visibility = View.VISIBLE
                 }else{
@@ -284,15 +321,6 @@ class DetailsFragment : Fragment() {
         alertDialogBuilder.show()
     }
 
-
-
-    fun isEmpty(): Boolean{
-        if (binding.fragmentDetailsEditTextLessonName.text.toString() == "" || binding.fragmentDetailsEditTextLecturerName.text.toString() == ""){
-            return true
-        }
-
-        return false
-    }
 
 
     override fun onDestroyView() {

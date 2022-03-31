@@ -52,6 +52,7 @@ class ManageProgRecyclerAdapter(
         }
 
         holder.edit.setOnClickListener {
+            // TODO: buradan yeni olusturacagin editprogram fragmentine git
             println("pressed edit: ${position}")
         }
 
