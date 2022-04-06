@@ -70,5 +70,22 @@
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true"
             app:popUpToSaveState="true"/>
+        <action
+            android:id="@+id/action_manageProgramFragment_to_editProgramFragment"
+            app:destination="@id/editProgramFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProgramFragment"
+        android:name="com.saboon.timetable.Fragments.EditProgramFragment"
+        android:label="fragment_edit_program"
+        tools:layout="@layout/fragment_edit_program" >
+        <action
+            android:id="@+id/action_editProgramFragment_to_manageProgramFragment"
+            app:destination="@id/manageProgramFragment"
+            app:popUpTo="@id/manageProgramFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="programID"
+            app:argType="string" />
     </fragment>
 </navigation>

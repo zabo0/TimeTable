@@ -52,7 +52,8 @@ class ManageProgRecyclerAdapter(
         }
 
         holder.edit.setOnClickListener {
-            // TODO: buradan yeni olusturacagin editprogram fragmentine git
+            val action = ManageProgramFragmentDirections.actionManageProgramFragmentToEditProgramFragment(programList[position].id)
+            it.findNavController().navigate(action)
             println("pressed edit: ${position}")
         }
 

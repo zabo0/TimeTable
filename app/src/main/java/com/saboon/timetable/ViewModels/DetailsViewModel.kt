@@ -39,22 +39,12 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
         }
     }
 
-    fun getTimeFromSQLite(lessonID: String){
-        launch {
-            val times = DatabaseTimeLine(getApplication()).timeDAO().getLessonTimes(lessonID)
-        }
-    }
+
 
     fun storeLessonInDatabase(lesson: ModelLesson){
         launch {
             DatabaseTimeLine(getApplication()).lessonDAO().insertLesson(lesson)
             //showDataInUI(lesson,null)
-        }
-    }
-
-    fun updateLesson(lessonID: String, newLessonName: String?, newLecturerName: String?, newColor: String){
-        launch {
-            DatabaseTimeLine(getApplication()).lessonDAO().updateLesson(lessonID, newLessonName,newLecturerName, newColor)
         }
     }
 
