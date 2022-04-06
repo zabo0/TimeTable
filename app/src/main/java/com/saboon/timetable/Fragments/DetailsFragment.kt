@@ -237,7 +237,7 @@ class DetailsFragment : Fragment() {
         //kullanici bu fragmentte her ekledigi deger icin databade guncellenir
 
         val id = IDGenerator().generateLessonID()
-        val dateAdded = SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().time)
+        val dateAdded = SimpleDateFormat("dd.MM.yyyy-HH:mm:ss").format(Calendar.getInstance().time)
         val defaultColor = "#C62910"
         val defaultAbsenteeism = "0"
         val belowProgram = belowProgramID
@@ -308,6 +308,7 @@ class DetailsFragment : Fragment() {
         val alertDialogBuilder = AlertDialog.Builder(activity)
 
         val string = requireActivity().resources
+
 
         alertDialogBuilder.setMessage(message)
         alertDialogBuilder.setTitle(title)

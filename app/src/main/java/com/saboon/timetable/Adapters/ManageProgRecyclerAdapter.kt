@@ -40,6 +40,8 @@ class ManageProgRecyclerAdapter(
 
     override fun onBindViewHolder(holder: ManageProgViewHolder, position: Int) {
         holder.programName.text = programList[position].name
+
+        // TODO: burasi icin edit program fragmentteki gibi uygulama yap
         holder.dateAdded.text = programList[position].dateCreated
 
 

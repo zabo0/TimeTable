@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/alertDialogTextViewcurrentString"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="yeni ad"
+        android:layout_margin="20dp"
+        android:textSize="18sp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        android:layout_height="wrap_content"
+        android:hint="yeni ad">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/alertDialogEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+</LinearLayout>

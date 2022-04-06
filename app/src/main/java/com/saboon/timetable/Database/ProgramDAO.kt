@@ -24,4 +24,9 @@ interface ProgramDAO {
     @Query("DELETE FROM ModelProgram WHERE id = :progID")
     suspend fun deleteProg(progID: String)
 
+    @Query("UPDATE ModelProgram SET name = :newName, dateEdited = :dateEdited WHERE id = :progID")
+    suspend fun updateprogramName(progID: String, newName: String, dateEdited: String)
+    // TODO: burada duzenlenme tarihinide kaydet
+
+
 }

@@ -7,6 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.EditProgramFragment">
 
+
     <LinearLayout
         android:id="@+id/fragmentEditProg_linearLayout_appBar"
         android:layout_width="match_parent"
@@ -42,22 +43,22 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <ImageView
-                android:id="@+id/fragmentEditProg_imageView_save"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                app:tint="?attr/colorOnSecondary"
-                android:visibility="gone"
-                android:src="@drawable/ic_baseline_check_24" />
+<!--            <ImageView-->
+<!--                android:id="@+id/fragmentEditProg_imageView_save"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                app:tint="?attr/colorOnSecondary"-->
+<!--                android:visibility="gone"-->
+<!--                android:src="@drawable/ic_baseline_check_24" />-->
 
-            <ImageView
-                android:id="@+id/fragmentEditProg_imageView_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:tint="?attr/colorOnSecondary"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_baseline_edit_24" />
+<!--            <ImageView-->
+<!--                android:id="@+id/fragmentEditProg_imageView_edit"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                app:tint="?attr/colorOnSecondary"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:src="@drawable/ic_baseline_edit_24" />-->
 
             <ImageView
                 android:id="@+id/fragmentEditProg_imageView_delete"
@@ -95,6 +96,15 @@
                 android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <TextView
+            android:id="@+id/textView_dateCreated"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"/>
 
 
         <View

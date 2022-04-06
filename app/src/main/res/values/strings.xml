@@ -74,6 +74,10 @@
     <string name="textView_appBar_editProg">Edit Program</string>
     <string name="TextView_appBar_addProg">Add Program</string>
     <string name="editText_progNameHint">Program Name</string>
+    <string name="alertDialog_saveButton">Save</string>
+    <string name="alertDialog_cancelButton">Cancel</string>
+    <string name="textView_dateAdded">Creation Date</string>
+    <string name="textView_dateEdited">Modified Date</string>
 
 
 </resources>

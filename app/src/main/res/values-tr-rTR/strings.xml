@@ -60,4 +60,8 @@
     <string name="textView_appBar_editProg">Düzenle</string>
     <string name="TextView_appBar_addProg">Program Ekle</string>
     <string name="editText_progNameHint">Program Adı</string>
+    <string name="alertDialog_saveButton">Kaydet</string>
+    <string name="alertDialog_cancelButton">İptal</string>
+    <string name="textView_dateAdded">Oluşturulma Tarihi</string>
+    <string name="textView_dateEdited">Değiştirilme Tarihi</string>
 </resources>
