@@ -41,8 +41,13 @@ class ManageProgRecyclerAdapter(
     override fun onBindViewHolder(holder: ManageProgViewHolder, position: Int) {
         holder.programName.text = programList[position].name
 
-        // TODO: burasi icin edit program fragmentteki gibi uygulama yap
-        holder.dateAdded.text = programList[position].dateCreated
+        //gelen tarih verisi soyle dd.MM.yyyy-HH:mm:ss
+        //sadece tarih kismini almak icin parcalayip dd MMMM yyyy formatina ceviriyoruz
+
+        val dateCreated = SimpleDateFormat("dd MMMM yyyy")
+                .format(SimpleDateFormat("dd.MM.yyyy")
+                .parse(programList[position].dateCreated.split("-")[0]))
+        holder.dateAdded.text = dateCreated
 
 
         holder.itemView.setOnClickListener{

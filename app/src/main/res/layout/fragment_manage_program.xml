@@ -59,9 +59,18 @@
         android:id="@+id/fragmentManageProg_editText_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:layout_margin="10dp"
+        android:background="@drawable/background_search_bar"
         android:drawableLeft="@drawable/ic_baseline_search_24"
         android:hint="@string/textView_search"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:background="?attr/colorSecondaryVariant" />
 
 
 
@@ -102,6 +111,14 @@
 
     <TextView
         android:id="@+id/manage_emptyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/emptyText"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/manage_addNewText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/emptyText"

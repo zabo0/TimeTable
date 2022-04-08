@@ -12,6 +12,7 @@ class ManageProgViewModel(application: Application): BaseViewModel(application) 
     val error = MutableLiveData<Boolean>()
     val loading = MutableLiveData<Boolean>()
     val empty = MutableLiveData<Boolean>()
+    val addNewText = MutableLiveData<Boolean>()
 
     fun storeProgramInDatabase(program: ModelProgram, callback: (Boolean) -> Unit){
         loading.value = true
@@ -31,10 +32,10 @@ class ManageProgViewModel(application: Application): BaseViewModel(application) 
         }
     }
 
-    fun deleteProgram(programID : String, response: (Boolean)-> Unit){
+    fun getAllProgByFilter(filter: String){
         launch {
-            DatabaseTimeLine(getApplication()).programDAO().deleteProg(programID)
-            response(true)
+            val progList = DatabaseTimeLine(getApplication()).programDAO().getAllProgByFilter(filter)
+            showDataInUI(progList)
         }
     }
 
@@ -44,10 +45,12 @@ class ManageProgViewModel(application: Application): BaseViewModel(application) 
         if (prog.size != 0){
             programs.value = prog
             empty.value = false
+            addNewText.value = false
             loading.value = false
             error.value = false
         }else{
             empty.value = true
+            addNewText.value = true
             error.value = false
         }
     }

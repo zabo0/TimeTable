@@ -15,6 +15,9 @@ interface ProgramDAO {
     @Query("SELECT * FROM ModelProgram")
     suspend fun getAllProg(): List<ModelProgram>
 
+    @Query("SELECT * FROM ModelProgram WHERE name LIKE :filter")
+    suspend fun getAllProgByFilter(filter: String): List<ModelProgram>
+
     @Query("SELECT * FROM ModelProgram WHERE id = :progID")
     suspend fun getProg(progID: String): ModelProgram
 
@@ -26,7 +29,6 @@ interface ProgramDAO {
 
     @Query("UPDATE ModelProgram SET name = :newName, dateEdited = :dateEdited WHERE id = :progID")
     suspend fun updateprogramName(progID: String, newName: String, dateEdited: String)
-    // TODO: burada duzenlenme tarihinide kaydet
 
 
 }

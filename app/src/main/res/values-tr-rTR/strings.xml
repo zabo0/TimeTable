@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Ders Programı</string>
+    <string name="app_name">Programlarım</string>
     <string name="hello_blank_fragment">merhaba bos fragment</string>
     <string name="textView_programName">Program Adı</string>
     <string name="textView_LessonName">Ders Adı</string>
@@ -46,9 +46,10 @@
         <item>Ders</item>
         <item>Laboratuvar</item>
         <item>Uygulama</item>
+        <item>Online</item>
     </string-array>
     <string name="main_textView_error">Bir sorun oldu!</string>
-    <string name="emptyText">Program eklemek için + \'ya basın</string>
+    <string name="emptyText">Program yok</string>
     <string name="textView_manageProgram">Programlari Yönet</string>
     <string name="textView_search">Ara</string>
     <string name="dialogEditText_progName">Program Adı</string>
@@ -64,4 +65,5 @@
     <string name="alertDialog_cancelButton">İptal</string>
     <string name="textView_dateAdded">Oluşturulma Tarihi</string>
     <string name="textView_dateEdited">Değiştirilme Tarihi</string>
+    <string name="addNewText">Program eklemek için + \'ya basın</string>
 </resources>

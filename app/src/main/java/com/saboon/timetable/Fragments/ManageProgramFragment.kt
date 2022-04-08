@@ -1,23 +1,17 @@
 package com.saboon.timetable.Fragments
 
 import android.app.AlertDialog
-import android.content.Context
-import android.content.DialogInterface
-import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.PopupMenu
-import android.widget.Toast
-import androidx.annotation.MenuRes
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.saboon.timetable.Adapters.ManageProgRecyclerAdapter
@@ -42,7 +36,7 @@ class ManageProgramFragment : Fragment() {
     lateinit var recyclerAdapter: ManageProgRecyclerAdapter
 
 
-    // TODO: yeni bir editprogram diye fragment olustur
+    // TODO: search bari bitir
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +78,28 @@ class ManageProgramFragment : Fragment() {
             it.findNavController().navigate(actionToBack)
         }
 
+        binding.fragmentManageProgEditTextSearch.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+                if (p0.toString() != ""){
+                    val search = "%${p0.toString()}%"
+                    viewModel.getAllProgByFilter(search)
+                }else{
+                    viewModel.getAllProgramsFromDatabase()
+                }
+
+            }
+
+        })
+
 
         observeData()
     }
@@ -112,7 +128,7 @@ class ManageProgramFragment : Fragment() {
                 }
             }
         })
-        viewModel.empty.observe(viewLifecycleOwner, Observer {
+        viewModel.addNewText.observe(viewLifecycleOwner,Observer {
             it?.let {
                 if(it){
                     binding.fragmentManageProgRecyclerView.visibility = View.GONE
@@ -171,6 +187,7 @@ class ManageProgramFragment : Fragment() {
            show()
        }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

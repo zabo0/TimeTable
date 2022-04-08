@@ -49,7 +49,6 @@ class EditProgramFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO: viewde olusturulma tarihi gibi bilgileri goster
 
         viewModel = ViewModelProvider(this).get(EditProgViewModel::class.java)
 
@@ -111,7 +110,7 @@ class EditProgramFragment : Fragment(){
 
                 val dateCreated = SimpleDateFormat("dd MMMM yyyy").format(SimpleDateFormat("dd.MM.yyyy").parse(it.dateEdited.split("-")[0]))
 
-                binding.textViewDateCreated.setText("${resources.getText(R.string.textView_dateAdded)}: ${dateCreated}")
+                binding.textViewDateCreated.setText("${resources.getText(R.string.textView_dateEdited)}: ${dateCreated}")
             }
         })
     }

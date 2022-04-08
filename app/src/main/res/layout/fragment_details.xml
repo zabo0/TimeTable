@@ -207,7 +207,7 @@
             android:id="@+id/details_emptyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/emptyText"
+            android:text="@string/addNewText"
             android:layout_marginTop="100dp"
             android:layout_gravity="center"/>
 

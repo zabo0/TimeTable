@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Time Table</string>
+    <string name="app_name">My Programs</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
@@ -60,9 +60,11 @@
         <item>Lesson</item>
         <item>Laboratory</item>
         <item>Practice</item>
+        <item>Online</item>
     </string-array>
     <string name="main_textView_error">There is something wrong!</string>
-    <string name="emptyText">To add a program click +</string>
+    <string name="emptyText">There is no Program</string>
+    <string name="addNewText">To add a program click +</string>
     <string name="textView_manageProgram">Manage Programs</string>
     <string name="textView_search">Search</string>
     <string name="dialogEditText_progName">Program Name</string>
