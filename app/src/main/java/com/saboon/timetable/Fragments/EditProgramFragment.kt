@@ -118,6 +118,9 @@ class EditProgramFragment : Fragment(){
 
     fun showChangeValueAlert(title: String, message: String, currentString: String, response: (String) -> Unit){
 
+        // bu fonksiyonun olayi kullanici edit texte bastiginda acilir ve kullanicinin yeni veri girmesini ister
+        //dogrudan edit textten duzenlemek yerine alert dialog acilir ve oradan duzenleme istenir
+
         val alertDialogBuilder = AlertDialog.Builder(activity)
 
         val string = requireActivity().resources
@@ -139,7 +142,7 @@ class EditProgramFragment : Fragment(){
         textView.setText(currentString)
         alertDialogBuilder.setPositiveButton(string.getString(R.string.alertDialog_saveButton)) { dialog, id ->
             //eger kullanici kaydete basarsa edit texte yazdigi stringle birlikte true gonder
-            response(editText.text.toString())
+            response(editText.text.toString().trimEnd())
         }
         alertDialogBuilder.setNegativeButton(string.getString(R.string.alertDialog_cancelButton)){ dialog, id ->
             response("null")

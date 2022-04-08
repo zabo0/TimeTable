@@ -36,7 +36,6 @@ class ManageProgramFragment : Fragment() {
     lateinit var recyclerAdapter: ManageProgRecyclerAdapter
 
 
-    // TODO: search bari bitir
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
@@ -155,49 +157,68 @@ class DetailsFragment : Fragment() {
 
         }
 
-
-
-        with(binding) {
-            fragmentDetailsEditTextLessonName.addTextChangedListener(object : TextWatcher{
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
+        binding.fragmentDetailsEditTextLessonName.setOnClickListener {
+            val currentLessonName = binding.fragmentDetailsEditTextLessonName.text.toString()
+            showChangeValueAlert("Edit","Change Lesson Name", currentLessonName){newLessonName->
+                if (newLessonName != "null"){
+                    binding.fragmentDetailsEditTextLessonName.setText(newLessonName)
+                    viewModel.updateLessonName(lessonID, newLessonName)
                 }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    viewModel.getLessonFromSQLite(lessonID){ lesson ->
-                        if (p0.toString() != lesson.lessonName && p0.toString() != ""){
-                            viewModel.updateLessonName(lesson.id, p0.toString().trimEnd())
-                            isNewLesson = false
-                        }
-                    }
-                }
-
-            })
-
-            fragmentDetailsEditTextLecturerName.addTextChangedListener(object : TextWatcher{
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    viewModel.getLessonFromSQLite(lessonID){ lesson ->
-                        if (p0.toString() != lesson.lecturerName && p0.toString() != ""){
-                            viewModel.updateLecturerName(lesson.id, p0.toString().trimEnd())
-                            isNewLesson = false
-                        }
-                    }
-                }
-
-            })
+            }
         }
+
+        binding.fragmentDetailsEditTextLecturerName.setOnClickListener {
+            val currentLecturerName = binding.fragmentDetailsEditTextLecturerName.text.toString()
+            showChangeValueAlert("edit", "change Lecturer Name", currentLecturerName){newLecturerName->
+                if(newLecturerName != "null"){
+                    binding.fragmentDetailsEditTextLecturerName.setText(newLecturerName)
+                    viewModel.updateLecturerName(lessonID, newLecturerName)
+                }
+            }
+        }
+
+
+//        with(binding) {
+//            fragmentDetailsEditTextLessonName.addTextChangedListener(object : TextWatcher{
+//                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//
+//                }
+//
+//                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//
+//                }
+//
+//                override fun afterTextChanged(p0: Editable?) {
+//                    viewModel.getLessonFromSQLite(lessonID){ lesson ->
+//                        if (p0.toString() != lesson.lessonName && p0.toString() != ""){
+//                            viewModel.updateLessonName(lesson.id, p0.toString().trimEnd())
+//                            isNewLesson = false
+//                        }
+//                    }
+//                }
+//
+//            })
+//
+//            fragmentDetailsEditTextLecturerName.addTextChangedListener(object : TextWatcher{
+//                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//
+//                }
+//
+//                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//
+//                }
+//
+//                override fun afterTextChanged(p0: Editable?) {
+//                    viewModel.getLessonFromSQLite(lessonID){ lesson ->
+//                        if (p0.toString() != lesson.lecturerName && p0.toString() != ""){
+//                            viewModel.updateLecturerName(lesson.id, p0.toString().trimEnd())
+//                            isNewLesson = false
+//                        }
+//                    }
+//                }
+//
+//            })
+//        }
 
 
         binding.fragmentDetailsImageViewDelete.setOnClickListener {
@@ -317,6 +338,41 @@ class DetailsFragment : Fragment() {
         }
         alertDialogBuilder.setNegativeButton(string.getString(R.string.alertDialog_negButton)){dialog, id ->
             response(false)
+        }
+
+        alertDialogBuilder.show()
+    }
+
+    fun showChangeValueAlert(title: String, message: String, currentString: String, response: (String) -> Unit){
+
+        // bu fonksiyonun olayi kullanici edit texte bastiginda acilir ve kullanicinin yeni veri girmesini ister
+        //dogrudan edit textten duzenlemek yerine alert dialog acilir ve oradan duzenleme istenir
+
+        val alertDialogBuilder = AlertDialog.Builder(activity)
+
+        val string = requireActivity().resources
+        val inflater = requireActivity().layoutInflater
+
+        //custom viewi getir
+        val view = inflater.inflate(R.layout.edit_text_dialog_layout, null)
+
+
+        alertDialogBuilder.setMessage(message)
+        alertDialogBuilder.setTitle(title)
+        //custom viewi set et
+        alertDialogBuilder.setView(view)
+
+        //custom viewdeki gorunumleri tanimla
+        val editText: EditText =  view.findViewById(R.id.alertDialogEditText)
+        val textView: TextView = view.findViewById(R.id.alertDialogTextViewcurrentString)
+
+        textView.setText(currentString)
+        alertDialogBuilder.setPositiveButton(string.getString(R.string.alertDialog_saveButton)) { dialog, id ->
+            //eger kullanici kaydete basarsa edit texte yazdigi stringle birlikte true gonder
+            response(editText.text.toString().trimEnd())
+        }
+        alertDialogBuilder.setNegativeButton(string.getString(R.string.alertDialog_cancelButton)){ dialog, id ->
+            response("null")
         }
 
         alertDialogBuilder.show()
