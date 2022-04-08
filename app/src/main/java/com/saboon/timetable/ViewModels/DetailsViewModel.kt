@@ -13,7 +13,7 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
     val lessonName =MutableLiveData<String?>()
     val lecturerName = MutableLiveData<String?>()
     val programTimes = MutableLiveData<List<ModelTime>?>()
-    //val loading = MutableLiveData<Boolean>()
+    val loading = MutableLiveData<Boolean>()
     val error = MutableLiveData<Boolean>()
     val empty = MutableLiveData<Boolean>()
 
@@ -26,7 +26,7 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
     }
 
     fun getDataFromSQLite(idLesson:String?){
-        //loading.value = true
+        loading.value = true
         if (idLesson != null){
             launch {
                 val lesson = DatabaseTimeLine(getApplication()).lessonDAO().getLesson(idLesson)
@@ -84,7 +84,7 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
         time?.let {
             if (time.isNotEmpty()){
                 programTimes.value = time
-                //loading.value = false
+                loading.value = false
                 empty.value = false
             }else{
                 empty.value = true
