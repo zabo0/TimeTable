@@ -1,9 +1,10 @@
 package com.saboon.timetable.Fragments
 
-import android.app.AlertDialog
+import android.app.*
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.text.format.DateFormat.is24HourFormat
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,12 +18,15 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
-import com.saboon.timetable.Models.ModelLesson
 import com.saboon.timetable.Models.ModelTime
+import com.saboon.timetable.Notifications.messageExtra
+import com.saboon.timetable.Notifications.notificationID
+import com.saboon.timetable.Notifications.titleExtra
 import com.saboon.timetable.R
 import com.saboon.timetable.Utils.IDGenerator
 import com.saboon.timetable.ViewModels.AddTimeViewModel
 import com.saboon.timetable.databinding.FragmentAddTimeBinding
+import java.util.*
 
 
 class AddTimeFragment : Fragment() {
@@ -76,6 +80,7 @@ class AddTimeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        createNotificationChannel()
 
         viewModel = ViewModelProvider(this).get(AddTimeViewModel::class.java)
 
@@ -185,6 +190,13 @@ class AddTimeFragment : Fragment() {
 
                 viewModel.storeTimeInDatabase(lessonTimeProg)
 
+                // TODO: notification calismiyor
+                //////////////////
+                val time = getStartTime(reminder,timeStart,timeFinish)
+                sheduleNotification(time)
+                //////////////////
+
+
                 val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
                 it.findNavController().navigate(actionToBack)
             }else{
@@ -218,6 +230,7 @@ class AddTimeFragment : Fragment() {
 
 
     }
+
 
 
 
@@ -351,5 +364,54 @@ class AddTimeFragment : Fragment() {
             response(true)
         }
     }
+
+
+    // TODO: notification bitir
+    //https://www.youtube.com/watch?v=_Z2S63O-1HE
+    //https://www.youtube.com/watch?v=nl-dheVpt8o
+    //notification ile ilgili videolar
+
+    fun sheduleNotification(time: Long){
+        val intent = Intent(context, Notification::class.java)
+        val title = "fragmentteki title"
+        val message = "fragmentteki message"
+        intent.putExtra(titleExtra, title)
+        intent.putExtra(messageExtra, message)
+
+        val pendingIntent = PendingIntent.getBroadcast(context, notificationID,intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,time,1000 * 60 * 60 * 24,pendingIntent)
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time,pendingIntent)
+    }
+
+
+    fun createNotificationChannel(){
+        //bu fonksiyon ileride bildirim vermek uzere notification build eder
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val name = "TimeTableReminderChannel"
+            val description = "Cahnnel for time table reminder"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel("notifyTimeTable", name, importance)
+            channel.description = description
+
+            val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun getStartTime(reminder: String, timeStart: String, timeFinish: String): Long {
+        val minute = timeStart.split(":")[1].toInt()
+        val hour = timeStart.split(":")[0].toInt()
+
+        val calendar = Calendar.getInstance()
+        calendar.set(2022,4,8,hour,minute)
+
+        return calendar.timeInMillis
+    }
+
+
+
 
 }
