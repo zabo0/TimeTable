@@ -1,6 +1,7 @@
 package com.saboon.timetable.Fragments
 
 import android.app.AlertDialog
+import android.opengl.Visibility
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -93,7 +94,11 @@ class DetailsFragment : Fragment() {
                     viewModel.getDataFromSQLite(it)
                 }?: run{
                     //eger yeni bir ders ekleniyorsa burayi calistir
-                    createNewLesson()
+                    //createNewLesson()
+                    binding.fragmentDetailsImageViewDelete.visibility = View.GONE
+                    binding.fragmentDetailsImageViewAddNewLesson.visibility = View.VISIBLE
+                    binding.fragmentDetailsImageVieCancelAddNewLesson.visibility = View.VISIBLE
+                    binding.fragmentDetailsTextViewAddProgram.visibility = View.GONE
                 }
 
 
@@ -127,7 +132,8 @@ class DetailsFragment : Fragment() {
             showChangeValueAlert("Edit","Change Lesson Name", currentLessonName){newLessonName->
                 if (newLessonName != "null"){
                     binding.fragmentDetailsEditTextLessonName.setText(newLessonName)
-                    viewModel.updateLessonName(lessonID, newLessonName)
+                    binding.fragmentDetailsTextFieldLessonName.isErrorEnabled = false
+                    //viewModel.updateLessonName(lessonID, newLessonName)
                 }
             }
         }
@@ -137,9 +143,42 @@ class DetailsFragment : Fragment() {
             showChangeValueAlert("edit", "change Lecturer Name", currentLecturerName){newLecturerName->
                 if(newLecturerName != "null"){
                     binding.fragmentDetailsEditTextLecturerName.setText(newLecturerName)
-                    viewModel.updateLecturerName(lessonID, newLecturerName)
+                    //viewModel.updateLecturerName(lessonID, newLecturerName)
                 }
             }
+        }
+
+        binding.fragmentDetailsImageViewAddNewLesson.setOnClickListener {
+
+            val lessonName = binding.fragmentDetailsEditTextLessonName.text.toString()
+
+            if (lessonName != ""){
+                val dateAdded = SimpleDateFormat("dd.MM.yyyy-HH:mm:ss").format(Calendar.getInstance().time)
+                val lecturerName = binding.fragmentDetailsEditTextLecturerName.text.toString()
+                val defaultColor = "#C62910"
+                val defaultAbsenteeism = "0"
+                val belowProgram = belowProgramID
+
+                val programName = belowProgramID.split("_")[0]
+                val id = IDGenerator().generateLessonID(programName, lessonName)
+
+                createdLesson = ModelLesson(id,dateAdded,lessonName,lecturerName,defaultColor,defaultAbsenteeism,belowProgram)
+                lessonID = createdLesson.id
+
+                viewModel.storeLessonInDatabase(createdLesson)
+
+
+                binding.fragmentDetailsImageViewDelete.visibility = View.VISIBLE
+                binding.fragmentDetailsImageViewAddNewLesson.visibility = View.GONE
+                binding.fragmentDetailsImageVieCancelAddNewLesson.visibility = View.GONE
+                binding.fragmentDetailsTextViewAddProgram.visibility = View.VISIBLE
+
+            }else{
+                binding.fragmentDetailsTextFieldLessonName.isErrorEnabled = true
+                binding.fragmentDetailsTextFieldLessonName.error = "ders adi bos birakilamaz"
+            }
+
+
         }
 
 
@@ -168,24 +207,25 @@ class DetailsFragment : Fragment() {
     }
 
 
-    fun createNewLesson(){
-
-        //bu fonksiyonun amaci sudur:
-        //kullanici ana sayfadan buraya yeni bir ders eklemek icin geliyorsa bu fragment acildiginda direkt yeni bir ders olusturulur
-        //ancak bu olusturulan dersin nullable fieldlari database e sonradan degistirilmek uzere null olarak kaydedilir
-        //kullanici bu fragmentte her ekledigi deger icin databade guncellenir
-
-        val id = IDGenerator().generateLessonID()
-        val dateAdded = SimpleDateFormat("dd.MM.yyyy-HH:mm:ss").format(Calendar.getInstance().time)
-        val defaultColor = "#C62910"
-        val defaultAbsenteeism = "0"
-        val belowProgram = belowProgramID
-
-        createdLesson = ModelLesson(id,dateAdded,null,null,defaultColor,defaultAbsenteeism,belowProgram)
-        lessonID = createdLesson.id
-
-        viewModel.storeLessonInDatabase(createdLesson)
-    }
+//    fun createNewLesson(){
+//
+//        //bu fonksiyonun amaci sudur:
+//        //kullanici ana sayfadan buraya yeni bir ders eklemek icin geliyorsa bu fragment acildiginda direkt yeni bir ders olusturulur
+//        //ancak bu olusturulan dersin nullable fieldlari database e sonradan degistirilmek uzere null olarak kaydedilir
+//        //kullanici bu fragmentte her ekledigi deger icin databade guncellenir
+//
+//        val programName = belowProgramID.split("_")[0]
+//        val id = IDGenerator().generateLessonID(programName, "jghfjf")
+//        val dateAdded = SimpleDateFormat("dd.MM.yyyy-HH:mm:ss").format(Calendar.getInstance().time)
+//        val defaultColor = "#C62910"
+//        val defaultAbsenteeism = "0"
+//        val belowProgram = belowProgramID
+//
+//        createdLesson = ModelLesson(id,dateAdded,null,null,defaultColor,defaultAbsenteeism,belowProgram)
+//        lessonID = createdLesson.id
+//
+//        viewModel.storeLessonInDatabase(createdLesson)
+//    }
 
 
     fun observeLiveData(){
@@ -205,11 +245,11 @@ class DetailsFragment : Fragment() {
         viewModel.loading.observe(viewLifecycleOwner, Observer {
             if (it){
                 binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
-                //binding.detailsLoadingProgressBar.visibility = View.VISIBLE
+                binding.detailsLoadingProgressBar.visibility = View.VISIBLE
                 binding.detailsErrorText.visibility = View.GONE
                 binding.detailsEmptyText.visibility = View.GONE
             }else{
-                //binding.detailsLoadingProgressBar.visibility = View.GONE
+                binding.detailsLoadingProgressBar.visibility = View.GONE
             }
         })
 
@@ -217,7 +257,7 @@ class DetailsFragment : Fragment() {
             it?.let {
                 if (it){
                     binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
-                    //binding.detailsLoadingProgressBar.visibility = View.GONE
+                    binding.detailsLoadingProgressBar.visibility = View.GONE
                     binding.detailsErrorText.visibility = View.VISIBLE
                     binding.detailsEmptyText.visibility = View.GONE
                 }else{
@@ -230,7 +270,7 @@ class DetailsFragment : Fragment() {
             it?.let {
                 if (it){
                     binding.fragmentDetailsRecyclerViewProgramRecycler.visibility = View.GONE
-                    //binding.detailsLoadingProgressBar.visibility = View.GONE
+                    binding.detailsLoadingProgressBar.visibility = View.GONE
                     binding.detailsErrorText.visibility = View.GONE
                     binding.detailsEmptyText.visibility = View.VISIBLE
                 }else{

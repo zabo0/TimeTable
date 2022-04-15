@@ -51,6 +51,22 @@
                 android:layout_height="match_parent"
                 app:tint="?attr/colorOnSecondary"
                 android:src="@drawable/ic_baseline_delete_24" />
+            <ImageView
+                android:id="@+id/fragmentDetails_imageView_addNewLesson"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:layout_marginRight="15dp"
+                app:tint="?attr/colorOnSecondary"
+                android:src="@drawable/ic_baseline_check_24" />
+            <ImageView
+                android:id="@+id/fragmentDetails_imageVie_cancelAddNewLesson"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:visibility="gone"
+                app:tint="?attr/colorOnSecondary"
+                android:src="@drawable/ic_baseline_clear_24" />
 
         </LinearLayout>
 

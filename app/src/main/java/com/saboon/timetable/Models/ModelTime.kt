@@ -28,6 +28,9 @@ data class ModelTime(
     @ColumnInfo(name ="reminder")
     val reminderTime: String?,
 
+    @ColumnInfo(name = "notificationID")
+    val notificationID: Int?,
+
     @ColumnInfo(name = "belowLesson")
     val belowLesson: String,
 

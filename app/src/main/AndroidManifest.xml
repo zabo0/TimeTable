@@ -24,7 +24,7 @@
 
         <receiver
             android:name=".Notifications.ReminderBroadcast"
-            android:enabled="true"/>
+            android:enabled="true" />
 
     </application>
 

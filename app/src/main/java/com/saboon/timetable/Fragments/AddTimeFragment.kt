@@ -19,9 +19,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.saboon.timetable.Models.ModelTime
-import com.saboon.timetable.Notifications.messageExtra
-import com.saboon.timetable.Notifications.notificationID
-import com.saboon.timetable.Notifications.titleExtra
+import com.saboon.timetable.Notifications.ReminderBroadcast
 import com.saboon.timetable.R
 import com.saboon.timetable.Utils.IDGenerator
 import com.saboon.timetable.ViewModels.AddTimeViewModel
@@ -46,6 +44,9 @@ class AddTimeFragment : Fragment() {
 
 
     private var isNewTime = true
+
+
+    private lateinit var calendarStartTime: Calendar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,7 +136,16 @@ class AddTimeFragment : Fragment() {
                 val hour = picker.hour
                 val min = picker.minute
                 val timeText = String.format("%02d:%02d", hour, min)
-                //val timeText = SimpleDateFormat("hh:mm").format("${hour}:${min}")
+
+                //burasi notification icin
+                val day_of_week = requireActivity().resources.getStringArray(R.array.Days).indexOf(binding.autoCompleteTextView.text.toString()) + 2
+                calendarStartTime = Calendar.getInstance()//calendar da default olarak pazar gunu birinci gundur
+                calendarStartTime.set(Calendar.DAY_OF_WEEK, day_of_week)
+                calendarStartTime.set(Calendar.HOUR_OF_DAY,hour)
+                calendarStartTime.set(Calendar.MINUTE,min)
+                calendarStartTime.set(Calendar.SECOND,0)
+                calendarStartTime.set(Calendar.MILLISECOND, 0)
+                //////////////////////////
                 binding.fragmentAddProgEditTextStartTimePicker.editText?.setText(timeText)
             }
 
@@ -175,25 +185,34 @@ class AddTimeFragment : Fragment() {
         binding.fragmentAddProgButtonSave.setOnClickListener{
 
             if (isNewTime){
-                val id = IDGenerator().generateTimeID()
+
+                val programName = belowProgramID.split("_")[0]//id icin
+                val lessonName = belowLessonID.split("_")[1]//id icin
+                val dayString = binding.autoCompleteTextView.text//id icin
+
                 //burada "day" databaseden cekerken gunleri oncelik sirasina gore cekebilmesi icin gunlerin karsilik geldigi sayiyi database e kaydediyor
                 //eger duz "pazartesi" olarak kaydediliyor olsaydi "carsamba" daha once cekiliyor olacakti(alfabede daha onde)
                 //ancak "pazartesi" string klasorundeki array da indexi "0" carsamba ise "2" boylece "pazartesi"nin onceligi daha fazla oluyor
-                val day = requireActivity().resources.getStringArray(R.array.Days).indexOf(binding.autoCompleteTextView.text.toString()).toString()
+                val dayInt = requireActivity().resources.getStringArray(R.array.Days).indexOf(binding.autoCompleteTextView.text.toString()).toString()
+
                 val classRoom = binding.fragmentAddProgEditTextClassroom.text?.trimEnd().toString()
                 val timeStart = binding.editTextStartTimePicker.text.toString()
                 val timeFinish = binding.editTextFinishTimePicker.text.toString()
                 val type = binding.autoCompleteTextViewTypeLesson.text?.trimEnd().toString()
                 val reminder = binding.autoCompleteTextViewReminderPicker.text.toString()
 
-                val lessonTimeProg = ModelTime(id,day,timeStart,timeFinish,type,classRoom,reminder,belowLessonID, belowProgramID)
+                val day_timeStart = "${dayString}_${timeStart}"//id icin
+                val id = IDGenerator().generateTimeID(programName,lessonName,day_timeStart)
+                val notificationID = IDGenerator().generateNotificationID(id)
+
+                val lessonTimeProg = ModelTime(id,dayInt,timeStart,timeFinish,type,classRoom,reminder,notificationID,belowLessonID, belowProgramID)
 
                 viewModel.storeTimeInDatabase(lessonTimeProg)
 
                 // TODO: notification calismiyor
                 //////////////////
-                val time = getStartTime(reminder,timeStart,timeFinish)
-                sheduleNotification(time)
+                //val time = getStartTime(reminder,timeStart,timeFinish)
+                sheduleNotification(notificationID, lessonName, "${dayString} ders baslamak uzere")
                 //////////////////
 
 
@@ -207,9 +226,6 @@ class AddTimeFragment : Fragment() {
                     }
                 }
             }
-
-
-
         }
 
         binding.fragmentAddProgButtonCancel.setOnClickListener {
@@ -337,6 +353,7 @@ class AddTimeFragment : Fragment() {
                                 newTypeOfLesson,
                                 newClasroom,
                                 newReminder,
+                                it.notificationID,
                                 it.belowLesson,
                                 it.belowProgram
                             )
@@ -367,50 +384,64 @@ class AddTimeFragment : Fragment() {
 
 
     // TODO: notification bitir
-    //https://www.youtube.com/watch?v=_Z2S63O-1HE
-    //https://www.youtube.com/watch?v=nl-dheVpt8o
-    //notification ile ilgili videolar
+    /**
+     * https://www.youtube.com/watch?v=_Z2S63O-1HE
+     * https://www.youtube.com/watch?v=nl-dheVpt8o
+     * notification ile ilgili videolar
+     *
+     * https://riptutorial.com/android/example/11495/scheduling-notifications
+     * https://martian.ventures/mantra/insights/schedule-local-notifications-on-android/
+     * notification ile ilgili siteler
+     */
 
-    fun sheduleNotification(time: Long){
-        val intent = Intent(context, Notification::class.java)
-        val title = "fragmentteki title"
-        val message = "fragmentteki message"
-        intent.putExtra(titleExtra, title)
-        intent.putExtra(messageExtra, message)
+    fun sheduleNotification(notificationID: Int, lessonName: String, message: String){
+
+        val titleExtra = lessonName
+        val messageExtra = message
+
+        val intent = Intent(context, ReminderBroadcast::class.java)
+        intent.putExtra("TitleExtra",titleExtra)
+        intent.putExtra("MessageExtra", messageExtra)
+        intent.putExtra("notificationID", notificationID)
+
 
         val pendingIntent = PendingIntent.getBroadcast(context, notificationID,intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,time,1000 * 60 * 60 * 24,pendingIntent)
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time,pendingIntent)
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendarStartTime.timeInMillis,1000*60*60*24*7, pendingIntent)
+    }
+
+    fun cancelNotification(notificationID: Int, lessonName: String, message: String){
+        // TODO: gerekli yerlerde burayi cagir
+        val intent = Intent(context, ReminderBroadcast::class.java)
+//        intent.putExtra("TitleExtra",titleExtra)
+//        intent.putExtra("MessageExtra", messageExtra)
+//        intent.putExtra("notificationID", notificationID)
+
+
+        val pendingIntent = PendingIntent.getBroadcast(context, notificationID,intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
     }
 
 
     fun createNotificationChannel(){
-        //bu fonksiyon ileride bildirim vermek uzere notification build eder
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            val name = "TimeTableReminderChannel"
-            val description = "Cahnnel for time table reminder"
+            val name = "Ders Hatirlatma"
+            val descriptionText = "Cahnel for time table reminder test"
             val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel("notifyTimeTable", name, importance)
-            channel.description = description
+            val channel = NotificationChannel("HaftalikDersProgrami", name, importance).apply {
+                description = descriptionText
+                enableVibration(true)
+            }
 
-            val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            val notificationManager:NotificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             notificationManager.createNotificationChannel(channel)
         }
     }
-
-    private fun getStartTime(reminder: String, timeStart: String, timeFinish: String): Long {
-        val minute = timeStart.split(":")[1].toInt()
-        val hour = timeStart.split(":")[0].toInt()
-
-        val calendar = Calendar.getInstance()
-        calendar.set(2022,4,8,hour,minute)
-
-        return calendar.timeInMillis
-    }
-
 
 
 
