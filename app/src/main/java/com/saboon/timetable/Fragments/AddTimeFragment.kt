@@ -408,11 +408,12 @@ class AddTimeFragment : Fragment() {
         val pendingIntent = PendingIntent.getBroadcast(context, notificationID,intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendarStartTime.timeInMillis,1000*60*60*24*7, pendingIntent)
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendarStartTime.timeInMillis,1000*60*10, pendingIntent)
     }
 
     fun cancelNotification(notificationID: Int, lessonName: String, message: String){
         // TODO: gerekli yerlerde burayi cagir
+        //burasi bildirimleri iptal etmek icin
         val intent = Intent(context, ReminderBroadcast::class.java)
 //        intent.putExtra("TitleExtra",titleExtra)
 //        intent.putExtra("MessageExtra", messageExtra)
@@ -433,7 +434,6 @@ class AddTimeFragment : Fragment() {
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel("HaftalikDersProgrami", name, importance).apply {
                 description = descriptionText
-                enableVibration(true)
             }
 
 

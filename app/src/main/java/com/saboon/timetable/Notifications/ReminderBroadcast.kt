@@ -39,7 +39,7 @@ class ReminderBroadcast : BroadcastReceiver() {
             .setSmallIcon(R.drawable.ic_baseline_add_circle_outline_24)
             .setContentTitle(titleExtra)
             .setContentText(messageExtra)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 
 
