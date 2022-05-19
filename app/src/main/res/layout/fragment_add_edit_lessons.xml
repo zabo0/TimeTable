@@ -26,7 +26,7 @@
                 android:layout_height="match_parent"
                 android:textColor="?attr/colorOnSecondary"
                 android:drawableLeft="@drawable/ic_baseline_arrow_back_24"
-                android:drawableTint="?attr/colorOnPrimary"
+                app:drawableTint="?attr/colorOnPrimary"
                 android:text="Add New Lesson"
                 android:textSize="25sp"
                 android:textAlignment="textStart"/>
@@ -42,28 +42,12 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <ImageView
-                android:id="@+id/fragmentAddLesson_imageView_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:tint="?attr/colorOnSecondary"
-                android:src="@drawable/ic_baseline_delete_24" />
-            <ImageView
-                android:id="@+id/fragmentAddLesson_imageView_addNewLesson"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                android:layout_marginRight="15dp"
-                app:tint="?attr/colorOnSecondary"
-                android:src="@drawable/ic_baseline_check_24" />
-            <ImageView
-                android:id="@+id/fragmentAddLesson_imageVie_cancelAddNewLesson"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="15dp"
-                android:visibility="gone"
-                app:tint="?attr/colorOnSecondary"
-                android:src="@drawable/ic_baseline_clear_24" />
+<!--            <ImageView-->
+<!--                android:id="@+id/fragmentAddLesson_imageView_delete"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                app:tint="?attr/colorOnSecondary"-->
+<!--                android:src="@drawable/ic_baseline_delete_24" />-->
 
         </LinearLayout>
 
@@ -88,8 +72,6 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fragmentAddLesson_editText_lessonName"
                 android:layout_width="match_parent"
-                android:inputType="none"
-                android:focusable="false"
                 android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -108,8 +90,6 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fragmentAddLesson_editText_lecturerName"
                 android:layout_width="match_parent"
-                android:inputType="none"
-                android:focusable="false"
                 android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -238,7 +218,6 @@
 
 
     <LinearLayout
-        android:id="@+id/fragmentAddProg_linearLayout_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
@@ -247,7 +226,7 @@
         android:visibility="visible">
 
         <Button
-            android:id="@+id/fragmentAddProg_button_cancel"
+            android:id="@+id/fragmentAddLesson_button_cancel"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -259,7 +238,7 @@
             app:strokeColor="?attr/colorSecondaryVariant" />
 
         <Button
-            android:id="@+id/fragmentAddProg_button_save"
+            android:id="@+id/fragmentAddLesson_button_save"
             android:layout_width="0dp"
             style="?attr/materialButtonStyle"
             android:layout_height="match_parent"
