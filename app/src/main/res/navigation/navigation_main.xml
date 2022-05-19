@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_mainFragment_to_manageProgramFragment"
             app:destination="@id/ManagePrograms" />
+        <action
+            android:id="@+id/action_mainFragment_to_lessonsFragment"
+            app:destination="@id/lessonsFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -35,6 +38,9 @@
             android:name="belowProgramID"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_detailsFragment_to_addEditLessonsFragment"
+            app:destination="@id/addEditLessonsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addProgramFragment"
@@ -91,4 +97,21 @@
                 app:argType="string" />
         </fragment>
     </navigation>
+    <fragment
+        android:id="@+id/lessonsFragment"
+        android:name="com.saboon.timetable.Fragments.LessonsFragment"
+        android:label="fragment_lessons"
+        tools:layout="@layout/fragment_lessons" >
+        <action
+            android:id="@+id/action_lessonsFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_lessonsFragment_to_addEditLessonsFragment"
+            app:destination="@id/addEditLessonsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditLessonsFragment"
+        android:name="com.saboon.timetable.Fragments.addEditLessonsFragment"
+        android:label="fragment_add_edit_lessons"
+        tools:layout="@layout/fragment_add_edit_lessons" />
 </navigation>

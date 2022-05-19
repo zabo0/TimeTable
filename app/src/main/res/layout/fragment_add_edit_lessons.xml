@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.addEditLessonsFragment">
+
+    <LinearLayout
+        android:id="@+id/fragmentAddLesson_linearLayout_appBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?attr/colorSecondary"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/fragmentAddLesson_textView_LessonDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="?attr/colorOnSecondary"
+                android:drawableLeft="@drawable/ic_baseline_arrow_back_24"
+                android:drawableTint="?attr/colorOnPrimary"
+                android:text="Add New Lesson"
+                android:textSize="25sp"
+                android:textAlignment="textStart"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/fragmentAddLesson_imageView_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorOnSecondary"
+                android:src="@drawable/ic_baseline_delete_24" />
+            <ImageView
+                android:id="@+id/fragmentAddLesson_imageView_addNewLesson"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:layout_marginRight="15dp"
+                app:tint="?attr/colorOnSecondary"
+                android:src="@drawable/ic_baseline_check_24" />
+            <ImageView
+                android:id="@+id/fragmentAddLesson_imageVie_cancelAddNewLesson"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:visibility="gone"
+                app:tint="?attr/colorOnSecondary"
+                android:src="@drawable/ic_baseline_clear_24" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragmentAddLesson_textField_lessonName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/editText_lessonTextHint"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_baseline_menu_book_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragmentAddLesson_editText_lessonName"
+                android:layout_width="match_parent"
+                android:inputType="none"
+                android:focusable="false"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragmentAddLesson_textField_lecturerName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="@string/editText_lecturerTextHint"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_baseline_person_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragmentAddLesson_editText_lecturerName"
+                android:layout_width="match_parent"
+                android:inputType="none"
+                android:focusable="false"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--        <TextView-->
+        <!--            geicici bir sureligine devre disi-->
+        <!--            android:id="@+id/framentDetails_textView_absenteeism"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="Absenteeism: 2"-->
+        <!--            android:textAlignment="textEnd"-->
+        <!--            android:layout_marginTop="5dp"/>-->
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="?attr/colorSecondaryVariant" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:rowCount="2"
+            android:layout_margin="10dp"
+            android:columnCount="5">
+            <ImageView
+                android:id="@+id/grid_white"
+                android:layout_width="50dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/white"/>
+            <ImageView
+                android:id="@+id/grid_black"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="10dp"
+                android:src="@drawable/black"/>
+            <ImageView
+                android:id="@+id/grid_red"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="10dp"
+                android:src="@drawable/red"/>
+            <ImageView
+                android:id="@+id/grid_yellow"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="10dp"
+                android:src="@drawable/yellow"/>
+            <ImageView
+                android:id="@+id/grid_green"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="10dp"
+                android:src="@drawable/green"/>
+            <ImageView
+                android:id="@+id/grid_blue"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="10dp"
+                android:src="@drawable/blue"/>
+            <ImageView
+                android:id="@+id/grid_pink"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="10dp"
+                android:src="@drawable/pink"/>
+            <ImageView
+                android:id="@+id/grid_purple"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="10dp"
+                android:src="@drawable/purple"/>
+            <ImageView
+                android:id="@+id/grid_brown"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="10dp"
+                android:src="@drawable/brown"/>
+            <ImageView
+                android:id="@+id/grid_orange"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="10dp"
+                android:src="@drawable/orange"/>
+        </GridLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/fragmentAddProg_linearLayout_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/fragmentAddProg_button_cancel"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="@string/button_cancel"
+            android:textAllCaps="false"
+            android:textColor="?attr/colorSecondaryVariant"
+            app:strokeColor="?attr/colorSecondaryVariant" />
+
+        <Button
+            android:id="@+id/fragmentAddProg_button_save"
+            android:layout_width="0dp"
+            style="?attr/materialButtonStyle"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:backgroundTint="?attr/colorSecondaryVariant"
+            android:text="@string/button_save"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+
+</LinearLayout>
