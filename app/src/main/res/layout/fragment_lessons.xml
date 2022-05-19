@@ -1,14 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.LessonsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/fragmentLessons_linearLayout_appBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="50dp"
+        android:background="?attr/colorSecondary"
+        android:orientation="horizontal">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/fragmentLessons_textView_programName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="?attr/colorOnPrimary"
+                android:drawableLeft="@drawable/ic_baseline_arrow_back_24"
+                android:drawableTint="?attr/colorOnSecondary"
+                android:text="Lessons"
+                android:textAlignment="textStart"
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/fragmentLessons_imageView_add"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorOnSecondary"
+                android:src="@drawable/ic_baseline_add_circle_outline_24" />
+
+            <ImageView
+                android:id="@+id/fragmentLessons_imageView_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="5dp"
+                app:tint="?attr/colorOnSecondary"
+                android:src="@drawable/ic_baseline_settings_24" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragmentLessons_recyclerView_lessonsRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <ProgressBar
+        android:id="@+id/LessonsLoadingProgressBar"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
+
+
+    <LinearLayout
+        android:id="@+id/Lessons_errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:tint="@color/red"
+            android:src="@drawable/ic_baseline_error_outline_24"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/main_textView_error"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/Lessons_emptyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addNewText"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center"/>
+
+</LinearLayout>
