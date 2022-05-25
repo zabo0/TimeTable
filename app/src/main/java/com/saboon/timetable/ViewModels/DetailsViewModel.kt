@@ -10,20 +10,11 @@ import java.lang.Exception
 
 class DetailsViewModel(application: Application): BaseViewModel(application) {
 
-    val lessonName =MutableLiveData<String?>()
-    val lecturerName = MutableLiveData<String?>()
+    val lesson = MutableLiveData<ModelLesson?>()
     val programTimes = MutableLiveData<List<ModelTime>?>()
     val loading = MutableLiveData<Boolean>()
     val error = MutableLiveData<Boolean>()
     val empty = MutableLiveData<Boolean>()
-
-
-    fun getLessonFromSQLite(lessonID: String, response: (ModelLesson)-> Unit ){
-        launch {
-            val lesson = DatabaseTimeLine(getApplication()).lessonDAO().getLesson(lessonID)
-            response(lesson)
-        }
-    }
 
     fun getDataFromSQLite(idLesson:String?){
         loading.value = true
@@ -40,26 +31,6 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
     }
 
 
-
-    fun storeLessonInDatabase(lesson: ModelLesson){
-        launch {
-            DatabaseTimeLine(getApplication()).lessonDAO().insertLesson(lesson)
-            //showDataInUI(lesson,null)
-        }
-    }
-
-    fun updateLessonName(lessonID: String, newLessonName:String?){
-        launch {
-            DatabaseTimeLine(getApplication()).lessonDAO().updateLessonName(lessonID,newLessonName)
-        }
-    }
-
-    fun updateLecturerName(lessonID: String, newLecturerName:String?){
-        launch {
-            DatabaseTimeLine(getApplication()).lessonDAO().updateLecturerName(lessonID,newLecturerName)
-        }
-    }
-
     fun deleteLesson(lessonID: String){
         launch {
             DatabaseTimeLine(getApplication()).timeDAO().deleteAllLessonTimes(lessonID)
@@ -68,18 +39,9 @@ class DetailsViewModel(application: Application): BaseViewModel(application) {
     }
 
 
-    fun showDataInUI(lesson: ModelLesson?, time: List<ModelTime>?){
+    fun showDataInUI(lss: ModelLesson?, time: List<ModelTime>?){
 
-        if (lesson != null) {
-            lesson.lessonName?.let {
-                lessonName.value = it
-            }
-        }
-        if (lesson != null) {
-            lesson.lecturerName?.let {
-                lecturerName.value = it
-            }
-        }
+        lesson.value = lss
 
         time?.let {
             if (time.isNotEmpty()){

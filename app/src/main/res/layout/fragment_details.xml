@@ -46,27 +46,20 @@
             android:padding="10dp">
 
             <ImageView
+                android:id="@+id/fragmentDetails_imageView_editLesson"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tint="?attr/colorOnSecondary"
+                android:src="@drawable/ic_baseline_edit_24" />
+
+            <ImageView
                 android:id="@+id/fragmentDetails_imageView_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
                 app:tint="?attr/colorOnSecondary"
                 android:src="@drawable/ic_baseline_delete_24" />
-            <ImageView
-                android:id="@+id/fragmentDetails_imageView_addNewLesson"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                android:layout_marginRight="15dp"
-                app:tint="?attr/colorOnSecondary"
-                android:src="@drawable/ic_baseline_check_24" />
-            <ImageView
-                android:id="@+id/fragmentDetails_imageVie_cancelAddNewLesson"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="15dp"
-                android:visibility="gone"
-                app:tint="?attr/colorOnSecondary"
-                android:src="@drawable/ic_baseline_clear_24" />
+
 
         </LinearLayout>
 
@@ -79,54 +72,75 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fragmentDetails_textField_lessonName"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/editText_lessonTextHint"
-            app:endIconMode="clear_text"
-            app:startIconDrawable="@drawable/ic_baseline_menu_book_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fragmentDetails_editText_lessonName"
-                android:layout_width="match_parent"
-                android:inputType="none"
-                android:focusable="false"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fragmentDetails_textField_lecturerName"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        <TextView
+            android:id="@+id/fragment_details_textView_lessonName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:hint="@string/editText_lecturerTextHint"
-            app:endIconMode="clear_text"
-            app:startIconDrawable="@drawable/ic_baseline_person_24">
+            android:background="@drawable/background_details_textview"
+            android:text="  Lesson Name"
+            android:padding="10dp"
+            android:drawableLeft="@drawable/ic_baseline_menu_book_24"
+            android:textSize="20sp"/>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fragmentDetails_editText_lecturerName"
-                android:layout_width="match_parent"
-                android:inputType="none"
-                android:focusable="false"
-                android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/fragment_details_textView_lecturerName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_details_textview"
+            android:text="  Lecturer Name"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:drawableLeft="@drawable/ic_baseline_person_24"
+            android:textSize="20sp"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/fragmentDetails_textField_lessonName"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="@string/editText_lessonTextHint"-->
+<!--            app:endIconMode="clear_text"-->
+<!--            app:startIconDrawable="@drawable/ic_baseline_menu_book_24">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/fragmentDetails_editText_lessonName"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:inputType="none"-->
+<!--                android:focusable="false"-->
+<!--                android:layout_height="wrap_content" />-->
+
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
 
-<!--        <TextView-->
-<!--            geicici bir sureligine devre disi-->
-<!--            android:id="@+id/framentDetails_textView_absenteeism"-->
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/fragmentDetails_textField_lecturerName"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            android:text="Absenteeism: 2"-->
-<!--            android:textAlignment="textEnd"-->
-<!--            android:layout_marginTop="5dp"/>-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:hint="@string/editText_lecturerTextHint"-->
+<!--            app:endIconMode="clear_text"-->
+<!--            app:startIconDrawable="@drawable/ic_baseline_person_24">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/fragmentDetails_editText_lecturerName"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:inputType="none"-->
+<!--                android:focusable="false"-->
+<!--                android:layout_height="wrap_content" />-->
+
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+
+        <TextView
+            android:id="@+id/framentDetails_textView_absenteeism"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Absenteeism: 2"
+            android:textAlignment="textEnd"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"/>
 
 
         <View
@@ -148,14 +162,14 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/fragmentDetails_textView_addProgram"
+            android:id="@+id/fragmentDetails_textView_addTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             android:drawableRight="@drawable/ic_baseline_add_24"
-            android:text="@string/textView_addProgramText"
+            android:text="@string/textView_addTimeText"
             android:textSize="18sp" />
 
 

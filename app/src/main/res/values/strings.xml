@@ -18,7 +18,7 @@
     <string name="editText_lessonTextHint">Lesson Name</string>
     <string name="editText_lecturerTextHint">Lecturer Name</string>
     <string name="editText_classRoomHint">Classroom</string>
-    <string name="textView_addProgramText">Add Program</string>
+    <string name="textView_addTimeText">Add Time</string>
     <string name="button_save">Save</string>
     <string name="button_cancel">Cancel</string>
 

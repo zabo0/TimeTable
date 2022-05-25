@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.saboon.timetable.R
 import com.saboon.timetable.databinding.FragmentDetailsBinding
 import com.saboon.timetable.databinding.FragmentLessonsBinding
@@ -16,6 +17,7 @@ class LessonsFragment : Fragment() {
     private val binding get() =_binding!!
 
 
+    // TODO: viewmodel olustur
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,18 @@ class LessonsFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+
+        binding.fragmentLessonsImageViewAdd.setOnClickListener {
+            val actionToAddEditLesson = LessonsFragmentDirections.actionLessonsFragmentToAddEditLessonsFragment()
+            it.findNavController().navigate(actionToAddEditLesson)
+        }
+
+
+    }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

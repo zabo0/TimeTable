@@ -22,37 +22,21 @@
         android:id="@+id/detailsFragment"
         android:name="com.saboon.timetable.Fragments.DetailsFragment"
         android:label="DetailsFragment" >
-        <action
-            android:id="@+id/action_detailsFragment_to_addProgramFragment"
-            app:destination="@id/addProgramFragment"/>
         <argument android:name="selectedLessonID"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="belowProgramID"
             app:argType="string"
             app:nullable="true" />
         <action
             android:id="@+id/action_detailsFragment_to_addEditLessonsFragment"
-            app:destination="@id/addEditLessonsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/addProgramFragment"
-        android:name="com.saboon.timetable.Fragments.AddTimeFragment"
-        android:label="fragment_add_program"
-        tools:layout="@layout/fragment_add_time" >
-        <argument
-            android:name="selectedTimeID"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="belowLessonID"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="belowProgramID"
-            app:argType="string"
-            app:nullable="true" />
+            app:destination="@id/addEditLessonsFragment"
+            app:popUpTo="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_addTimeFragment"
+            app:destination="@id/addTimeFragment"
+            app:popUpTo="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/detailsFragment" />
     </fragment>
     <navigation android:id="@+id/ManagePrograms"
         app:startDestination="@id/manageProgramFragment">
@@ -96,11 +80,33 @@
             app:destination="@id/detailsFragment" />
         <action
             android:id="@+id/action_lessonsFragment_to_addEditLessonsFragment"
-            app:destination="@id/addEditLessonsFragment" />
+            app:destination="@id/addEditLessonsFragment"
+            app:popUpTo="@id/addEditLessonsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditLessonsFragment"
         android:name="com.saboon.timetable.Fragments.addEditLessonsFragment"
         android:label="fragment_add_edit_lessons"
         tools:layout="@layout/fragment_add_edit_lessons" />
+    <fragment
+        android:id="@+id/addTimeFragment"
+        android:name="com.saboon.timetable.Fragments.AddTimeFragment"
+        android:label="fragment_add_time"
+        tools:layout="@layout/fragment_add_time" >
+        <argument
+            android:name="selectedTimeID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="belowLessonID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="belowProgramID"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_addTimeFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
 </navigation>

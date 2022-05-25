@@ -41,7 +41,7 @@ class DetailsRecyclerAdapter(val programTimesList: ArrayList<ModelTime>):Recycle
             val selectedItem = programTimesList[position].id
             val belowLesson = programTimesList[position].belowLesson
             val belowProgram = programTimesList[position].belowProgram
-            val action = DetailsFragmentDirections.actionDetailsFragmentToAddProgramFragment(selectedItem, belowLesson, belowProgram)
+            val action = DetailsFragmentDirections.actionDetailsFragmentToAddTimeFragment(selectedItem, belowLesson, belowProgram)
             it.findNavController().navigate(action)
         }
     }

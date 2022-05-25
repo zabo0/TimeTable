@@ -56,7 +56,7 @@ class AddTimeFragment : Fragment() {
             override fun handleOnBackPressed() {
                 checkTheChanges {
                     if(it){
-                        val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
+                        val actionToBack = AddTimeFragmentDirections.actionAddTimeFragmentToDetailsFragment(belowLessonID, belowProgramID)
                         findNavController().navigate(actionToBack)
                     }
                 }
@@ -175,7 +175,7 @@ class AddTimeFragment : Fragment() {
         binding.fragmentAddTimeTextViewAddTime.setOnClickListener{
             checkTheChanges { response ->
                 if (response){
-                    val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
+                    val actionToBack = AddTimeFragmentDirections.actionAddTimeFragmentToDetailsFragment(belowLessonID, belowProgramID)
                     it.findNavController().navigate(actionToBack)
                 }
             }
@@ -216,12 +216,12 @@ class AddTimeFragment : Fragment() {
                 //////////////////
 
 
-                val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
+                val actionToBack = AddTimeFragmentDirections.actionAddTimeFragmentToDetailsFragment(belowLessonID, belowProgramID)
                 it.findNavController().navigate(actionToBack)
             }else{
                 checkTheChanges { response ->
                     if (response){
-                        val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
+                        val actionToBack = AddTimeFragmentDirections.actionAddTimeFragmentToDetailsFragment(belowLessonID, belowProgramID)
                         it.findNavController().navigate(actionToBack)
                     }
                 }
@@ -229,14 +229,14 @@ class AddTimeFragment : Fragment() {
         }
 
         binding.fragmentAddProgButtonCancel.setOnClickListener {
-            val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
+            val actionToBack = AddTimeFragmentDirections.actionAddTimeFragmentToDetailsFragment(belowLessonID, belowProgramID)
             it.findNavController().navigate(actionToBack)
         }
 
         binding.fragmentAddProgImageViewDelete.setOnClickListener {
             if(!isNewTime){
                 viewModel.deleteTime(selectedTimeID)
-                val actionToBack = AddTimeFragmentDirections.actionAddProgramFragmentToDetailsFragment(belowLessonID, belowProgramID)
+                val actionToBack = AddTimeFragmentDirections.actionAddTimeFragmentToDetailsFragment(belowLessonID, belowProgramID)
                 it.findNavController().navigate(actionToBack)
             }
         }

@@ -98,8 +98,8 @@ class MainFragment : Fragment() {
         viewModel.refreshData(currentProgramID)
 
 
-        binding.fragmentMainImageViewAdd.setOnClickListener {
-            val actionToAddLesson = MainFragmentDirections.actionMainFragmentToDetailsFragment(null, currentProgramID)
+        binding.fragmentMainImageViewGoToAllLessons.setOnClickListener {
+            val actionToAddLesson = MainFragmentDirections.actionMainFragmentToLessonsFragment()
             it.findNavController().navigate(actionToAddLesson)
         }
 

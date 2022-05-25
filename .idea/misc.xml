@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Sabahattin/.gradle/caches/transforms-3/2a261cac9142af4563bea40b34e5c926/transformed/material-1.5.0/res/layout-land/material_timepicker.xml" value="0.2980599647266314" />
+        <entry key="..\:/Users/Sabahattin/Desktop/projects/Android/TimeTable/app/src/main/res/drawable/background_details_textview.xml" value="0.269" />
         <entry key="..\:/Users/Sabahattin/Desktop/projects/Android/TimeTable/app/src/main/res/drawable/background_search_bar.xml" value="0.212" />
         <entry key="..\:/Users/Sabahattin/Desktop/projects/Android/TimeTable/app/src/main/res/layout/activity_main.xml" value="0.1248339973439575" />
         <entry key="..\:/Users/Sabahattin/Desktop/projects/Android/TimeTable/app/src/main/res/layout/activity_manage_programs.xml" value="0.22282608695652173" />
@@ -26,6 +27,7 @@
         <entry key="..\:/Users/Sabahattin/Desktop/projects/Android/TimeTable/app/src/main/res/layout/fragment_manage_program.xml" value="0.25" />
         <entry key="..\:/Users/Sabahattin/Desktop/projects/Android/TimeTable/app/src/main/res/layout/fragment_manage_program_recycler_row.xml" value="0.25" />
         <entry key="..\:/Users/Sabahattin/Desktop/projects/Android/TimeTable/app/src/main/res/layout/manage_dialog_view.xml" value="0.33" />
+        <entry key="..\:/Users/Sabahattin/Desktop/projects/Android/TimeTable/app/src/main/res/menu/manage_prog_recycler_item_menu.xml" value="0.30085470085470084" />
       </map>
     </option>
   </component>

@@ -11,7 +11,7 @@
     <string name="editText_lessonTextHint">Ders Adı</string>
     <string name="editText_lecturerTextHint">Öğretmen Adı</string>
     <string name="editText_classRoomHint">Sınıf</string>
-    <string name="textView_addProgramText">Program Ekle</string>
+    <string name="textView_addTimeText">Saat Ekle</string>
     <string name="button_save">Kaydet</string>
     <string name="button_cancel">İptal</string>
     <string name="textView_appBar_addProg">Program Ekle</string>

@@ -58,8 +58,7 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
 
             itemView.setOnClickListener{
                 val selectedItem = lessonTimeList[position].belowLesson
-                val belowProgram = lessonTimeList[position].belowProgram
-                val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(selectedItem, belowProgram)
+                val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(selectedItem)
                 it.findNavController().navigate(action)
             }
 
@@ -106,8 +105,7 @@ class MainRecyclerAdapter(val lessonsList: ArrayList<ModelLesson>, val lessonTim
 
             itemView.setOnClickListener{
                 val selectedItem = lessonTimeList[position].belowLesson
-                val belowProgram = lessonTimeList[position].belowProgram
-                val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(selectedItem, belowProgram)
+                val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(selectedItem)
                 it.findNavController().navigate(action)
             }
         }

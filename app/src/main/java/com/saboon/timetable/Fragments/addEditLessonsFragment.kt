@@ -10,6 +10,10 @@ import com.saboon.timetable.R
 
 class addEditLessonsFragment : Fragment() {
 
+
+    // TODO: viewmodel olustur
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
